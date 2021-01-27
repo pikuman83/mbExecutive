@@ -1,0 +1,187 @@
+<!-- <app-root-nav></app-root-nav> -->
+<mat-sidenav-container class="sidenav-container" hasBackdrop="false">
+    <mat-sidenav #drawer id="drawer" mode="push" class="sidenav" fixedInViewport (keydown.escape)="drawer.close()">
+  
+    <!-- Company Logo -->
+    <mat-toolbar class="mt-2 mr-4, mb-2">
+        <img src="./assets/transperent-logo-circle.png" width="25%" id="icon" alt="User Icon" /><br>
+        <span class="companyname">MB TECH</span>
+        <div class="dropdown-divider"></div>
+    </mat-toolbar>
+
+    <!-- Side Drawer -->
+    <mat-nav-list class="mb-3">
+        <i class="fas fa-times"  (click)="drawer.toggle()"></i>
+        <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><i class="fa fa-home pr-3"></i>Dashboard</button>
+        <!-- Menu Reports -->
+        <!-- <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports">
+            <i class="fa fa-receipt" aria-hidden="true"></i>Reports
+            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
+        </button> -->
+        <div id="reports">
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#financer" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Financial Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="financer" class="collapse collapsed submenu">
+                <a (click)="drawer.close(); testReport()"> <i class="fa fa-caret-right pr-2"></i>Chart of Accounts</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Cash Book</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Account Ledger</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Group Account</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Cheque Status</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Pending Cheques</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Screen Ledger</a>
+              </div>
+            <div class="divider"></div>
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#customerr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Customer Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="customerr" class="collapse collapsed submenu">
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Listing</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Balances</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Ledger</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Recovery</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Less Policy</a>
+              </div>
+            <div class="divider"></div>
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#supplierr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Supplier Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="Supplierr" class="collapse collapsed submenu">
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Listing</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Balances</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Ledger</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Payment</a>
+              </div>
+            <div class="divider"></div>
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#purchaser" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Purchase Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="purchaser" class="collapse collapsed submenu">
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Purchase Report</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Purchase Return</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Purchases Statement</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>GRN Report</a>
+              </div>
+            <div class="divider"></div>
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#salesr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Sales Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="salesr" class="collapse collapsed submenu">
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Cash</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales Return</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Sales Statement</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Unsold Items</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Repeat</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Purcha</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales/Recovery Comparison</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales/Production Comparison</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Fast Sales Summary</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Pending Order Status</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>New pending Order Status</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales Order Report</a>
+              </div>
+            <div class="divider"></div>
+            <a routerLink="/" (click)="drawer.close()"><i class="fa fa-caret-right pr-2"></i>Production Report</a>
+            <a routerLink="/" (click)="drawer.close()"><i class="fa fa-caret-right pr-2"></i>Contractor Production Report</a>
+            <div class="divider"></div>
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#inventoryr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Inventory Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="inventoryr" class="collapse collapsed submenu">
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Listing</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Ledger</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Ledger Colorwise</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Balance</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Balance Colorwise</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Ageing</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Dead Stock</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Transfer</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Consumption</a>
+                <div class="divider"></div>
+                <a routerLink="/"> <i class="fa fa-caret-right pr-2"></i>Stock Amount</a>
+              </div>
+            <div class="divider"></div>
+            <!-- Sub Menu level 1 -->
+            <a data-toggle="collapse" data-target="#otherr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Other Reports</a>
+            <!-- Sub Menu level 2 -->
+              <div id="otherr" class="collapse collapsed submenu">
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Daily Log</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Aging</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Aging</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Party Aging Summary</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Expense Comparison</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Expense</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Zakat</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>User Activity Log Sheet</a>
+                <div class="divider"></div>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Trial Balance</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Master Trial Balance</a>
+                <div class="divider"></div>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Profit/Loss Statement</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Profit/Loss Comparison</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Profit/Loss Ratio</a>
+                <div class="divider" ></div>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Balance Sheet</a>
+                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2" (click)="drawer.close()"></i>Comparison Balance Sheet</a>
+              </div>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">
+  
+      <!-- Top toolbar (reserved for tabs or social media + user stuff) -->
+      <mat-toolbar color="none" class="toolbar" [hidden]="service.splashScreen">
+        <button *ngIf="service.user" class="menubutton"
+          mat-icon-button
+          (click)="drawer.toggle(); $event.stopPropagation()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        
+        <div class="title"> <!--nav nav-tabs--> <!--mr-auto removed for majorsoft theme-->
+          <h2>{{service.title}}</h2> <!--nav-item-->
+        </div>
+      <div>
+        
+      <mat-icon class="screen" *ngIf="!isFullScreen" (click)="openFullscreen()">fullscreen</mat-icon>
+      <mat-icon class="screen" *ngIf="isFullScreen" (click)="closeFullscreen()">fullscreen_exit</mat-icon>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>info</mat-icon>
+          <span>Tools Menu here</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>voicemail</mat-icon>
+          <span>Users</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Passwords</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <!-- Routing modules selector which manage the paths of the whole app -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <footer>
+      <div class="footer-copyright text-center py-3">© 2020 Copyright: MB-TECH
+      </div>
+    </footer> 
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<ng-http-loader 
+  [spinner]="spinnerStyle.skWanderingCubes"
+  [backdrop]="false" 
+  [backgroundColor]="'#303F9F'"
+  [debounceDelay]="100"
+  [extraDuration]="300"
+  [minDuration]="300"
+  [opacity]=".8">
+</ng-http-loader>

@@ -1,0 +1,11 @@
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.happy{
+    color: greenyellow;
+}
+.divider1{
+    display: block;
+    color: rgba(0,0,0,.87);
+    border-top: 1px solid rgba(0,0,0,.12);
+    margin: 20px;
+    }

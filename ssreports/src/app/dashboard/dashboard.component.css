@@ -1,0 +1,44 @@
+mat-card{
+  border-radius: 12px;
+}
+.cashInHand{
+  border-left: solid 8px #5AA454;
+  padding-left: 10px;
+}
+.bankBalance{
+  border-left: solid 8px #A10A28;
+  padding-left: 10px;
+}
+.totalReceivale{
+  border-left: solid 8px #C7B42C;
+  padding-left: 10px;
+}
+.totalPayable{
+  border-left: solid 8px #A10A28;
+  padding-left: 10px;
+}
+.mb-container{
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+mat-card-content{
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+small{
+  align-self: flex-end;
+  font-size: small;
+}
+mat-card-header{
+  justify-content: space-between;
+}
+.refresh{
+  align-self: center;
+  margin-bottom: 18px;
+}
+.calender:focus{
+  	border: none;
+}

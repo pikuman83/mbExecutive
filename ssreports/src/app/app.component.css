@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+html{
+  font-family: 'Nunito Sans', sans-serif;
+  overflow: hidden;
+}
+.mothercontainer{
+  height: 100vh;
+}
+.toolbar{
+  height: 36px !important;
+  /* border-bottom: 1px solid #bbb !important;  */
+  /* box-shadow: 0 0 4px #939393 !important; */
+}
+.toolbar, .toolbar *{
+  color: white;
+  /* color: rgb(34, 33, 37); */
+}
+.title{
+  border-bottom: solid 2px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.content{
+  /* This whole class may be deleted, added to support shadow to the tab */
+  /* border-top: 1px solid #bbb;  */
+  padding: 15px;
+  /* box-shadow: 0 0 8px #939393; */
+}
+/* ******BACKGROUND COLOR */
+.sidenav-container {
+  /* background: rgb(0, 12, 8) !important; */
+  /* background: #f5f5f5 !important; recently alternated for major theme */
+  height: 100%;
+  text-shadow: none;
+  box-shadow: none;
+}
+.sidenav {
+  width: 250px;
+  /* background: #da251c !important; */
+  background-color: rgb(0, 12, 8);
+}
+.sidenav .mat-toolbar {
+  background: rgb(0, 12, 8);
+  width: 100%;
+  text-align: center;
+  display: block;
+  padding: 0px;
+}
+/* ******** TOOL BAR BACKGROUND COLOR */
+.mat-toolbar{
+  /* background-color: #ccc; */
+  /* background-color: #6c757d; recently disabled for major theme */
+  /* background-color: #da251c; */
+  background: rgb(66,0,188);
+  background: linear-gradient(90deg, rgba(66,0,188,1) 0%, rgba(232,0,24,1) 76%, rgba(125,0,128,1) 99%);
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: auto;
+}
+.companyname {
+  font-size: 20px;
+  font-family: 'Nunito Sans', sans-serif;
+  /* font-family: 'Pacifico', cursive; */
+  align-self: flex-end;
+  color:whitesmoke;
+}
+a, button{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px !important;
+  /* color: white; */
+  letter-spacing: 1.1px;
+  margin-right: 0px;
+}
+i{
+  color: #818181;
+  width: 35px;
+  margin-left: 5px;
+  font-size: large;
+  box-sizing: border-box;
+}
+@media print {
+  button, .printdisplay{
+      display: none;
+  }
+}
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-btn:hover, .dropdown-btn:hover i{
+  /* color: lightgreen; alternated for major */
+  color: rgba(255, 255, 0, 0.932);
+  background-color: #262626;
+}
+.fa-caret-down {
+  float: right;
+  width: 10px !important;
+  box-sizing: border-box;
+  margin-right: 10px;
+}
+.mat-icon{
+  color: #262626;
+}
+.collapse{
+  background-color: rgba(0, 12, 8, 0.7);
+  margin: 0px;
+  padding: 0px;
+}
+.collapse > a, .collapse > button{
+  width: 235px;
+  background-color: rgb(0, 12, 8);
+  font-size: small !important;
+  letter-spacing: normal;
+  color: rgb(65 222 77 / 97%);
+  padding-left: 0px;
+  margin-right: 0px;
+}
+.collapse > a:hover, .collapse > button:hover{
+  background-color:#262626;
+}
+.submenu > a, .submenu > button{
+  width: 225px;
+  background-color: rgb(0, 12, 8);
+  font-size: small !important;
+  letter-spacing: normal;
+  color: rgba(248, 164, 9, 0.973);
+  margin-left: 8px;
+  margin-right: 0;
+  padding-left: 10px;
+  padding-right: 0;
+  word-wrap: break-word;
+}
+.submenu > a:hover, .submenu > button:hover{
+  background-color:#262626;
+}
+.fa-times{
+  margin-left: 222px;
+  position: fixed;
+  font-size: smaller;
+}
+.fa-times:hover{
+  text-align: center;
+  height: 13px;
+  width: 16px;
+  border: 0.5px solid rgb(116, 116, 116);
+  border-radius: 50%;
+  margin-left: 217px;
+  padding: 0%;
+}
+.divider{
+  height: 0;
+  overflow: hidden;
+  border-top:0.1px solid #262626;
+}
+#drawer::-webkit-scrollbar {
+  width: 10px;
+}
+#drawer::-webkit-scrollbar-track {
+  background: rgb(0, 12, 8);
+}
+#drawer::-webkit-scrollbar-thumb {
+  background: #262626;
+}
+#drawer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+::ng-deep.mat-drawer-inner-container {
+  overflow: unset !important;
+  height: unset !important;
+  }
+footer{
+  width: fit-content;
+  bottom: 0px;
+  margin-left: 25px;
+  font-size: 14px;
+  }
+  button:focus{
+      outline-width: 0 !important;
+  }

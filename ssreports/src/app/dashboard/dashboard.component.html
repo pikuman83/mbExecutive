@@ -1,0 +1,147 @@
+<div class="mb-container justify-content-center">
+  <div class="d-flex justify-content-center">
+    <mat-form-field appearance="outline">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" disabled [(ngModel)]="datefrom" (dateChange)="showButton()">
+        <input matEndDate placeholder="End date" disabled [(ngModel)]="dateto" (dateChange)="showButton()">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon class="calender"><img src="../../assets/calendar.png" alt="Calender" class="pb-3"></mat-icon>
+      </mat-datepicker-toggle>
+      <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+    </mat-form-field>
+    <button class="refresh ml-3" mat-raised-button (click)="refreshData()" [hidden]="!refresh">Apply</button>
+  </div>
+
+  <div class="d-md-flex justify-content-around mb-2 align-items-center">
+    <div class="d-flex flex-column flex-shrink-1">
+      <mat-card class="border1 mb-2">
+        <mat-card-header>
+          <img src="../../assets/cashINhand1.png" alt="Cash in hand">
+          <mat-card-title>Cash In Hand</mat-card-title>
+        </mat-card-header>  
+        <mat-card-content class="cashInHand">
+          {{cash<0? '(-) ':''}} {{(cash<0? cash*-1: cash*1)|number}} <small>PKR</small>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="border2 mb-2">
+        <mat-card-header>
+          <img src="../../assets/bank1.png" alt="bank">
+          <mat-card-title>Bank Balance</mat-card-title>
+        </mat-card-header>  
+        <mat-card-content class="bankBalance">
+          {{bbalance<0? '(-) ':''}} {{(bbalance<0? bbalance*-1: bbalance*1)|number}} <small>PKR</small>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="d-flex flex-column text-center">
+      <h1>Monthly Expenses</h1>
+      <ngx-charts-gauge *ngIf="expenses.length" class="d-flex justify-content-around"
+        [view]="[700, 400]"
+        [scheme]="'flame'"
+        [results]="top10"
+        [units]="'Total'">
+      </ngx-charts-gauge>
+    </div>
+    
+
+    <div class="d-flex flex-column flex-shrink-1">
+      <mat-card class="border3 mb-2">
+        <mat-card-header>
+          <img src="../../assets/receivable1.png" alt="Total Receivable">
+          <mat-card-title>Total Receivable</mat-card-title>
+        </mat-card-header>  
+        <mat-card-content class="totalReceivale">
+          {{receivable<0? '(-) ':''}} {{(receivable<0? receivable*-1: receivable*1)|number}} <small>PKR</small>
+        </mat-card-content>
+        
+      </mat-card>
+  
+      <mat-card>
+        <mat-card-header>
+          <img src="../../assets/payable1.png" alt="Total payable">
+          <mat-card-title>Total Payable</mat-card-title>
+        </mat-card-header>  
+        <mat-card-content class="totalPayable">
+          {{payable<0? '(-) ':''}} {{(payable<0? payable*-1: payable*1)|number}} <small>PKR</small>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="d-md-flex justify-content-around mb-2">
+    <mat-card class="mb-2">
+      <mat-card-header>
+        <mat-card-title>Top 10 Products</mat-card-title>
+      </mat-card-header>
+      <ngx-charts-bar-vertical *ngIf="top10.length" class="d-flex justify-content-around"
+        [view]="view"
+        [results]="top10"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [xAxisLabel]="'Article'"
+        [yAxisLabel]="'Quantity'"
+        [gradient]="gradient">
+      </ngx-charts-bar-vertical>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Order Vs Sale</mat-card-title>
+      </mat-card-header>  
+      <ngx-charts-line-chart *ngIf="top10.length" class="d-flex justify-content-around"
+        [view]="view"
+        [results]="sampleData"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [xAxisLabel]="'Article'"
+        [yAxisLabel]="'Quantity'"
+        [gradient]="gradient">
+      </ngx-charts-line-chart>
+    </mat-card>
+  </div>
+
+  <div class="d-md-flex justify-content-around mb-2">
+    <mat-card class="mb-2">
+      <mat-card-header>
+        <mat-card-title>Top 10 Sales Order</mat-card-title>
+      </mat-card-header>
+      <ngx-charts-bar-vertical-2d *ngIf="top10.length" class="d-flex justify-content-around"
+        [view]="view"
+        [scheme]="'picnic'"
+        [results]="sampleData1"
+        [gradient]="gradient"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxisLabel]="'Sample'"
+        [yAxisLabel]="'Sample'">
+      </ngx-charts-bar-vertical-2d>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Sales Vs Recovery</mat-card-title>
+      </mat-card-header>  
+      <ngx-charts-pie-chart *ngIf="top10.length" class="d-flex justify-content-around"
+        [view]="[350, 350]"
+        [scheme]="'nightLights'"
+        [results]="sVSr"
+        [gradient]="gradient"
+        [explodeSlices]="true"
+        [labels]="false"
+        [legend]="true"
+        [legendTitle]="'Amounts'"
+        [legendPosition]="'below'">
+      </ngx-charts-pie-chart>
+    </mat-card>
+  </div>
+</div>
