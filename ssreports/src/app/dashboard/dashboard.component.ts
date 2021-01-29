@@ -1,3 +1,7 @@
+//rate exchange card
+//pvc price card
+// play with labels
+//onfocus fix of calender
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
@@ -22,8 +26,9 @@ export class DashboardComponent implements OnInit {
     this.receivable = resolver.receivable;
     this.payable = resolver.payable;
     this.top10 = resolver.top10;
-    this.sales = resolver.sales;
     this.expenses = resolver.expenses;
+    this.top10SO = resolver.top10SO;
+    this.oVsSVsp = resolver.oVssVsp; 
     this.saleVsRecovery(resolver.salevsrecovery);
     this.transformDateFrom();
     this.transformDateto();
@@ -36,8 +41,9 @@ export class DashboardComponent implements OnInit {
   payable: number;
   sVSr: any[] = [];
   top10: any[] = [];
-  sales: any[] = [];
   expenses: any[] = [];
+  top10SO: any[] = [];
+  oVsSVsp: any[] = [];
   dateto = new Date();
   datefrom = new Date(this.dateto);
   
@@ -52,6 +58,7 @@ export class DashboardComponent implements OnInit {
     }
     return this.sVSr = [sale, recovery];
   }
+
   transformDateFrom(){
     this.datefrom.setDate(this.datefrom.getDate() - 30);
     return this.datepipe.transform(this.datefrom, "yyyy,MM,dd");
@@ -73,11 +80,18 @@ export class DashboardComponent implements OnInit {
     this.service.getreceivable().subscribe(x => this.receivable = x);
     this.service.getpayable().subscribe(x => this.payable = x);
     this.service.getTOP10().subscribe(x => this.top10 = x);
-    this.service.getsales().subscribe(x => this.sales = x);
     this.service.getexpenses().subscribe(x => this.expenses = x);
+    this.service.getSOTOP10().subscribe(x => this.top10SO = x);
     this.service.getSaleAmount().subscribe(sale => {
       this.service.getSaleRecovery().subscribe(recovery => {
         this.saleVsRecovery([sale, recovery])
+      })
+    });
+    this.service.getsaleorder().subscribe(orders => {
+      this.service.getsales().subscribe(sales => {
+        this.service.getproduction().subscribe(production =>{
+          this.oVsSVsp = [orders, sales, production]
+        })
       })
     });
   }
@@ -100,7 +114,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // *** Remote chart options
-  view = [600, 300];
+  view = [520, 350];
   gradient: boolean = false;
   showLabels: boolean = true;
   sampleData: any = [

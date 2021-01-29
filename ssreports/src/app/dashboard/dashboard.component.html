@@ -22,7 +22,7 @@
           <mat-card-title>Cash In Hand</mat-card-title>
         </mat-card-header>  
         <mat-card-content class="cashInHand">
-          {{cash<0? '(-) ':''}} {{(cash<0? cash*-1: cash*1)|number}} <small>PKR</small>
+          {{cash<0? '(' + (cash*-1|number) +')':cash|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
   
@@ -32,20 +32,22 @@
           <mat-card-title>Bank Balance</mat-card-title>
         </mat-card-header>  
         <mat-card-content class="bankBalance">
-          {{bbalance<0? '(-) ':''}} {{(bbalance<0? bbalance*-1: bbalance*1)|number}} <small>PKR</small>
+          {{bbalance<0? '(' + (bbalance*-1|number) +')':bbalance|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
     </div>
     <div class="d-flex flex-column text-center">
-      <h1>Monthly Expenses</h1>
+      <h1>Top 10 Products</h1>
       <ngx-charts-gauge *ngIf="expenses.length" class="d-flex justify-content-around"
-        [view]="[700, 400]"
+        [view]="[600, 350]"
         [scheme]="'flame'"
         [results]="top10"
+        [legend]="true"
+        [legendTitle]="'Article #'"
+        [legendPosition]="'below'"
         [units]="'Total'">
       </ngx-charts-gauge>
     </div>
-    
 
     <div class="d-flex flex-column flex-shrink-1">
       <mat-card class="border3 mb-2">
@@ -54,7 +56,7 @@
           <mat-card-title>Total Receivable</mat-card-title>
         </mat-card-header>  
         <mat-card-content class="totalReceivale">
-          {{receivable<0? '(-) ':''}} {{(receivable<0? receivable*-1: receivable*1)|number}} <small>PKR</small>
+          {{receivable<0? '(' + (receivable*-1|number) +')':receivable|number}} <small>PKR</small>
         </mat-card-content>
         
       </mat-card>
@@ -65,7 +67,7 @@
           <mat-card-title>Total Payable</mat-card-title>
         </mat-card-header>  
         <mat-card-content class="totalPayable">
-          {{payable<0? '(-) ':''}} {{(payable<0? payable*-1: payable*1)|number}} <small>PKR</small>
+          {{payable<0? '(' + (payable*-1|number) +')':payable|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
     </div>
@@ -74,34 +76,35 @@
   <div class="d-md-flex justify-content-around mb-2">
     <mat-card class="mb-2">
       <mat-card-header>
-        <mat-card-title>Top 10 Products</mat-card-title>
+        <mat-card-title>Monthly Expenses</mat-card-title>
       </mat-card-header>
       <ngx-charts-bar-vertical *ngIf="top10.length" class="d-flex justify-content-around"
         [view]="view"
-        [results]="top10"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
+        [results]="expenses"
         [xAxis]="true"
         [yAxis]="true"
-        [xAxisLabel]="'Article'"
-        [yAxisLabel]="'Quantity'"
+        [legend]="true"
+        [trimXAxisTicks]="true"
+        [maxXAxisTickLength]="5"
+        [showDataLabel]="true"
+        [legendTitle]="'Expenses'"
+        [legendPosition]="'below'"
         [gradient]="gradient">
       </ngx-charts-bar-vertical>
     </mat-card>
 
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Order Vs Sale</mat-card-title>
+        <mat-card-title>Order Vs Sale Vs Production</mat-card-title>
       </mat-card-header>  
       <ngx-charts-line-chart *ngIf="top10.length" class="d-flex justify-content-around"
         [view]="view"
-        [results]="sampleData"
+        [results]="oVsSVsp"
         [showXAxisLabel]="true"
         [showYAxisLabel]="true"
+        [legend]="true"
         [xAxis]="true"
         [yAxis]="true"
-        [xAxisLabel]="'Article'"
-        [yAxisLabel]="'Quantity'"
         [gradient]="gradient">
       </ngx-charts-line-chart>
     </mat-card>
@@ -112,19 +115,15 @@
       <mat-card-header>
         <mat-card-title>Top 10 Sales Order</mat-card-title>
       </mat-card-header>
-      <ngx-charts-bar-vertical-2d *ngIf="top10.length" class="d-flex justify-content-around"
+      <ngx-charts-bar-horizontal *ngIf="top10.length" class="d-flex justify-content-around"
         [view]="view"
         [scheme]="'picnic'"
-        [results]="sampleData1"
+        [results]="top10SO"
         [gradient]="gradient"
         [xAxis]="true"
         [yAxis]="true"
-        [legend]="true"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxisLabel]="'Sample'"
-        [yAxisLabel]="'Sample'">
-      </ngx-charts-bar-vertical-2d>
+        [legend]="false">
+      </ngx-charts-bar-horizontal>
     </mat-card>
   
     <mat-card>

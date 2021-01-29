@@ -40,5 +40,5 @@ mat-card-header{
   margin-bottom: 18px;
 }
 .calender:focus{
-  	border: none;
+  	outline: none;
 }

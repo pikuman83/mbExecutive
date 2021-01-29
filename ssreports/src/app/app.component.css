@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');*/
 
 html{
-  font-family: 'Nunito Sans', sans-serif;
+  /* font-family: 'Nunito Sans', sans-serif; */
   overflow: hidden;
 }
 .mothercontainer{
@@ -63,13 +62,13 @@ html{
 }
 .companyname {
   font-size: 20px;
-  font-family: 'Nunito Sans', sans-serif;
+  /* font-family: 'Nunito Sans', sans-serif; */
   /* font-family: 'Pacifico', cursive; */
   align-self: flex-end;
   color:whitesmoke;
 }
 a, button{
-  font-family: 'Nunito Sans', sans-serif;
+  /* font-family: 'Nunito Sans', sans-serif; */
   font-size: 14px !important;
   /* color: white; */
   letter-spacing: 1.1px;
@@ -81,16 +80,6 @@ i{
   margin-left: 5px;
   font-size: large;
   box-sizing: border-box;
-}
-@media print {
-  button, .printdisplay{
-      display: none;
-  }
-}
-.dropdown-container {
-  display: none;
-  background-color: #262626;
-  padding-left: 8px;
 }
 .sidenav a, .dropdown-btn {
   padding: 6px 8px 6px 16px;
@@ -107,8 +96,14 @@ i{
 }
 .dropdown-btn:hover, .dropdown-btn:hover i{
   /* color: lightgreen; alternated for major */
-  color: rgba(255, 255, 0, 0.932);
-  background-color: #262626;
+  /* color: rgba(255, 255, 0, 0.932); */
+  color: white;
+  
+  /* background-color: #262626; */
+}
+.dropdown-btn:hover{
+  background: rgb(66,0,188);
+  background: linear-gradient(90deg, rgba(66,0,188,1) 0%, rgba(232,0,24,1) 76%, rgba(125,0,128,1) 99%);
 }
 .fa-caret-down {
   float: right;
@@ -129,7 +124,8 @@ i{
   background-color: rgb(0, 12, 8);
   font-size: small !important;
   letter-spacing: normal;
-  color: rgb(65 222 77 / 97%);
+  /* color: rgb(65 222 77 / 97%); */
+  color: rgb(84 255 80 / 97%);
   padding-left: 0px;
   margin-right: 0px;
 }
@@ -170,6 +166,8 @@ i{
   overflow: hidden;
   border-top:0.1px solid #262626;
 }
+
+/* All drawer related classes are configuring scroll bar */
 #drawer::-webkit-scrollbar {
   width: 10px;
 }
@@ -185,13 +183,14 @@ i{
 ::ng-deep.mat-drawer-inner-container {
   overflow: unset !important;
   height: unset !important;
-  }
+}
+
 footer{
   width: fit-content;
   bottom: 0px;
   margin-left: 25px;
   font-size: 14px;
-  }
-  button:focus{
-      outline-width: 0 !important;
-  }
+}
+button:focus{
+  outline-width: 0 !important;
+}

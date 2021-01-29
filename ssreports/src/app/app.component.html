@@ -13,119 +13,113 @@
     <mat-nav-list class="mb-3">
         <i class="fas fa-times"  (click)="drawer.toggle()"></i>
         <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><i class="fa fa-home pr-3"></i>Dashboard</button>
-        <!-- Menu Reports -->
-        <!-- <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports">
-            <i class="fa fa-receipt" aria-hidden="true"></i>Reports
-            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
-        </button> -->
-        <div id="reports">
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#financer" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Financial Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="financer" class="collapse collapsed submenu">
-                <a (click)="drawer.close(); testReport()"> <i class="fa fa-caret-right pr-2"></i>Chart of Accounts</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Cash Book</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Account Ledger</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Group Account</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Cheque Status</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Pending Cheques</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Screen Ledger</a>
-              </div>
-            <div class="divider"></div>
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#customerr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Customer Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="customerr" class="collapse collapsed submenu">
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Listing</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Balances</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Ledger</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Recovery</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Less Policy</a>
-              </div>
-            <div class="divider"></div>
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#supplierr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Supplier Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="Supplierr" class="collapse collapsed submenu">
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Listing</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Balances</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Ledger</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Payment</a>
-              </div>
-            <div class="divider"></div>
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#purchaser" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Purchase Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="purchaser" class="collapse collapsed submenu">
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Purchase Report</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Purchase Return</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Purchases Statement</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>GRN Report</a>
-              </div>
-            <div class="divider"></div>
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#salesr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Sales Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="salesr" class="collapse collapsed submenu">
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Cash</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales Return</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Sales Statement</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Unsold Items</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Repeat</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Purcha</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales/Recovery Comparison</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales/Production Comparison</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Fast Sales Summary</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Pending Order Status</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>New pending Order Status</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Sales Order Report</a>
-              </div>
-            <div class="divider"></div>
-            <a routerLink="/" (click)="drawer.close()"><i class="fa fa-caret-right pr-2"></i>Production Report</a>
-            <a routerLink="/" (click)="drawer.close()"><i class="fa fa-caret-right pr-2"></i>Contractor Production Report</a>
-            <div class="divider"></div>
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#inventoryr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Inventory Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="inventoryr" class="collapse collapsed submenu">
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Listing</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Ledger</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Product Ledger Colorwise</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Balance</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Balance Colorwise</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Ageing</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Dead Stock</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Transfer</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Stock Consumption</a>
-                <div class="divider"></div>
-                <a routerLink="/"> <i class="fa fa-caret-right pr-2"></i>Stock Amount</a>
-              </div>
-            <div class="divider"></div>
-            <!-- Sub Menu level 1 -->
-            <a data-toggle="collapse" data-target="#otherr" class="collapse collapsed"><i class="fa fa-caret-right pr-2"></i>Other Reports</a>
-            <!-- Sub Menu level 2 -->
-              <div id="otherr" class="collapse collapsed submenu">
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Daily Log</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Customer Aging</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Supplier Aging</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Party Aging Summary</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Expense Comparison</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Expense</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Zakat</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>User Activity Log Sheet</a>
-                <div class="divider"></div>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Trial Balance</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Master Trial Balance</a>
-                <div class="divider"></div>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Profit/Loss Statement</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Profit/Loss Comparison</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Periodic Profit/Loss Ratio</a>
-                <div class="divider" ></div>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2"></i>Balance Sheet</a>
-                <a routerLink="/" (click)="drawer.close()"> <i class="fa fa-caret-right pr-2" (click)="drawer.close()"></i>Comparison Balance Sheet</a>
-              </div>
+        <!-- <button class="dropdown-btn p-2" (click)="testReport(); drawer.close()"><i class="fas fa-chart-line"></i>Chart of Accounts</button> -->
+
+        <!-- Menu Profiles -->
+      <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#profiles" (click)="collapsed1? collapsed1=false:collapsed1=true">
+        <i class="fas fa-chart-line"></i>Financial Reports
+        <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed1? true:false"></i>
+      </button>
+      <!-- Sub Menu Level 1 -->
+        <div id="profiles" class="collapse collapsed">
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
+          <div class="divider"></div>
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
+          <div class="divider"></div>
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
+          <div class="divider"></div>
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
+          <div class="divider"></div>
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
+          <div class="divider"></div>
         </div>
+
+        <!-- Menu Activity Vouchers -->
+      <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#activity" (click)="collapsed2? collapsed2=false:collapsed2=true">
+        <i class="fa fa-chart-line" aria-hidden="true"></i>Accounts Receivable
+        <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed2? true:false"></i>
+      </button>      
+        <!-- Sub Menu level 1 -->
+        <div id="activity" class="collapse collapsed">
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Balance</a>
+          <div class="divider"></div>
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Ledger</a>
+          <div class="divider"></div>
+          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Recovery</a>
+          <div class="divider"></div>
+      </div>
+
+        <!-- Menu Reports -->
+        <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports" (click)="collapsed3? collapsed3=false:collapsed3=true">
+          <i class="fa fa-receipt" aria-hidden="true"></i>Account Payable
+          <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
+        </button>
+          <div id="reports" class="collapse collapsed">
+            <!-- Sub Menu level 1 -->
+            <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Balances</a>
+            <div class="divider"></div>
+            <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Ledger Report</a>
+            <div class="divider"></div>
+            <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Payment Report</a>
+            <div class="divider"></div>
+          </div>
+
+          <!-- Menu PayRoll -->
+          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#payroll" (click)="collapsed4? collapsed4=false:collapsed4=true">
+            <i class="fas fa-users-cog" aria-hidden="true"></i>Inventory Reports
+            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed4? true:false"></i>
+          </button>
+            <div id="payroll" class="collapse collapsed">
+              <!-- Sub Menu level 1 -->
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
+              <div class="divider"></div>
+            </div>
+
+          <!-- Menu Tools -->
+          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#tools" (click)="collapsed5? collapsed5=false:collapsed5=true">
+            <i class="fas fa-users-cog" aria-hidden="true"></i>Sales Reports
+            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed5? true:false"></i>
+          </button>
+          <!-- Sub Menu level 1 -->
+            <div id="tools" class="collapse collapsed">
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Party Wise)</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Product Wise)</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Invoice Wise)</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Production</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Order Status</a>
+              <div class="divider"></div>
+            </div>
+
+            <!-- Menu Tools -->
+          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
+            <i class="fas fa-users-cog" aria-hidden="true"></i>Purchase Reports
+            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
+          </button>
+          <!-- Sub Menu level 1 -->
+            <div id="purchaseR" class="collapse collapsed">
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Party Wise)</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Product Wise)</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Invoice Wise)</a>
+              <div class="divider"></div>
+              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
+              <div class="divider"></div>
+            </div>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">

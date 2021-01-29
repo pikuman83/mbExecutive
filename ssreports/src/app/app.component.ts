@@ -1,6 +1,5 @@
 import { GlobalService } from './global.service';
 import { Spinkit } from 'ng-http-loader'
-
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -11,7 +10,7 @@ import { DOCUMENT } from '@angular/common';
 })
 export class AppComponent implements OnInit {
 
-  title = 'Special Executive Reports';
+  title = 'Special Executive Dashboard';
 
   constructor(public service: GlobalService, @Inject(DOCUMENT) private document: any) {}
 
@@ -19,7 +18,13 @@ export class AppComponent implements OnInit {
     this.elem = document.documentElement;
   }
 
+  collapsed1:boolean = false;
+  collapsed2:boolean = false;
   collapsed3:boolean = false;
+  collapsed4:boolean = false;
+  collapsed5:boolean = false;
+  collapsed6:boolean = false;
+
   spinnerStyle = Spinkit;
   elem: any; 
   isFullScreen: boolean;

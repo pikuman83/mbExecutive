@@ -44,58 +44,101 @@ export class GlobalService {
   getbbalance(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=bbalance&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
   }
-  receivable: number;
   getreceivable(): Observable<any>{
     return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=receivable&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
   }
-  payable: number;
   getpayable(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=payable&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
   }
   getSaleAmount(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=saleamount&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(amount => {
       return Math.round(amount);
-  }))
-}
-getSaleRecovery(): Observable<any> {
-  return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=salerecovery&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(recovery => {
-    return Math.round(recovery);
-  }))
-}
-  top10: any[] = [];
+    }))
+  }
+  getSaleRecovery(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=salerecovery&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(recovery => {
+      return Math.round(recovery);
+    }))
+  }
   getTOP10(): Observable<any> {
+    const top10 = [];
     return this.http.get<any>(`${this.baseUrl}/SP?sp=SLTOP10&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;
           object.value= x.qty;
-          this.top10.push(object)
+          top10.push(object)
         }
-      return this.top10;
+      return top10;
     }));
   }
-  sales: any[] = [];
+  getSOTOP10(): Observable<any> {
+    const top10 = [];
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=SOTOP10&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+      for (let x of res){
+        let object: any = {};
+          object.name= x.pname;
+          object.value= x.qty;
+          top10.push(object)
+        }
+      return top10;
+    }));
+  }
   getsales(): Observable<any> {
+    const sales = {
+      "name": "Sales",
+      "series": []
+    }
     return this.http.get<any>(`${this.baseUrl}/SP?sp=sales&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
-          object.name= x.pname.slice(0, 10);
+          object.name= x.pname.slice(0, 8);
           object.value= x.qty;
-          this.sales.push(object)
+          sales.series.push(object)
         }
-      return this.sales;
+      return sales;
     }));
   }
-  expenses: any[] = [];
+  getsaleorder(): Observable<any> {
+    const orders = {
+      "name": "Orders",
+      "series": []
+    }
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=saleorder&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+      for (let x of res){
+        let object: any = {};
+          object.name= x.pname.slice(0, 8);
+          object.value= x.qty;
+          orders.series.push(object)
+        }
+      return orders;
+    }));
+  }
+  getproduction(): Observable<any> {
+    const production = {
+      "name": "Productions",
+      "series": []
+    }
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=production&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+      for (let x of res){
+        let object: any = {};
+          object.name= x.pname.slice(0, 8);
+          object.value= x.qty;
+          production.series.push(object)
+        }
+      return production;
+    }));
+  }
   getexpenses(): Observable<any> {
+    const expenses: any[] = [];
     return this.http.get<any>(`${this.baseUrl}/SP?sp=expenses&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;
           object.value= x.qty;
-          this.expenses.push(object)
+          expenses.push(object)
         }
-      return this.expenses;
+      return expenses;
     }));
   }
 }
