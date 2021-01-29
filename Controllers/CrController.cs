@@ -18,6 +18,7 @@ namespace SsReports.Controllers
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
             reportDocument.SetDatabaseLogon("sa", "Boogeyman123*");
+            
             if (!string.IsNullOrEmpty(param1))
             {
                 if (id == "SalesInv") { reportDocument.RecordSelectionFormula = "{ACCOUNT.ACODE} = '" + param1 + "' AND {ACCOUNT.ANAME} = '" + param2 + "' AND {ACCOUNT.AGNAME}= '" + param3 + "'"; }
