@@ -293,7 +293,6 @@
     <TypeScriptCompile Include="ssreports\src\test.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="20012021.bak" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
