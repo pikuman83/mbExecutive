@@ -6,11 +6,11 @@ mat-card{
   padding-left: 10px;
 }
 .bankBalance{
-  border-left: solid 8px #A10A28;
+  border-left: solid 8px #56b384;
   padding-left: 10px;
 }
 .totalReceivale{
-  border-left: solid 8px #C7B42C;
+  border-left: solid 8px #2cc2c7;
   padding-left: 10px;
 }
 .totalPayable{
@@ -21,7 +21,6 @@ mat-card{
   max-width: 1240px;
   margin: 0 auto;
 }
-
 mat-card-content{
   margin-top: 20px;
   margin-bottom: 5px;
@@ -39,6 +38,18 @@ mat-card-header{
   align-self: center;
   margin-bottom: 18px;
 }
-.calender:focus{
-  	outline: none;
+
+/* All drawer related classes are configuring scroll bar */
+::ng-deep ul.legend-labels.horizontal-legend {
+  overflow-x: scroll;
+  scrollbar-width: none !important;
+  display: inline-flex;
+}
+::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar {
+  width: 2px !important;
+  scrollbar-width: none !important;
+}
+::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar-track {
+  visibility: none;
+  scrollbar-width: none !important;  
 }

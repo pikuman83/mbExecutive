@@ -1,7 +1,3 @@
-//rate exchange card
-//pvc price card
-// play with labels
-//onfocus fix of calender
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
@@ -73,6 +69,7 @@ export class DashboardComponent implements OnInit {
     else {this.refresh = false}
   }
   refreshData(){
+    this.max = 1000;
     this.service.datefrom = this.datefrom.toDateString();
     this.service.dateto = this.dateto.toDateString();
     this.service.getcash().subscribe(x => this.cash = x);
@@ -97,95 +94,29 @@ export class DashboardComponent implements OnInit {
   }
 
   responsiveCharts(){
-    if(window.innerWidth<=600){this.view = [300, 200]}
-    else if(window.innerWidth>600 && window.innerWidth <900){this.view = [380, 250]}
+    if(window.innerWidth<=600){this.view = [300, 200]; this.viewG =[600, 350];}
+    // else if(window.innerWidth>600 && window.innerWidth <900){this.view = [420, 250]}
   }
   @HostListener('window:resize', ['$event'])
   responsivCharts1(event: { target: { innerWidth: number; }; }){
     if(event.target.innerWidth<=600){
-      this.view = [300, 200]
+      this.view = [300, 200];
+      this.viewG=[600, 350];
     }
     else if(event.target.innerWidth>700 && event.target.innerWidth < 900){
-      this.view = [380, 250]
+      this.view = [380, 250];
+      this.viewG=[600, 350];
     }
     else{
-      this.view = [600, 300]
+      this.view = [600, 300];
+      this.viewG=[800, 550];
     }
   }
 
   // *** Remote chart options
-  view = [520, 350];
+  view = [560, 350];
+  viewG=[750, 500];
+  max = 1000;
   gradient: boolean = false;
   showLabels: boolean = true;
-  sampleData: any = [
-    {
-      "name": "Qty",
-      "series": [
-        {
-          "value": 6721,
-          "name": "2016-09-17"
-        },
-        {
-          "value": 3006,
-          "name": "2016-09-23"
-        },
-        {
-          "value": 5544,
-          "name": "2016-09-17"
-        },
-        {
-          "value": 6409,
-          "name": "2016-09-15"
-        },
-        {
-          "value": 5545,
-          "name": "2016-09-22"
-        }
-      ]
-    }
-  ]
-  sampleData1: any = [
-    {
-      "name": "Germany",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7300000
-        },
-        {
-          "name": "2011",
-          "value": 8940000
-        }
-      ]
-    },
-  
-    {
-      "name": "USA",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7870000
-        },
-        {
-          "name": "2011",
-          "value": 8270000
-        }
-      ]
-    },
-
-    {
-      "name": "France",
-      "series": [
-        {
-          "name": "2010",
-          "value": 5000002
-        },
-        {
-          "name": "2011",
-          "value": 5800000
-        }
-      ]
-    }
-  ];
 }
-  // colorScheme = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']}

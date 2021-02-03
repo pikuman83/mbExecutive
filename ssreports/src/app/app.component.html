@@ -12,19 +12,19 @@
     <!-- Side Drawer -->
     <mat-nav-list class="mb-3">
         <i class="fas fa-times"  (click)="drawer.toggle()"></i>
-        <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><i class="fa fa-home pr-3"></i>Dashboard</button>
-        <!-- <button class="dropdown-btn p-2" (click)="testReport(); drawer.close()"><i class="fas fa-chart-line"></i>Chart of Accounts</button> -->
-
-        <!-- Menu Profiles -->
+        <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><img class="sideNvIcons" src="../assets/speedometer.png">Dashboard</button>
+        <!-- <i class="fa fa-home pr-3"></i> -->
+      
       <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#profiles" (click)="collapsed1? collapsed1=false:collapsed1=true">
-        <i class="fas fa-chart-line"></i>Financial Reports
+        <img class="sideNvIcons" src="../assets/stats.png">Financial Reports
+        <!-- <i class="fas fa-chart-line"></i>         -->
         <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed1? true:false"></i>
       </button>
       <!-- Sub Menu Level 1 -->
         <div id="profiles" class="collapse collapsed">
           <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
           <div class="divider"></div>
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
+          <a (click)="openDialogue('Customer Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
           <div class="divider"></div>
           <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
           <div class="divider"></div>
@@ -36,7 +36,7 @@
 
         <!-- Menu Activity Vouchers -->
       <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#activity" (click)="collapsed2? collapsed2=false:collapsed2=true">
-        <i class="fa fa-chart-line" aria-hidden="true"></i>Accounts Receivable
+        <img class="sideNvIcons" src="../assets/receivableside.png">Accounts Receivable
         <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed2? true:false"></i>
       </button>      
         <!-- Sub Menu level 1 -->
@@ -51,7 +51,7 @@
 
         <!-- Menu Reports -->
         <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports" (click)="collapsed3? collapsed3=false:collapsed3=true">
-          <i class="fa fa-receipt" aria-hidden="true"></i>Account Payable
+          <img class="sideNvIcons" src="../assets/payable-side.png">Account Payable
           <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
         </button>
           <div id="reports" class="collapse collapsed">
@@ -66,7 +66,7 @@
 
           <!-- Menu PayRoll -->
           <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#payroll" (click)="collapsed4? collapsed4=false:collapsed4=true">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>Inventory Reports
+            <img class="sideNvIcons" src="../assets/inventory.png">Inventory Reports
             <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed4? true:false"></i>
           </button>
             <div id="payroll" class="collapse collapsed">
@@ -83,7 +83,7 @@
 
           <!-- Menu Tools -->
           <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#tools" (click)="collapsed5? collapsed5=false:collapsed5=true">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>Sales Reports
+            <img class="sideNvIcons" src="../assets/goods.png">Sales Reports
             <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed5? true:false"></i>
           </button>
           <!-- Sub Menu level 1 -->
@@ -106,7 +106,7 @@
 
             <!-- Menu Tools -->
           <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>Purchase Reports
+            <img class="sideNvIcons" src="../assets/box.png">Purchase Reports
             <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
           </button>
           <!-- Sub Menu level 1 -->
@@ -125,40 +125,22 @@
     <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">
   
       <!-- Top toolbar (reserved for tabs or social media + user stuff) -->
-      <mat-toolbar color="none" class="toolbar" [hidden]="service.splashScreen">
-        <button *ngIf="service.user" class="menubutton"
-          mat-icon-button
-          (click)="drawer.toggle(); $event.stopPropagation()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        
-        <div class="title"> <!--nav nav-tabs--> <!--mr-auto removed for majorsoft theme-->
-          <h2>{{service.title}}</h2> <!--nav-item-->
-        </div>
-      <div>
-        
-      <mat-icon class="screen" *ngIf="!isFullScreen" (click)="openFullscreen()">fullscreen</mat-icon>
-      <mat-icon class="screen" *ngIf="isFullScreen" (click)="closeFullscreen()">fullscreen_exit</mat-icon>
-
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>more_vert</mat-icon>
+    <mat-toolbar color="none" class="toolbar" [hidden]="service.splashScreen">
+      <button *ngIf="isLogin()" class="menubutton"
+        mat-icon-button
+        (click)="drawer.toggle(); $event.stopPropagation()">
+        <mat-icon>menu</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>info</mat-icon>
-          <span>Tools Menu here</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>voicemail</mat-icon>
-          <span>Users</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>notifications_off</mat-icon>
-          <span>Passwords</span>
-        </button>
-      </mat-menu>
-    </div>
-  </mat-toolbar>
+      
+      <div class="title">
+        <h2>{{service.title}}</h2>
+      </div>
+
+      <div>
+        {{this.username? 'Hello ' + this.username: ''}}
+        <i class="fas fa-sign-out-alt cursor" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
+      </div>
+    </mat-toolbar>
 
   <!-- Routing modules selector which manage the paths of the whole app -->
     <div class="content">

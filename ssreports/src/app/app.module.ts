@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +25,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DatePipe } from '@angular/common';
 import { SplashComponent } from './splash/splash.component';
+import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledger.component';
+import { ProxyInterceptor } from './proxy.interceptor';
+
 // import { MatDialogModule } from '@angular/material/dialog';
 // import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { MatPaginatorModule } from '@angular/material/paginator';
@@ -47,7 +50,8 @@ import { SplashComponent } from './splash/splash.component';
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    SplashComponent
+    SplashComponent,
+    CustomerLedgerComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +92,9 @@ import { SplashComponent } from './splash/splash.component';
     // MatSlideToggleModule,
   ],
   providers: [DatePipe, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    {provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true}  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

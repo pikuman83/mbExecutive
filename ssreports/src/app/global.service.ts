@@ -12,7 +12,7 @@ export class GlobalService {
   constructor(private http: HttpClient, private datepipe: DatePipe) {}
 
   public title: string;
-  public user: string;
+  // public user: string;
   public splashScreen: boolean = false;
   baseUrl = environment.apiUrl;
   
@@ -35,8 +35,15 @@ export class GlobalService {
   date2 = this.date1.setDate(this.date1.getDate() - 30);
   datefrom = this.datepipe.transform(this.date2, "yyyy,MM,dd");
 
+  login(user: any) {
+    return this.http.post(this.baseUrl + '/RequestToken', user);
+  }
+
   downloadPDF(id:string, param1: string, param2: string, param3: string, param4: string, param5:string, param6: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/mb/?id=${id}&param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}&param6=${param6}`, this.httpOptions1)
+  }
+  get(path: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${path}`, this.httpOptions)
   }
   getcash(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cash&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))

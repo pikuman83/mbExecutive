@@ -1,7 +1,27 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');*/
+/* A VERY NICE HOME BACKGROUND GREY    rgba(0,0,0,.05); */
 
+/* ******** TOOLBAR BACKGROUND COLOR */
+.mat-toolbar{
+  /* background-color: #ccc; */
+  /* background-color: #6c757d;*/
+  /* background-color: #da251c; */
+  background: rgb(66,0,188);
+  background: linear-gradient(90deg, rgba(66,0,188,1) 0%, rgba(232,0,24,1) 76%, rgba(125,0,128,1) 99%);
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: auto;
+}
+/* ******BACKGROUND COLOR */
+.sidenav-container {
+  /* background: rgb(0, 12, 8) !important; */
+  /* background: #f5f5f5 !important; */
+  height: 100%;
+  text-shadow: none;
+  box-shadow: none;
+}
 html{
-  /* font-family: 'Nunito Sans', sans-serif; */
   overflow: hidden;
 }
 .mothercontainer{
@@ -9,12 +29,9 @@ html{
 }
 .toolbar{
   height: 36px !important;
-  /* border-bottom: 1px solid #bbb !important;  */
-  /* box-shadow: 0 0 4px #939393 !important; */
 }
 .toolbar, .toolbar *{
   color: white;
-  /* color: rgb(34, 33, 37); */
 }
 .title{
   border-bottom: solid 2px;
@@ -22,19 +39,9 @@ html{
   text-align: center;
 }
 .content{
-  /* This whole class may be deleted, added to support shadow to the tab */
-  /* border-top: 1px solid #bbb;  */
   padding: 15px;
-  /* box-shadow: 0 0 8px #939393; */
 }
-/* ******BACKGROUND COLOR */
-.sidenav-container {
-  /* background: rgb(0, 12, 8) !important; */
-  /* background: #f5f5f5 !important; recently alternated for major theme */
-  height: 100%;
-  text-shadow: none;
-  box-shadow: none;
-}
+
 .sidenav {
   width: 250px;
   /* background: #da251c !important; */
@@ -47,32 +54,22 @@ html{
   display: block;
   padding: 0px;
 }
-/* ******** TOOL BAR BACKGROUND COLOR */
-.mat-toolbar{
-  /* background-color: #ccc; */
-  /* background-color: #6c757d; recently disabled for major theme */
-  /* background-color: #da251c; */
-  background: rgb(66,0,188);
-  background: linear-gradient(90deg, rgba(66,0,188,1) 0%, rgba(232,0,24,1) 76%, rgba(125,0,128,1) 99%);
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  height: auto;
-}
+
 .companyname {
   font-size: 20px;
-  /* font-family: 'Nunito Sans', sans-serif; */
-  /* font-family: 'Pacifico', cursive; */
   align-self: flex-end;
   color:whitesmoke;
 }
 a, button{
-  /* font-family: 'Nunito Sans', sans-serif; */
   font-size: 14px !important;
-  /* color: white; */
   letter-spacing: 1.1px;
   margin-right: 0px;
+}
+.sideNvIcons{
+  margin-left: 5px;
+  margin-bottom: 10px;
+  margin-right: 12px;
+  box-sizing: border-box;
 }
 i{
   color: #818181;
@@ -124,7 +121,7 @@ i{
   background-color: rgb(0, 12, 8);
   font-size: small !important;
   letter-spacing: normal;
-  /* color: rgb(65 222 77 / 97%); */
+  /* color: rgb(65 222 77 / 97%);  SUB MENU FONT COLOR*/
   color: rgb(84 255 80 / 97%);
   padding-left: 0px;
   margin-right: 0px;
@@ -193,4 +190,7 @@ footer{
 }
 button:focus{
   outline-width: 0 !important;
+}
+.cursor{
+  cursor: pointer;
 }

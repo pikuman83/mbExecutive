@@ -5,9 +5,12 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using mbExecutive.Auth;
 
 namespace SsReports.Controllers
 {
+    [JwtAuthentication]
+
     [Route("api/mb/{id?}/{param1?}/{param2?}/{param3?}/{param4?}/{param5?}/{param6?}")]
     public class SsReportsController : ApiController
     {
@@ -18,11 +21,7 @@ namespace SsReports.Controllers
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
             reportDocument.SetDatabaseLogon("sa", "Boogeyman123*");
-            
-            if (!string.IsNullOrEmpty(param1))
-            {
-                if (id == "SalesInv") { reportDocument.RecordSelectionFormula = "{ACCOUNT.ACODE} = '" + param1 + "' AND {ACCOUNT.ANAME} = '" + param2 + "' AND {ACCOUNT.AGNAME}= '" + param3 + "'"; }
-            }
+            //if (id == "I need parameters to run") {{ reportDocument.RecordSelectionFormula = "{ACCOUNT.ACODE} = '" + param3 + "' AND {ACCOUNT.ANAME} = '" + param4 + "'; }}
             Stream s = reportDocument.ExportToStream(ExportFormatType.PortableDocFormat);
             s.Seek(0, SeekOrigin.Begin);
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -32,3 +31,7 @@ namespace SsReports.Controllers
         }
     }
 }
+//if (!string.IsNullOrEmpty(param1))
+//{
+//if (id == "SalesInv") { reportDocument.RecordSelectionFormula = "{ACCOUNT.ACODE} = '" + param3 + "' AND {ACCOUNT.ANAME} = '" + param4 + "' AND {ACCOUNT.AGNAME}= '" + param5 + "'"; }
+//}

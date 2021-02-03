@@ -1,15 +1,16 @@
-﻿using System;
+﻿using mbExecutive.Auth;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web.Http;
-//using mbExecutive.Models;
 
 namespace mbExecutive.Controllers
 {
     public class SPController : ApiController
-    {        
-        public async Task<List<SLTOP1>> GetSLSTOP1_Result1(string sp, DateTime datefrom, DateTime dateto)
+    {
+        [JwtAuthentication]
+        public async Task<List<myClass>> GetSLSTOP1_Result1(string sp, DateTime datefrom, DateTime dateto)
         {
             string cs  = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString; 
             using (SqlConnection sql = new SqlConnection(cs))
@@ -19,7 +20,7 @@ namespace mbExecutive.Controllers
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@datefrom", datefrom));
                     cmd.Parameters.Add(new SqlParameter("@dateto", dateto));
-                    var response = new List<SLTOP1>();
+                    var response = new List<myClass>();
                     await sql.OpenAsync();
 
                     using (var reader = await cmd.ExecuteReaderAsync())
@@ -33,15 +34,15 @@ namespace mbExecutive.Controllers
                 }
             }   
         }
-        private  SLTOP1 CreateTable(SqlDataReader reader)
+        private myClass CreateTable(SqlDataReader reader)
         {
-            return new SLTOP1()
+            return new myClass()
             {
                 QTY = (Double)reader["QTY"],
                 PNAME = reader["PNAME"].ToString(),
             };
         }
-        public class SLTOP1
+        public class myClass
         {
             public Nullable<double> QTY { get; set; }
             public string PNAME { get; set; }

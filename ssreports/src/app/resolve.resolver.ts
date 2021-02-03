@@ -34,7 +34,7 @@ export class ResolveResolver implements Resolve<any> {
         expenses: result[6],
         salevsrecovery: [result[7], result[8]],
         top10SO: result[9],
-        oVssVsp: [result[5], result[10], result[11]]
+        oVssVsp: [result[5], result[10], result[11]] //HELLO BROTHER
       };
     }));
   }

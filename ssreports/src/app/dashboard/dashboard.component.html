@@ -39,12 +39,13 @@
     <div class="d-flex flex-column text-center">
       <h1>Top 10 Products</h1>
       <ngx-charts-gauge *ngIf="expenses.length" class="d-flex justify-content-around"
-        [view]="[600, 350]"
+        [view]="viewG"
         [scheme]="'flame'"
         [results]="top10"
         [legend]="true"
         [legendTitle]="'Article #'"
         [legendPosition]="'below'"
+        [max]="max"
         [units]="'Total'">
       </ngx-charts-gauge>
     </div>
@@ -73,12 +74,12 @@
     </div>
   </div>
 
-  <div class="d-md-flex justify-content-around mb-2">
+  <div class="d-md-flex justify-content-around">
     <mat-card class="mb-2">
       <mat-card-header>
         <mat-card-title>Monthly Expenses</mat-card-title>
       </mat-card-header>
-      <ngx-charts-bar-vertical *ngIf="top10.length" class="d-flex justify-content-around"
+      <ngx-charts-bar-vertical class="d-flex justify-content-around"
         [view]="view"
         [results]="expenses"
         [xAxis]="true"
@@ -93,29 +94,31 @@
       </ngx-charts-bar-vertical>
     </mat-card>
 
-    <mat-card>
+    <mat-card class="mb-2">
       <mat-card-header>
         <mat-card-title>Order Vs Sale Vs Production</mat-card-title>
       </mat-card-header>  
-      <ngx-charts-line-chart *ngIf="top10.length" class="d-flex justify-content-around"
+      <ngx-charts-line-chart class="d-flex justify-content-around"
         [view]="view"
         [results]="oVsSVsp"
         [showXAxisLabel]="true"
         [showYAxisLabel]="true"
         [legend]="true"
+        [legendPosition]="'below'"
         [xAxis]="true"
         [yAxis]="true"
+        [autoScale]="true"
         [gradient]="gradient">
       </ngx-charts-line-chart>
     </mat-card>
   </div>
 
-  <div class="d-md-flex justify-content-around mb-2">
+  <div class="d-md-flex justify-content-around">
     <mat-card class="mb-2">
       <mat-card-header>
         <mat-card-title>Top 10 Sales Order</mat-card-title>
       </mat-card-header>
-      <ngx-charts-bar-horizontal *ngIf="top10.length" class="d-flex justify-content-around"
+      <ngx-charts-bar-horizontal class="d-flex justify-content-around"
         [view]="view"
         [scheme]="'picnic'"
         [results]="top10SO"
@@ -126,12 +129,12 @@
       </ngx-charts-bar-horizontal>
     </mat-card>
   
-    <mat-card>
+    <mat-card class="mb-2">
       <mat-card-header>
         <mat-card-title>Sales Vs Recovery</mat-card-title>
       </mat-card-header>  
-      <ngx-charts-pie-chart *ngIf="top10.length" class="d-flex justify-content-around"
-        [view]="[350, 350]"
+      <ngx-charts-pie-chart class="d-flex justify-content-around"
+        [view]="view"
         [scheme]="'nightLights'"
         [results]="sVSr"
         [gradient]="gradient"

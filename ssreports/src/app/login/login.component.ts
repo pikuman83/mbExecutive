@@ -1,3 +1,11 @@
+// To use security, only uncomment ngOninit line and uncomment(fix) the submit method
+// also uncomment the interceptor import and provider in app.module
+// Process: The login methd makes a post request to the back with username and password oject, back checks and 
+// compare the credentials in the db and send back a token which is in res of the subsrciber of the services's login method.
+// if there is no error we save it in the localstorage else we show the authorization failed
+// once saved we also change the user variable's value located in service and send the navigate order to the splash screen
+// then chillar take charge to check if that user exists and open the route.
+// next step will be to show the hello user with a funny icon and provide the checkout option which will be localStorage.removeitem('token')
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -5,8 +13,8 @@ import { GlobalService } from '../global.service';
 import { DOCUMENT } from '@angular/common';
 
 export interface loginClass {
-  UserName: string;
-  Password: string
+  username: string;
+  password: string
 }
 
 @Component({
@@ -22,24 +30,29 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.service.user === "Admin"){
+    if (localStorage.getItem('theepa') != null){
       this.router.navigate(['/dashboard'])
     }
   }
   
   loginuser: loginClass = {
-    UserName: "",
-    Password: ""
+    username: "",
+    password: ""
   }
 
-  onSubmit(form: loginClass) {
-    if (form.UserName === "Admin" && form.Password === "majorSoft21") {
-      this.service.user = "Admin"
-      this.router.navigate(['/splash']);
-      this.service.splashScreen = true;
-      document.documentElement.requestFullscreen();
-    }
-    else this._snackBar.open('Incorrect username or password.', 'Authentication failed.');
+  Submit(form: loginClass) {
+    this.service.login(form).subscribe((res: any) => {
+        localStorage.setItem('theepa', res);
+        localStorage.setItem('player', form.username);
+        // this.service.user = form.username;
+        this.router.navigate(['/splash']);
+        this.service.splashScreen = true; //It hides the toolbar in app.componet.html meanwhile splashscreen
+        document.documentElement.requestFullscreen();
+      },
+      err => {
+        this._snackBar.open('Incorrect username or password.', 'Authentication failed.');
+      }
+    );
   }
 }
 
