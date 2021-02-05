@@ -10,14 +10,14 @@ namespace mbExecutive.Controllers
     public class ReportsController : ApiController
     {
         [JwtAuthentication]
-        public async Task<List<Object>> GetData(string sp)
+        public async Task<List<Object>> GetData(string table)
         {
             string cs = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString;
             using (SqlConnection sql = new SqlConnection(cs))
             {
-                using (SqlCommand cmd = new SqlCommand(sp, sql))
+                string query = "select * from " + table;
+                using (SqlCommand cmd = new SqlCommand(query, sql))
                 {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     var response = new List<Object>();
                     await sql.OpenAsync();
 
@@ -25,13 +25,9 @@ namespace mbExecutive.Controllers
                     {
                         while (await reader.ReadAsync())
                         {
-                            //an if can be added here to parse objects other than customers, creating a new parser CreateTable()
-                            response.Add(CreateTable(reader));
-                            //fruits.Add(new FruitModel
-                            //{
-                            //    FruitName = sdr["FruitName"].ToString(),
-                            //    FruitId = Convert.ToInt32(sdr["FruitId"])
-                            //});
+                            if (table == "mgrp") response.Add(new objectModel { col1 = reader["gname"].ToString() });
+                            if (table == "pgroup") response.Add(new objectModel { col1 = reader["pgname"].ToString()});
+                            if (table == "city") response.Add(new objectModel { col1 = reader["cname"].ToString()});
                         }
                     }
                     return response;
@@ -39,22 +35,12 @@ namespace mbExecutive.Controllers
 
             }
         }
-        
-        private Customers CreateTable(SqlDataReader reader)
+        public class objectModel
         {
-            return new Customers()
-            {
-                Code = reader["vcode"].ToString(),
-                Name = reader["vname"].ToString(),
-                Extra = reader["city"].ToString(),
-            };
-        }
-        public class Customers
-        {
-            public string Code { get; set; }
-            public string Name { get; set; }
-            public string Extra { get; set; }
-            public string Extra1 { get; set; }
+            public string col1 { get; set; }
+            public string col2 { get; set; }
+            public string col3 { get; set; }
+            //public string Extra1 { get; set; }
         }
     }
 }

@@ -3,8 +3,8 @@ import { Spinkit } from 'ng-http-loader'
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledger.component';
 import { Router } from '@angular/router';
+import { AccountsReceivableComponent } from './reports/accounts-receivable/accounts-receivable.component';
 
 @Component({
   selector: 'app-root',
@@ -32,13 +32,7 @@ export class AppComponent implements OnInit {
   elem: any; 
   isFullScreen: boolean;
 
-  testReport(){
-    this.service.downloadPDF("SalesInv", "","","","","","").subscribe((data) => {
-      const blob = new Blob([data], {type: 'application/pdf'});
-      var downloadURL = window.URL.createObjectURL(blob);
-      window.open(downloadURL, '_blank')
-    });
-  }
+  testReport(){}
 
   username: string;
   isLogin(){
@@ -60,8 +54,15 @@ export class AppComponent implements OnInit {
   }
 
   openDialogue(title: string){
-    const dialogRef = this.dialog.open(CustomerLedgerComponent, {width: '450px', disableClose:true, autoFocus:false, data:title});
+    const dialogRef = this.dialog.open(AccountsReceivableComponent,
+      // title === 'b'? CustomerLedgerComponent: 
+      // title ==='c'? CustomerLedgerComponent: 
+      // CustomerLedgerComponent, 
+      {width: '450px', disableClose:true, autoFocus:true, data:title});
   }
+}
+
+
 
     // @HostListener('document:fullscreenchange', ['$event'])
   // fullscreenmodes(event){
@@ -84,6 +85,4 @@ export class AppComponent implements OnInit {
   //     this.document.exitFullscreen();
   //   } 
   // }
-}
-
 

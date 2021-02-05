@@ -26,7 +26,8 @@ export class ProxyInterceptor implements HttpInterceptor {
                   }
                   else if(err.status == 403)
                   this.router.navigate(['/Login']);
-                  this._snackBar.open('Request has been reject by the server due to invalid credentials', 'Authentication failed');
+                  console.log(err);
+                  this._snackBar.open('Request has been rejected by the server due to invalid credentials', 'Authentication failed');
               }
           )
       )

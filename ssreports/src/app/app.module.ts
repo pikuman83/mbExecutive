@@ -27,6 +27,7 @@ import { DatePipe } from '@angular/common';
 import { SplashComponent } from './splash/splash.component';
 import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledger.component';
 import { ProxyInterceptor } from './proxy.interceptor';
+import { AccountsReceivableComponent } from './reports/accounts-receivable/accounts-receivable.component';
 
 // import { MatDialogModule } from '@angular/material/dialog';
 // import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -34,7 +35,7 @@ import { ProxyInterceptor } from './proxy.interceptor';
 // import { MatTableModule } from '@angular/material/table';
 // import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { MatSortModule } from '@angular/material/sort';
-// import { MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 // import { MatGridListModule } from '@angular/material/grid-list';
 // import { MatSliderModule } from '@angular/material/slider';
 // import { MatRadioModule } from '@angular/material/radio';
@@ -51,7 +52,8 @@ import { ProxyInterceptor } from './proxy.interceptor';
     DashboardComponent,
     LoginComponent,
     SplashComponent,
-    CustomerLedgerComponent
+    CustomerLedgerComponent,
+    AccountsReceivableComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +87,7 @@ import { ProxyInterceptor } from './proxy.interceptor';
     // MatSliderModule, 
     // MatSortModule,
     // MatProgressSpinnerModule,
-    // MatSelectModule,
+    MatSelectModule,
     // MatDialogModule,
     // MatPaginatorModule,
     // MatTableModule,

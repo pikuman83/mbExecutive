@@ -1,0 +1,35 @@
+<div class="text-center w-100">
+    <div class="w-100 modalTitle">{{title}}</div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput tabindex="0" #Idate autocomplete="off" type="date" [value]="dateto"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Main Group</mat-label>
+        <mat-select value="" #Iparam2>
+          <mat-option [value]="m" *ngFor="let m of mgrp" >{{ m }}</mat-option>
+          <mat-option value="">Select All</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Sub Group</mat-label>
+        <mat-select value="" #Iparam3>
+          <mat-option [value]="s" *ngFor="let s of pgrp" >{{ s }}</mat-option>
+          <mat-option value="">Select All</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <mat-select value="" #Iparam4>
+          <mat-option [value]="c" *ngFor="let c of city" >{{ c }}</mat-option>
+          <mat-option value="">Select All</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="dialogRef.close()">Close</button>
+</div>

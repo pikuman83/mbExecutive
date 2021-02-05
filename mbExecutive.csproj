@@ -102,8 +102,23 @@
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Net.Http.Headers.2.2.8\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.FileSystems.4.1.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.StaticFiles.4.1.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -228,44 +243,22 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PrtBalRep.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrtBalRep.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SalesInv.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesInv.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="ssreports\e2e\protractor.conf.js" />
-    <Content Include="ssreports\karma.conf.js" />
-    <Content Include="ssreports\src\app\app.component.css" />
-    <Content Include="ssreports\src\app\app.component.html" />
-    <Content Include="ssreports\src\app\dashboard\dashboard.component.css" />
-    <Content Include="ssreports\src\app\dashboard\dashboard.component.html" />
-    <Content Include="ssreports\src\app\login\login.component.css" />
-    <Content Include="ssreports\src\app\login\login.component.html" />
-    <Content Include="ssreports\src\app\splash\splash.component.css" />
-    <Content Include="ssreports\src\app\splash\splash.component.html" />
-    <Content Include="ssreports\src\assets\bank.png" />
-    <Content Include="ssreports\src\assets\bank1.png" />
-    <Content Include="ssreports\src\assets\calendar.png" />
-    <Content Include="ssreports\src\assets\cashINhand.png" />
-    <Content Include="ssreports\src\assets\cashINhand1.png" />
-    <Content Include="ssreports\src\assets\dashboard.png" />
-    <Content Include="ssreports\src\assets\icons\icon-128x128.png" />
-    <Content Include="ssreports\src\assets\icons\icon-144x144.png" />
-    <Content Include="ssreports\src\assets\icons\icon-152x152.png" />
-    <Content Include="ssreports\src\assets\icons\icon-192x192.png" />
-    <Content Include="ssreports\src\assets\icons\icon-384x384.png" />
-    <Content Include="ssreports\src\assets\icons\icon-512x512.png" />
-    <Content Include="ssreports\src\assets\icons\icon-72x72.png" />
-    <Content Include="ssreports\src\assets\icons\icon-96x96.png" />
-    <Content Include="ssreports\src\assets\logo.ico" />
-    <Content Include="ssreports\src\assets\logo.jpg" />
-    <Content Include="ssreports\src\assets\payable.png" />
-    <Content Include="ssreports\src\assets\payable1.png" />
-    <Content Include="ssreports\src\assets\receivable.png" />
-    <Content Include="ssreports\src\assets\receivable1.png" />
-    <Content Include="ssreports\src\assets\special.JPG" />
-    <Content Include="ssreports\src\assets\transperent-logo-circle.png" />
-    <Content Include="ssreports\src\favicon.ico" />
-    <Content Include="ssreports\src\index.html" />
-    <Content Include="ssreports\src\styles.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -275,47 +268,27 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="ssreports\e2e\src\app.e2e-spec.ts" />
-    <TypeScriptCompile Include="ssreports\e2e\src\app.po.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\app-routing.module.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\app.component.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\app.module.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\chillar.guard.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\dashboard\dashboard.component.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\global.service.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\login\login.component.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\resolve.resolver.ts" />
-    <TypeScriptCompile Include="ssreports\src\app\splash\splash.component.ts" />
-    <TypeScriptCompile Include="ssreports\src\environments\environment.prod.ts" />
-    <TypeScriptCompile Include="ssreports\src\environments\environment.ts" />
-    <TypeScriptCompile Include="ssreports\src\main.ts" />
-    <TypeScriptCompile Include="ssreports\src\polyfills.ts" />
-    <TypeScriptCompile Include="ssreports\src\test.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
-    <Content Include="ssreports\.browserslistrc" />
-    <Content Include="ssreports\.editorconfig" />
-    <Content Include="ssreports\.gitignore" />
-    <Content Include="ssreports\angular.json" />
-    <Content Include="ssreports\e2e\tsconfig.json" />
-    <Content Include="ssreports\ngsw-config.json" />
-    <Content Include="ssreports\package-lock.json" />
-    <Content Include="ssreports\package.json" />
-    <Content Include="ssreports\README.md" />
-    <Content Include="ssreports\src\assets\.gitkeep" />
-    <Content Include="ssreports\src\manifest.webmanifest" />
-    <Content Include="ssreports\tsconfig.app.json" />
-    <Content Include="ssreports\tsconfig.json" />
-    <Content Include="ssreports\tsconfig.spec.json" />
-    <Content Include="ssreports\tslint.json" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PrtBalRep.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PrtBalRep.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesInv.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SalesInv.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
