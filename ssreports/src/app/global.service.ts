@@ -39,8 +39,8 @@ export class GlobalService {
     return this.http.post(this.baseUrl + '/RequestToken', user);
   }
 
-  downloadPDF(path: string, id:string, date: string, param2: string, param3: string, param4: string, param5:string, param6: string, param7: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${path}/?id=${id}&param1=${date}&param2=${param2.toUpperCase()}&param3=${param3.toUpperCase()}&param4=${param4.toUpperCase()}&param5=${param5.toUpperCase()}&param6=${param6.toUpperCase()}&param7=${param7.toUpperCase()}`, this.httpOptions1)
+  genReport(path: string, id:string, datefrom: string, dateto: string, param3: string, param4: string, param5:string, param6: string, param7: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${path}/?id=${id}&param1=${datefrom}&param2=${dateto}&param3=${param3.toUpperCase()}&param4=${param4.toUpperCase()}&param5=${param5.toUpperCase()}&param6=${param6.toUpperCase()}&param7=${param7.toUpperCase()}`, this.httpOptions1)
   }
   get(path: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${path}`, this.httpOptions)

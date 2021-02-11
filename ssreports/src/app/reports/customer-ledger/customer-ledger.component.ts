@@ -1,3 +1,5 @@
+//this voucher will handle all the ledger reports.
+
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -6,8 +8,7 @@ import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-customer-ledger',
-  templateUrl: './customer-ledger.component.html',
-  styleUrls: ['./customer-ledger.component.css']
+  templateUrl: './customer-ledger.component.html'
 })
 export class CustomerLedgerComponent implements OnInit {
 
@@ -18,112 +19,42 @@ export class CustomerLedgerComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public title: string,
     private _snackBar: MatSnackBar) {}
 
-  ngOnInit(): void {
-    this.transformDateFrom();
-    this.transformDateto();
-    this.initialize();
-  }
-
-  param3: boolean = false;
-  param4:  boolean = false;
-  param5:  boolean = false;
-  param6:  boolean = false;
-  dateto = new Date();
-  datefrom = new Date(this.dateto);
-
-  transformDateFrom(){
-    this.datefrom.setDate(this.datefrom.getDate() - 30);
-    return this.datepipe.transform(this.datefrom, "yyyy,MM,dd");
-  }
-  transformDateto(){
-    return this.datepipe.transform(this.dateto, "yyyy,MM,dd");
-  }
-
-  code: any[];
-  getCustomers(): void {
-    this.service.get('Reports/?sp=customers').subscribe(x => this.code = x)
-  }
-  generate(Icode: string, date1: Date, date2: Date){
-    if(Icode.trim()){
-      const isValid = this.code.some(x => x.code === Icode);
+    ngOnInit(): void {
+      this.transformDateFrom();
+      this.transformDateto();
+      this.getAccounts();
+    }
+  
+    dateto = new Date();
+    datefrom = new Date(this.dateto);
+  
+    transformDateFrom(){
+      this.datefrom.setDate(this.datefrom.getDate() - 30);
+      return this.datepipe.transform(this.datefrom, "yyyy-MM-dd");
+    }
+    transformDateto(){
+      return this.datepipe.transform(this.dateto, "yyyy-MM-dd");
+    }
+  
+    code: any[];
+    getAccounts(): void {
+      if (this.title[1]=== 'Lgrrep') this.service.get('Reports/?table=account').subscribe(x => this.code = x);
+      if (this.title[1]=== 'CustLgr') this.service.get('Reports/?table=customers').subscribe(x => this.code = x);
+      if (this.title[1]=== 'SuppLgr') this.service.get('Reports/?table=suppliers').subscribe(x => this.code = x);
+      if (this.title[1]=== 'Cash') this.service.get('Reports/?table=Cash').subscribe(x => this.code = x);
+    }
+    generate(datefrom: string, dateto: string, Icode: string){
+      const isValid = this.code.some(x => x.col1 === Icode);
       if (isValid){
-        this.service.downloadPDF("SalesInv", date1.toDateString(), date2.toDateString(),"","","","","","").subscribe((data) => {
+        this.service.genReport("mb", this.title[1], datefrom, dateto, Icode, "" ,"","","").subscribe((data) => {
           const blob = new Blob([data], {type: 'application/pdf'});
-          var downloadURL = window.URL.createObjectURL(blob);
+          const downloadURL = window.URL.createObjectURL(blob);
           window.open(downloadURL, '_blank')
         });
         this.dialogRef.close();
       }
-    }
-    else {
-      this._snackBar.open('MBFW','Must chose a valid customer');
-    }
-  }
-
-  initialize(){
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
-    }
-
-    if (this.title === "Customer Ledger") {
-      this.getCustomers();
-      this.param3 = true;
+      else {
+        this._snackBar.open('MBFW','Must chose a valid Account');
+      }
     }
   }
-}

@@ -9,7 +9,7 @@ namespace mbExecutive
         public static void Register(HttpConfiguration config)
         {
     
-            var cors = new EnableCorsAttribute("http://localhost:4200", "*", "*");
+            var cors = new EnableCorsAttribute("http://110.38.214.222", "*", "*");
             config.EnableCors(cors);
       
             config.MapHttpAttributeRoutes();

@@ -36,6 +36,9 @@ import { AccountsReceivableComponent } from './reports/accounts-receivable/accou
 // import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
+import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
+import { RecoveryComponent } from './reports/recovery/recovery.component';
+import {MatRadioModule} from '@angular/material/radio';
 // import { MatGridListModule } from '@angular/material/grid-list';
 // import { MatSliderModule } from '@angular/material/slider';
 // import { MatRadioModule } from '@angular/material/radio';
@@ -53,7 +56,9 @@ import { MatSelectModule } from '@angular/material/select';
     LoginComponent,
     SplashComponent,
     CustomerLedgerComponent,
-    AccountsReceivableComponent
+    AccountsReceivableComponent,
+    MulipleBasicComponent,
+    RecoveryComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +79,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatMenuModule, 
     MatListModule,
     NgxChartsModule,
+    MatRadioModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     NgHttpLoaderModule.forRoot(),
     // MatRadioModule,

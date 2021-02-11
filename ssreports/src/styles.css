@@ -19,3 +19,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding-top: 14px;
     font-weight: 500;
 }
+mat-form-field{
+    width: 100%;
+}

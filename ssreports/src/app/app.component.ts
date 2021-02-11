@@ -5,6 +5,9 @@ import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AccountsReceivableComponent } from './reports/accounts-receivable/accounts-receivable.component';
+import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledger.component';
+import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
+import { RecoveryComponent } from './reports/recovery/recovery.component';
 
 @Component({
   selector: 'app-root',
@@ -53,15 +56,12 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/Login']);
   }
 
-  openDialogue(title: string){
-    const dialogRef = this.dialog.open(AccountsReceivableComponent,
-      // title === 'b'? CustomerLedgerComponent: 
-      // title ==='c'? CustomerLedgerComponent: 
-      // CustomerLedgerComponent, 
-      {width: '450px', disableClose:true, autoFocus:true, data:title});
-  }
+  cBalance(id: string){const dialogRef = this.dialog.open(AccountsReceivableComponent,{width: '450px', disableClose:true, autoFocus:true, data:id})};
+  ledger(title: string, id: string){const dialogRef = this.dialog.open(CustomerLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:[title, id]})};
+  mBasic(id: string, title: string){const dialogRef = this.dialog.open(MulipleBasicComponent,{width: '450px', disableClose:true, autoFocus:true, data:[id, title]})};
+  recovery(id: string, title: string, data: string){const dialogRef = this.dialog.open(RecoveryComponent,{width: '450px', disableClose:true, autoFocus:true, data:[id, title, data]})}
+  
 }
-
 
 
     // @HostListener('document:fullscreenchange', ['$event'])

@@ -1,14 +1,14 @@
 <div class="text-center w-100">
-    <div class="w-100 modalTitle">{{title}}</div>
+  <div class="w-100 modalTitle">{{id === 0? 'Customer Balance': 'Supplier Balance'}}</div>
 
     <mat-form-field appearance="outline">
         <mat-label>Date</mat-label>
-        <input matInput tabindex="0" #Idate autocomplete="off" type="date" [value]="dateto"/>
+        <input matInput tabindex="0" #Idate tabIndex="1" autocomplete="off" type="date" [value]="dateto"/>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Main Group</mat-label>
-        <mat-select value="" #Iparam2>
+        <mat-select value="" #Iparam2 tabIndex="2" (keydown.enter)="Iparam2.close()">
           <mat-option [value]="m" *ngFor="let m of mgrp" >{{ m }}</mat-option>
           <mat-option value="">Select All</mat-option>
         </mat-select>
@@ -16,7 +16,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Sub Group</mat-label>
-        <mat-select value="" #Iparam3>
+        <mat-select value="" #Iparam3 tabIndex="3" (keydown.enter)="Iparam3.close()">
           <mat-option [value]="s" *ngFor="let s of pgrp" >{{ s }}</mat-option>
           <mat-option value="">Select All</mat-option>
         </mat-select>
@@ -24,12 +24,14 @@
 
       <mat-form-field appearance="outline">
         <mat-label>City</mat-label>
-        <mat-select value="" #Iparam4>
+        <mat-select value="" #Iparam4 tabIndex="4" (keydown.enter)="Iparam4.close()">
           <mat-option [value]="c" *ngFor="let c of city" >{{ c }}</mat-option>
           <mat-option value="">Select All</mat-option>
         </mat-select>
       </mat-form-field>
 
-    <button class="refresh ml-3" mat-raised-button (click)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)">Generate</button>
-    <button class="refresh ml-3" mat-raised-button (click)="dialogRef.close()">Close</button>
+    <button class="refresh ml-3" mat-raised-button tabIndex="5" 
+    (click)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)"
+    (keydown.enter)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

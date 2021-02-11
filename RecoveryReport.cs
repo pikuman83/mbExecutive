@@ -16,14 +16,14 @@ namespace mbExecutive {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class PrtBalRep : ReportClass {
+    public class RecoveryReport : ReportClass {
         
-        public PrtBalRep() {
+        public RecoveryReport() {
         }
         
         public override string ResourceName {
             get {
-                return "PrtBalRep.rpt";
+                return "RecoveryReport.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace mbExecutive {
         
         public override string FullResourceName {
             get {
-                return "mbExecutive.PrtBalRep.rpt";
+                return "mbExecutive.RecoveryReport.rpt";
             }
             set {
                 // Do nothing
@@ -66,7 +66,7 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section10 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section7 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section9 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -90,7 +90,7 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section7 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section10 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,7 +98,7 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section11 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section8 {
             get {
                 return this.ReportDefinition.Sections[6];
             }
@@ -114,7 +114,7 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section6 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
             get {
                 return this.ReportDefinition.Sections[8];
             }
@@ -122,7 +122,15 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_DT {
+        public CrystalDecisions.CrystalReports.Engine.Section Section6 {
+            get {
+                return this.ReportDefinition.Sections[9];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_fdate {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }
@@ -130,17 +138,33 @@ namespace mbExecutive {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_ATYPE {
+        public CrystalDecisions.Shared.IParameterField Parameter_edate {
             get {
                 return this.DataDefinition.ParameterFields[1];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_RecoveryReportSub_datefrom {
+            get {
+                return this.DataDefinition.ParameterFields[2];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_RecoveryReportSub_dateto {
+            get {
+                return this.DataDefinition.ParameterFields[3];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedPrtBalRep : Component, ICachedReport {
+    public class CachedRecoveryReport : Component, ICachedReport {
         
-        public CachedPrtBalRep() {
+        public CachedRecoveryReport() {
         }
         
         [Browsable(false)]
@@ -177,7 +201,7 @@ namespace mbExecutive {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            PrtBalRep rpt = new PrtBalRep();
+            RecoveryReport rpt = new RecoveryReport();
             rpt.Site = this.Site;
             return rpt;
         }

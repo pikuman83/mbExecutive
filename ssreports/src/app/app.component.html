@@ -22,15 +22,15 @@
       </button>
       <!-- Sub Menu Level 1 -->
         <div id="profiles" class="collapse collapsed">
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
+          <a (click)="ledger('Cash Book', 'Cash');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
           <div class="divider"></div>
-          <a (click)="openDialogue('Customer Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
+          <a (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
           <div class="divider"></div>
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
+          <a (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
           <div class="divider"></div>
           <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
           <div class="divider"></div>
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
+          <a (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
           <div class="divider"></div>
         </div>
 
@@ -41,11 +41,11 @@
       </button>      
         <!-- Sub Menu level 1 -->
         <div id="activity" class="collapse collapsed">
-          <a (click)="openDialogue('Customer Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Balance</a>
+          <a (click)="cBalance('0');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Balance</a>
           <div class="divider"></div>
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Ledger</a>
+          <a (click)="ledger('Customer Ledger', 'CustLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Ledger</a>
           <div class="divider"></div>
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Recovery</a>
+          <a (click)="recovery('RecoveryReport', 'Customer Recovery', 'customers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Recovery</a>
           <div class="divider"></div>
       </div>
 
@@ -56,11 +56,11 @@
         </button>
           <div id="reports" class="collapse collapsed">
             <!-- Sub Menu level 1 -->
-            <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Balances</a>
+            <a (click)="cBalance('1');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Balances</a>
             <div class="divider"></div>
-            <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Ledger Report</a>
+            <a (click)="ledger('Supplier Ledger', 'SuppLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Ledger</a>
             <div class="divider"></div>
-            <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Payment Report</a>
+            <a (click)="recovery('PaymentReport', 'Supplier Payment', 'suppliers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Payment</a>
             <div class="divider"></div>
           </div>
 

@@ -1,3 +1,5 @@
+// This component handles Customer & Supplier Balance Reports.
+
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -6,8 +8,7 @@ import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-accounts-receivable',
-  templateUrl: './accounts-receivable.component.html',
-  styleUrls: ['./accounts-receivable.component.css']
+  templateUrl: './accounts-receivable.component.html'
 })
 export class AccountsReceivableComponent implements OnInit {
   
@@ -15,11 +16,13 @@ export class AccountsReceivableComponent implements OnInit {
     private service: GlobalService, 
     private datepipe: DatePipe,
     public dialogRef: MatDialogRef<AccountsReceivableComponent>,
-    @Inject(MAT_DIALOG_DATA) public title: string,
+    @Inject(MAT_DIALOG_DATA) public id: number,
     private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.initialize();
+    this.getmgrp();
+    this.getpgrp();
+    this.getcities();
   }
 
   dateto = this.datepipe.transform(Date.now(), "yyyy-MM-dd");
@@ -31,32 +34,12 @@ export class AccountsReceivableComponent implements OnInit {
   getpgrp(): void { this.service.get('Reports/?table=pgroup').subscribe(x => this.pgrp = x.map(y => y.col1))}
   getcities(): void { this.service.get('Reports/?table=city').subscribe(x => this.city = x.map(y => y.col1))}
   
-  generate(date: Date, param2: string, param3: string, param4: string){
-    console.log(date, param2, param3, param4)
-    //parms = 1: api path, 2:  .rpt file name, 3:  date, 4: main group, 5: subgroup, 6: city, 7, SP
-    this.service.downloadPDF("mb", "PrtBalRep", date.toString(), param2,param3,param4,"","", "").subscribe((data) => {
+  generate(date: Date, param3: string, param4: string, param5: string){
+    this.service.genReport("mb", "PrtBalRep", date.toString(), "",param3,param4,param5,this.id.toString(), "").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')
     });
     this.dialogRef.close();
   }
-
-  initialize(){
-    if (this.title === "Customer Balance") {
-      this.getmgrp();
-      this.getpgrp();
-      this.getcities();
-    }
-  }
 }
-
-
-//Valiations
-// if(param2.trim()){
-      // const isValid = this.code.some(x => x.code === param2);
-      // if (isValid){
-    // else {
-      // this._snackBar.open('MBFW','Must chose a valid customer');
-    // }
-  // }
