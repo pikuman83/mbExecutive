@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,17 +28,19 @@ import { SplashComponent } from './splash/splash.component';
 import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledger.component';
 import { ProxyInterceptor } from './proxy.interceptor';
 import { AccountsReceivableComponent } from './reports/accounts-receivable/accounts-receivable.component';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
+import { RecoveryComponent } from './reports/recovery/recovery.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { PromptComponentComponent } from './prompt-component/prompt-component.component';
+import { PwaService } from './pwa.service';
 // import { MatDialogModule } from '@angular/material/dialog';
 // import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { MatPaginatorModule } from '@angular/material/paginator';
 // import { MatTableModule } from '@angular/material/table';
 // import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { MatSortModule } from '@angular/material/sort';
-import { MatSelectModule } from '@angular/material/select';
-import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
-import { RecoveryComponent } from './reports/recovery/recovery.component';
-import {MatRadioModule} from '@angular/material/radio';
 // import { MatGridListModule } from '@angular/material/grid-list';
 // import { MatSliderModule } from '@angular/material/slider';
 // import { MatRadioModule } from '@angular/material/radio';
@@ -49,6 +51,8 @@ import {MatRadioModule} from '@angular/material/radio';
 // import { ScrollingModule } from '@angular/cdk/scrolling'; //Mat Scroll control
 // import { MatChipsModule } from '@angular/material/chips';
 
+const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +62,8 @@ import {MatRadioModule} from '@angular/material/radio';
     CustomerLedgerComponent,
     AccountsReceivableComponent,
     MulipleBasicComponent,
-    RecoveryComponent
+    RecoveryComponent,
+    PromptComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatRadioModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     NgHttpLoaderModule.forRoot(),
+    MatSelectModule,
+    MatBottomSheetModule,
     // MatRadioModule,
     // MatExpansionModule,
     // A11yModule,
@@ -93,13 +100,13 @@ import {MatRadioModule} from '@angular/material/radio';
     // MatSliderModule, 
     // MatSortModule,
     // MatProgressSpinnerModule,
-    MatSelectModule,
     // MatDialogModule,
     // MatPaginatorModule,
     // MatTableModule,
     // MatSlideToggleModule,
   ],
   providers: [DatePipe, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+    {provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true},
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     {provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true}  
   ],

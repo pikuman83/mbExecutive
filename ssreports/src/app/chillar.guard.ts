@@ -13,7 +13,7 @@ export class ChillarGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (localStorage.getItem('theepa') != null){
+    if (sessionStorage.getItem('theepa') != null){
       return true;
     }
     else {

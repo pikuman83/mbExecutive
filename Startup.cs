@@ -3,7 +3,6 @@ using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Owin;
 using System;
-using System.IO;
 [assembly: OwinStartup(typeof(mbExecutive.Startup))]
 
 namespace mbExecutive
@@ -13,7 +12,8 @@ namespace mbExecutive
         public void Configuration(IAppBuilder app)
         {
             string root = AppDomain.CurrentDomain.BaseDirectory;
-            var physicalFileSystem = new PhysicalFileSystem(Path.Combine(root, "wwwroot"));
+            //var physicalFileSystem = new PhysicalFileSystem(Path.Combine(root, "wwwroot"));
+            var physicalFileSystem = new PhysicalFileSystem(root);
             var options = new FileServerOptions
             {
                 RequestPath = PathString.Empty,

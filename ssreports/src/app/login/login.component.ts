@@ -2,10 +2,10 @@
 // also uncomment the interceptor import and provider in app.module
 // Process: The login methd makes a post request to the back with username and password oject, back checks and 
 // compare the credentials in the db and send back a token which is in res of the subsrciber of the services's login method.
-// if there is no error we save it in the localstorage else we show the authorization failed
+// if there is no error we save it in the sessionStorage else we show the authorization failed
 // once saved we also change the user variable's value located in service and send the navigate order to the splash screen
 // then chillar take charge to check if that user exists and open the route.
-// next step will be to show the hello user with a funny icon and provide the checkout option which will be localStorage.removeitem('token')
+// next step will be to show the hello user with a funny icon and provide the checkout option which will be sessionStorage.removeitem('token')
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('theepa') != null){
+    if (sessionStorage.getItem('theepa') != null){
       this.router.navigate(['/dashboard'])
     }
   }
@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit {
 
   Submit(form: loginClass) {
     this.service.login(form).subscribe((res: any) => {
-        localStorage.setItem('theepa', res);
-        localStorage.setItem('player', form.username);
+        sessionStorage.setItem('theepa', res);
+        sessionStorage.setItem('player', form.username);
         // this.service.user = form.username;
         this.router.navigate(['/splash']);
         this.service.splashScreen = true; //It hides the toolbar in app.componet.html meanwhile splashscreen

@@ -11,9 +11,9 @@ export class ProxyInterceptor implements HttpInterceptor {
   constructor(private router: Router, private _snackBar: MatSnackBar) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (localStorage.getItem('theepa') != null) {
+    if (sessionStorage.getItem('theepa') != null) {
       const clonedReq = request.clone({
-          headers: request.headers.set('Authorization', 'Bearer ' + localStorage.getItem('theepa'))
+          headers: request.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('theepa'))
       });
       return next.handle(clonedReq).pipe(
           tap(
@@ -21,7 +21,7 @@ export class ProxyInterceptor implements HttpInterceptor {
               err => {
                   if (err.status == 401){
                     this._snackBar.open('You are not authorized to access this page', 'Authentication failed');
-                      localStorage.removeItem('theepa');
+                      sessionStorage.removeItem('theepa');
                       this.router.navigate(['/Login']);
                   }
                   else if(err.status == 403)

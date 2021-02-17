@@ -9,7 +9,7 @@ namespace mbExecutive.Controllers
 {
     public class ReportsController : ApiController
     {
-        //[JwtAuthentication]
+        [JwtAuthentication]
         public async Task<List<Object>> GetData(string table)
         {
             string cs = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString;

@@ -8,6 +8,7 @@ import { AccountsReceivableComponent } from './reports/accounts-receivable/accou
 import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledger.component';
 import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
 import { RecoveryComponent } from './reports/recovery/recovery.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +19,32 @@ export class AppComponent implements OnInit {
 
   title = 'Special Executive Dashboard';
 
-  constructor(public service: GlobalService, private router: Router, @Inject(DOCUMENT) private document: any, public dialog: MatDialog) {}
+  constructor(public service: GlobalService, private router: Router, @Inject(DOCUMENT) private document: any, public dialog: MatDialog) {
+    this.putTimer();
+    this.userInactive.subscribe(() => {
+      this.signOut();
+    })
+  }
 
   ngOnInit(): void {
     this.elem = document.documentElement;
   }
+
+// ___________________________________________ The following section with constructor's methods logout the user if inactive for 30 minutes.
+  idle: NodeJS.Timeout;
+  userInactive: Subject<any> = new Subject();
+
+  putTimer() {
+    this.idle = setTimeout(() => this.userInactive.next(), 1800000);
+  }
+
+  @HostListener('window:keydown')
+  @HostListener('window:mousemove')
+  checkUserActivity() {
+    clearTimeout(this.idle);
+    this.putTimer();
+  }
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   collapsed1:boolean = false;
   collapsed2:boolean = false;
@@ -39,8 +61,8 @@ export class AppComponent implements OnInit {
 
   username: string;
   isLogin(){
-    if (localStorage.getItem('player') != null){
-      this.username = localStorage.getItem('player');
+    if (sessionStorage.getItem('player') != null){
+      this.username = sessionStorage.getItem('player');
       return true
     }
     else {
@@ -49,10 +71,10 @@ export class AppComponent implements OnInit {
   }
 
   signOut(){
-    localStorage.removeItem('player');
-    localStorage.removeItem('theepa');
+    sessionStorage.removeItem('player');
+    sessionStorage.removeItem('theepa');
     this.isLogin();
-    this.username = '';
+    this.username = ''; //hides the menu button when logout
     this.router.navigate(['/Login']);
   }
 
