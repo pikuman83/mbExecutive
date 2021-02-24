@@ -71,11 +71,11 @@
           </button>
             <div id="payroll" class="collapse collapsed">
               <!-- Sub Menu level 1 -->
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
+              <a (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
               <div class="divider"></div>
               <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
+              <a (click)="productLedger('Product Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
               <div class="divider"></div>
               <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
               <div class="divider"></div>
@@ -88,11 +88,7 @@
           </button>
           <!-- Sub Menu level 1 -->
             <div id="tools" class="collapse collapsed">
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Party Wise)</a>
-              <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Product Wise)</a>
-              <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Invoice Wise)</a>
+              <a (click)="periodicSales('Periodic Sale');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Sale Reports</a>
               <div class="divider"></div>
               <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
               <div class="divider"></div>
@@ -111,11 +107,7 @@
           </button>
           <!-- Sub Menu level 1 -->
             <div id="purchaseR" class="collapse collapsed">
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Party Wise)</a>
-              <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Product Wise)</a>
-              <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic (Invoice Wise)</a>
+              <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
               <div class="divider"></div>
               <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
               <div class="divider"></div>
@@ -133,12 +125,32 @@
       </button>
       
       <div class="title">
-        <h2>{{service.title}}</h2>
+        <h2 class="title-small">{{service.title}}</h2>
       </div>
 
       <div>
-        {{this.username? 'Hello ' + this.username: ''}}
-        <i class="fas fa-sign-out-alt cursor" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
+        {{this.username? 'Hello ' + this.username: ''}} 
+        <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
+        <div>
+          <i class="fas fa-home"></i>
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>info</mat-icon>
+              <span>Tools Menu here</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>voicemail</mat-icon>
+              <span>Users</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>notifications_off</mat-icon>
+              <span>Passwords</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
     </mat-toolbar>
 

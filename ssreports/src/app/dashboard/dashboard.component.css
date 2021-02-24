@@ -38,7 +38,13 @@ mat-card-header{
   align-self: center;
   margin-bottom: 18px;
 }
-
+.gauge{
+  overflow: hidden;
+}
+::ng-deep .chart-legend {
+  max-width: 355px;
+  overflow-x: scroll;  
+}
 /* All drawer related classes are configuring scroll bar */
 ::ng-deep ul.legend-labels.horizontal-legend {
   overflow-x: scroll;

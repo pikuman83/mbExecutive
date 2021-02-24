@@ -1,0 +1,100 @@
+<div class="text-center w-100">
+    <div class="w-100 modalTitle">{{title}}</div>
+    <mat-dialog-content>
+        <div class="d-flex w-100 mb-3 justify-content-center">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
+            <mat-radio-button value="All" class="mr-4" [checked]="true">All</mat-radio-button>
+            <mat-radio-button value="1" class="mr-4" [checked]="true">Shoes</mat-radio-button>
+            <mat-radio-button value="0">Material</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput autocomplete="off" type="date" [(ngModel)]="date"/>
+        </mat-form-field>
+        
+        <!-- <mat-form-field appearance="outline">
+            <mat-label>Main Group</mat-label>
+            <mat-select #Iparam4>
+                <mat-option [value]="m" *ngFor="let m of mgrp" >{{ m }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Product Type</mat-label>
+            <mat-select #Iparam5>
+                <mat-option>All</mat-option>
+                <mat-option [value]="s" *ngFor="let s of pgrp" >{{ s }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select #Iparam6>
+                <mat-option>All</mat-option>
+                <mat-option [value]="c" *ngFor="let c of typ" >{{ c }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Size</mat-label>
+            <mat-select #Iparam6>
+                <mat-option>All</mat-option>
+                <mat-option [value]="c" *ngFor="let c of size" >{{ c }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Shoe Type</mat-label>
+            <mat-select #Iparam6>
+                <mat-option>All</mat-option>
+                <mat-option [value]="c" *ngFor="let c of shoestyp" >{{ c }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Article</mat-label>
+            <mat-select #Iparam6>
+                <mat-option>All</mat-option>
+                <mat-option [value]="c" *ngFor="let c of article" >{{ c }}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="outline">
+            <mat-label>Godown</mat-label>
+            <mat-select #Iparam6 value="All">
+                <mat-option value="All">All</mat-option>
+                <mat-option [value]="c" *ngFor="let c of locations" >{{ c }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- <h3>Zero Balance</h3>
+        <div class="d-flex w-100 mb-3 justify-content-center">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
+            <mat-radio-button [value]="2" class="mr-4" [checked]="true">No</mat-radio-button>
+            <mat-radio-button [value]="1" class="mr-4" [checked]="true">Yes</mat-radio-button>
+            <mat-radio-button [value]="0">Negative Only</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <h3>Type</h3>
+        <div class="d-flex w-100 mb-3 justify-content-center">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
+            <mat-radio-button [value]="2" class="mr-4" [checked]="true">All</mat-radio-button>
+            <mat-radio-button [value]="1" class="mr-4" [checked]="true">Minimum</mat-radio-button>
+            <mat-radio-button [value]="0">Maximum</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <h3>Output</h3>
+        <div class="d-flex w-100 mb-1 justify-content-center">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
+            <mat-radio-button [value]="1" class="mr-4" [checked]="true">Detail</mat-radio-button>
+            <mat-radio-button [value]="0">Summary</mat-radio-button>
+            </mat-radio-group>
+        </div>` -->
+        <div class="divider1"></div>
+        <button class="refresh" mat-raised-button (click)="generate(Iparam6.value)"
+        (keydown.enter)="generate(Iparam6.value)">Generate</button>
+        <button class="refresh ml-3 mb-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
+    </mat-dialog-content>
+</div>

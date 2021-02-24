@@ -33,8 +33,18 @@ namespace SsReports.Controllers
             if (id == "Dllog") { reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1)); }
 
             //Periodic Expense Report
-            if (id == "ExpRpt") 
+            if (id == "PurRepInvWise" || id == "PurRepInvWiseSumm" || id == "PurRepPartyWise" || id == "PurRepPartyWiseSumm" || id == "PurRepPrdWise" || id == "PurRepPrdWiseSumm" || id == "SaleRepInvWise" || id == "SaleRepInvWiseSumm" || id == "SaleRepPartyWise" || id == "SaleRepPartyWiseSumm" || id == "SaleRepPrdWise" || id == "SaleRepPrdWiseSumm") 
             { 
+                reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                reportDocument.SetParameterValue("@vcode", param3);
+                reportDocument.SetParameterValue("@mgrp", param4);
+                reportDocument.SetParameterValue("@sgrp", param5);
+                reportDocument.SetParameterValue("@gdcode", param6);
+            }
+            //Periodic Sale | Periodic Purchase
+            if (id == "ExpRpt")
+            {
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
             }
@@ -48,7 +58,15 @@ namespace SsReports.Controllers
                     reportDocument.RecordSelectionFormula = _sF.myFormula(param3, param4, param5);
                 };
             }
-            
+
+            // Stock Balance
+            if (id == "PrdBal")
+            {
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@Godown", param2);
+                reportDocument.SetParameterValue("@PTYP", param3);
+            }
+
             // ACCOUNT/CUSTOMER/SUPPLIER LEDGERS
             if (id == "Lgrrep" || id == "CustLgr" || id == "SuppLgr" || id == "Cash")
             {
@@ -58,17 +76,32 @@ namespace SsReports.Controllers
                 if (id == "CustLgr" || id == "SuppLgr") { reportDocument.SetParameterValue("Pm-LGRREP.ACode", param3); }
             }
 
-            //RECOVERY(R)/R BY PARTY/PAYMENT REPORTS
+            //PAYMENT REPORT
             if (id == "PaymentReport" || id == "RecoveryReport" || id == "RecoveryReportParty")
-                {
+            {
                 reportDocument.SetParameterValue("@fdate", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@edate", DateTime.Parse(param2));
-                if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
+                if (id == "RecoveryReport" || id == "RecoveryReportParty")
+                {
+                    reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                    reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                }
+                    if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
                 {
                     reportDocument.RecordSelectionFormula = _sF1.myFormula(param3, param4, param5);
                 }
             }
-            
+
+            // PRODUCT LEDGER (Stock)
+            if (id == "StkLgr")
+            {
+                reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                reportDocument.SetParameterValue("@pcode", param3);
+                reportDocument.SetParameterValue("@gcode", param4);
+
+            }
+
 
             Stream s = reportDocument.ExportToStream(ExportFormatType.PortableDocFormat);
             s.Seek(0, SeekOrigin.Begin);

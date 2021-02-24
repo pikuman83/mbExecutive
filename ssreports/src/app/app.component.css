@@ -194,3 +194,9 @@ button:focus{
 .cursor{
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .title-small {
+    font-size:small;
+  }
+}

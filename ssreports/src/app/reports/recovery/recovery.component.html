@@ -14,10 +14,10 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Party</mat-label>
-      <input matInput #Iparam3 autocomplete="off" tabIndex="3"
-      placeholder="Search by code or name" list="accounts"/>
+      <input matInput #Iparam3 autocomplete="off" tabIndex="3" placeholder="Search by code or name" list="accounts"/>
       <datalist id="accounts">
-      <option *ngFor="let p of party" [value]="p.col1">{{ p.col2 }} - {{ p.col3? p.col3: '' }}</option>
+        <option value="All">All</option>
+        <option *ngFor="let p of party" [value]="p.col1">{{ p.col2 }} - {{ p.col3? p.col3: '' }}</option>
       </datalist>
     </mat-form-field>
 
@@ -29,22 +29,22 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" hidden>
+    <!-- <mat-form-field appearance="outline">
       <mat-label>City</mat-label>
       <mat-select value="" #Iparam5>
         <mat-option [value]="c" *ngFor="let c of city" >{{ c }}</mat-option>
         <mat-option value="">Select All</mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <div class="d-flex w-100 mb-3 justify-content-center">
-      <mat-radio-group aria-label="Select an option" [(ngModel)]="fileName" [hidden]="hide">
+      <mat-radio-group aria-label="Select an option" [(ngModel)]="fileName" [hidden]="this.id[0]==='RecoveryReport'?false:true">
         <mat-radio-button value="RecoveryReport" class="mr-4" checked>Date-wise</mat-radio-button>
         <mat-radio-button value="RecoveryReportParty">Customer-wise </mat-radio-button>
       </mat-radio-group>
     </div>
 
-    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4.value, Iparam5.value)"
-      (keydown.enter)="generate(Iparam3.value, Iparam4.value, Iparam5.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4.value)"
+      (keydown.enter)="generate(Iparam3.value, Iparam4.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
   </div>

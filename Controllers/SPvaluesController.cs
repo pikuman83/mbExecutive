@@ -28,7 +28,7 @@ namespace mbExecutive.Controllers
                     }
                     await sql.OpenAsync();
                     var value = await cmd.ExecuteScalarAsync();
-                    return (Double)value;
+                    return value == DBNull.Value ? 0 : (Double)value;
                 }
             }
         }

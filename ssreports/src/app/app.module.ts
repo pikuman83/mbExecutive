@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,25 +31,15 @@ import { AccountsReceivableComponent } from './reports/accounts-receivable/accou
 import { MatSelectModule } from '@angular/material/select';
 import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
 import { RecoveryComponent } from './reports/recovery/recovery.component';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatRadioModule} from '@angular/material/radio';
+import { MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { PromptComponentComponent } from './prompt-component/prompt-component.component';
 import { PwaService } from './pwa.service';
-// import { MatDialogModule } from '@angular/material/dialog';
-// import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-// import { MatPaginatorModule } from '@angular/material/paginator';
-// import { MatTableModule } from '@angular/material/table';
-// import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-// import { MatSortModule } from '@angular/material/sort';
-// import { MatGridListModule } from '@angular/material/grid-list';
-// import { MatSliderModule } from '@angular/material/slider';
-// import { MatRadioModule } from '@angular/material/radio';
-// import { MatExpansionModule } from '@angular/material/expansion';
-// import { MatDividerModule } from '@angular/material/divider';
-// import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { A11yModule } from '@angular/cdk/a11y'; //Mat dialogue focus trap
-// import { ScrollingModule } from '@angular/cdk/scrolling'; //Mat Scroll control
-// import { MatChipsModule } from '@angular/material/chips';
+import { PeriodicSalesComponent } from './reports/periodic-sales/periodic-sales.component';
+import { StockBalanceComponent } from './reports/stock-balance/stock-balance.component';
+import { ProductLedgerComponent } from './reports/product-ledger/product-ledger.component';
+import {MatDialogModule } from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
@@ -63,7 +53,10 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
     AccountsReceivableComponent,
     MulipleBasicComponent,
     RecoveryComponent,
-    PromptComponentComponent
+    PromptComponentComponent,
+    PeriodicSalesComponent,
+    StockBalanceComponent,
+    ProductLedgerComponent
   ],
   imports: [
     BrowserModule,
@@ -89,26 +82,18 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
     NgHttpLoaderModule.forRoot(),
     MatSelectModule,
     MatBottomSheetModule,
-    // MatRadioModule,
-    // MatExpansionModule,
-    // A11yModule,
-    // ScrollingModule,
-    // MatDividerModule,
-    // MatAutocompleteModule,
-    // MatChipsModule,
-    // MatGridListModule,
-    // MatSliderModule, 
-    // MatSortModule,
-    // MatProgressSpinnerModule,
-    // MatDialogModule,
-    // MatPaginatorModule,
-    // MatTableModule,
-    // MatSlideToggleModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
-  providers: [DatePipe, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
-    {provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true},
+  entryComponents: [
+    StockBalanceComponent
+  ],
+  providers: [DatePipe, 
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+    { provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true},
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-    {provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true}  
+    { provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true}  
   ],
   bootstrap: [AppComponent]
 })

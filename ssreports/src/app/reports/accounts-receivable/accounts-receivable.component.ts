@@ -37,8 +37,42 @@ export class AccountsReceivableComponent implements OnInit {
   generate(date: Date, param3: string, param4: string, param5: string){
     this.service.genReport("mb", "PrtBalRep", date.toString(), "",param3,param4,param5,this.id.toString(), "").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
-      var downloadURL = window.URL.createObjectURL(blob);
+      const downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')
+        
+        // const a = document.createElement('a');
+        // a.href = downloadURL;
+        // a.download = 'download';
+        // a.addEventListener('click', ()=> URL.revokeObjectURL(downloadURL), false);
+        // a.click();
+        // return a;
+
+
+              // let a = document.createElement('a');
+              // a.href = downloadURL;
+              // a.download = fileName;
+              // a.target = '_blank';
+              // document.body.appendChild(a);
+              // a.click();
+              // document.body.removeChild(a);
+
+
+    //   if (window.navigator.msSaveOrOpenBlob) {
+    //     window.navigator.msSaveOrOpenBlob(blob, "_blank");
+    // }
+    // else if (window.navigator.userAgent.match('CriOS')) {
+    //     var reader = new FileReader();
+    //     reader.onloadend = function () { window.open(url1.createObjectURL(blob), '_blank')};
+    //     reader.readAsDataURL(blob);
+    // }
+    // else if (window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i)) {
+    //     var url = window.URL.createObjectURL(blob);
+    //     window.location.href = url;
+    // }
+    // else {
+    //     var url1 = window.URL || window.webkitURL;
+    //     window.open(url1.createObjectURL(blob), '_blank');
+    // }
     });
     this.dialogRef.close();
   }

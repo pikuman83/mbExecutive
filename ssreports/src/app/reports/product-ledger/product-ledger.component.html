@@ -1,0 +1,35 @@
+<div class="text-center w-100">
+    <div class="w-100 modalTitle">{{title}}</div>
+  
+    <mat-form-field appearance="outline">
+        <mat-label>Enter a date range</mat-label>   
+        <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" [(ngModel)]="datefrom">
+        <input matEndDate placeholder="End date" [(ngModel)]="dateto">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Products</mat-label>
+        <input matInput autocomplete="off" placeholder="Search by code or name" list="accounts" #Iparam3/>
+        <datalist id="accounts">
+            <option value="All">All</option>
+            <option *ngFor="let p of products" [value]="p.col1">{{ p.col2 }}</option>
+        </datalist>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Godown</mat-label>
+        <mat-select value="All" #Iparam6>
+            <mat-option value="All">All</mat-option>
+            <mat-option [value]="c" *ngFor="let c of locations" >{{ c }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam6.value)"
+    (keydown.enter)="generate(Iparam3.value, Iparam6.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
+</div>

@@ -10,7 +10,7 @@ namespace mbExecutive.Auth
             string cs = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString;
             using (SqlConnection sql = new SqlConnection(cs))
             {
-                string query = "Select * from Login";
+                string query = "Select * from Loginweb";
                 using (SqlCommand cmd = new SqlCommand(query, sql))
                 {
                     bool response = false;

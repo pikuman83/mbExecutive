@@ -8,11 +8,9 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class GlobalService {
-  constructor(private http: HttpClient, private datepipe: DatePipe) {}
+export class GlobalService {constructor(private http: HttpClient, private datepipe: DatePipe) {}
 
   public title: string;
-  // public user: string;
   public splashScreen: boolean = false;
   baseUrl = environment.apiUrl;
   
@@ -30,46 +28,32 @@ export class GlobalService {
     }),
   };
 
-  dateto = this.datepipe.transform(new Date, "yyyy,MM,dd");
-  date1 = new Date(this.dateto);
-  date2 = this.date1.setDate(this.date1.getDate() - 30);
-  datefrom = this.datepipe.transform(this.date2, "yyyy,MM,dd");
-
-  login(user: any) {
-    return this.http.post(this.baseUrl + '/RequestToken', user);
-  }
+  login(user: any) {return this.http.post(this.baseUrl + '/RequestToken', user);}
 
   genReport(path: string, id:string, datefrom: string, dateto: string, param3: string, param4: string, param5:string, param6: string, param7: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${path}/?id=${id}&param1=${datefrom}&param2=${dateto}&param3=${param3.toUpperCase()}&param4=${param4.toUpperCase()}&param5=${param5.toUpperCase()}&param6=${param6.toUpperCase()}&param7=${param7.toUpperCase()}`, this.httpOptions1)
-  }
-  get(path: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${path}`, this.httpOptions)
-  }
-  getcash(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cash&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
-  }
-  getbbalance(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=bbalance&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
-  }
-  getreceivable(): Observable<any>{
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=receivable&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
-  }
-  getpayable(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=payable&datefrom=&dateto=${this.dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
-  }
-  getSaleAmount(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=saleamount&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(amount => {
+    return this.http.get<any>(`${this.baseUrl}/${path}/?id=${id}&param1=${datefrom}&param2=${dateto}&param3=${param3.toUpperCase()}&param4=${param4.toUpperCase()}&param5=${param5.toUpperCase()}&param6=${param6.toUpperCase()}&param7=${param7.toUpperCase()}`, this.httpOptions1)}
+  get(path: any): Observable<any> {return this.http.get<any>(`${this.baseUrl}/${path}`, this.httpOptions)}
+  getcash(dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cash&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+  getbbalance(dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=bbalance&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+  getreceivable(dateto: any): Observable<any>{
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=receivable&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+  getpayable(dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=payable&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+  getSaleAmount(datefrom: any, dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=saleamount&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(amount => {
       return Math.round(amount);
     }))
   }
-  getSaleRecovery(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=salerecovery&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(recovery => {
+  getSaleRecovery(datefrom: any, dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=salerecovery&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(recovery => {
       return Math.round(recovery);
     }))
   }
-  getTOP10(): Observable<any> {
+  getTOP10(datefrom: any, dateto: any): Observable<any> {
     const top10 = [];
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=SLTOP10&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=SLTOP10&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;
@@ -79,9 +63,9 @@ export class GlobalService {
       return top10;
     }));
   }
-  getSOTOP10(): Observable<any> {
+  getSOTOP10(datefrom: any, dateto: any): Observable<any> {
     const top10 = [];
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=SOTOP10&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=SOTOP10&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;
@@ -91,12 +75,12 @@ export class GlobalService {
       return top10;
     }));
   }
-  getsales(): Observable<any> {
+  getsales(datefrom: any, dateto: any): Observable<any> {
     const sales = {
       "name": "Sales",
       "series": []
     }
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=sales&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=sales&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname.slice(0, 8);
@@ -106,12 +90,12 @@ export class GlobalService {
       return sales;
     }));
   }
-  getsaleorder(): Observable<any> {
+  getsaleorder(datefrom: any, dateto: any): Observable<any> {
     const orders = {
       "name": "Orders",
       "series": []
     }
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=saleorder&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=saleorder&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname.slice(0, 8);
@@ -121,12 +105,12 @@ export class GlobalService {
       return orders;
     }));
   }
-  getproduction(): Observable<any> {
+  getproduction(datefrom: any, dateto: any): Observable<any> {
     const production = {
       "name": "Productions",
       "series": []
     }
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=production&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=production&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname.slice(0, 8);
@@ -136,9 +120,9 @@ export class GlobalService {
       return production;
     }));
   }
-  getexpenses(): Observable<any> {
+  getexpenses(datefrom: any, dateto: any): Observable<any> {
     const expenses: any[] = [];
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=expenses&datefrom=${this.datefrom}&dateto=${this.dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=expenses&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;
@@ -149,13 +133,3 @@ export class GlobalService {
     }));
   }
 }
-// *** keeping this data in case theres any issue with dates, move to this plan, change the params of the get functions with the following methods.
-  // dateto = new Date();
-  // datefrom = new Date(this.dateto);
-  // transformDateFrom(){
-  //   this.datefrom.setDate(this.datefrom.getDate() - 30);
-  //   return this.datepipe.transform(this.datefrom, "yyyy,MM,dd");
-  // }
-  // transformDateto(){
-  //   return this.datepipe.transform(this.dateto, "yyyy,MM,dd");
-  // }

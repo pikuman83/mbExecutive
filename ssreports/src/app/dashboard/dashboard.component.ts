@@ -70,33 +70,29 @@ export class DashboardComponent implements OnInit {
   }
   refreshData(){
     this.max = 1000;
-    this.service.datefrom = this.datefrom.toDateString();
-    this.service.dateto = this.dateto.toDateString();
-    this.service.getcash().subscribe(x => this.cash = x);
-    this.service.getbbalance().subscribe(x => this.bbalance = x);
-    this.service.getreceivable().subscribe(x => this.receivable = x);
-    this.service.getpayable().subscribe(x => this.payable = x);
-    this.service.getTOP10().subscribe(x => this.top10 = x);
-    this.service.getexpenses().subscribe(x => this.expenses = x);
-    this.service.getSOTOP10().subscribe(x => this.top10SO = x);
-    this.service.getSaleAmount().subscribe(sale => {
-      this.service.getSaleRecovery().subscribe(recovery => {
+    this.service.getcash(this.dateto.toDateString()).subscribe(x => this.cash = x);
+    this.service.getbbalance(this.dateto.toDateString()).subscribe(x => this.bbalance = x);
+    this.service.getreceivable(this.dateto.toDateString()).subscribe(x => this.receivable = x);
+    this.service.getpayable(this.dateto.toDateString()).subscribe(x => this.payable = x);
+    this.service.getTOP10(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.top10 = x);
+    this.service.getexpenses(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.expenses = x);
+    this.service.getSOTOP10(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.top10SO = x);
+    this.service.getSaleAmount(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sale => {
+      this.service.getSaleRecovery(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(recovery => {
         this.saleVsRecovery([sale, recovery])
       })
     });
-    this.service.getsaleorder().subscribe(orders => {
-      this.service.getsales().subscribe(sales => {
-        this.service.getproduction().subscribe(production =>{
+    this.service.getsaleorder(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(orders => {
+      this.service.getsales(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sales => {
+        this.service.getproduction(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(production =>{
           this.oVsSVsp = [orders, sales, production]
         })
       })
     });
   }
 
-  responsiveCharts(){
-    if(window.innerWidth<=600){this.view = [300, 200]; this.viewG =[600, 350];}
-    // else if(window.innerWidth>600 && window.innerWidth <900){this.view = [420, 250]}
-  }
+  responsiveCharts(){if(window.innerWidth<=600){this.view = [300, 200]; this.viewG =[600, 350];}
+}
   @HostListener('window:resize', ['$event'])
   responsivCharts1(event: { target: { innerWidth: number; }; }){
     if(event.target.innerWidth<=600){

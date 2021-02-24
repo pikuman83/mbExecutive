@@ -10,16 +10,16 @@ namespace mbExecutive.Controllers
     public class SPController : ApiController
     {
         [JwtAuthentication]
-        public async Task<List<myClass>> GetSLSTOP1_Result1(string sp, DateTime datefrom, DateTime dateto)
+        public async Task<List<myClass>> GetSLSTOP1_Result1(string sp, string datefrom, string dateto)
         {
             string cs  = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString; 
             using (SqlConnection sql = new SqlConnection(cs))
             {
                 using (SqlCommand cmd = new SqlCommand(sp, sql))
                 {
+                    if (datefrom != "null" || datefrom != null) cmd.Parameters.Add(new SqlParameter("@datefrom", DateTime.Parse(datefrom)));
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@datefrom", datefrom));
-                    cmd.Parameters.Add(new SqlParameter("@dateto", dateto));
+                    cmd.Parameters.Add(new SqlParameter("@dateto", DateTime.Parse(dateto)));
                     var response = new List<myClass>();
                     await sql.OpenAsync();
 

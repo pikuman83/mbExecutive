@@ -9,6 +9,9 @@ import { CustomerLedgerComponent } from './reports/customer-ledger/customer-ledg
 import { MulipleBasicComponent } from './reports/muliple-basic/muliple-basic.component';
 import { RecoveryComponent } from './reports/recovery/recovery.component';
 import { Subject } from 'rxjs';
+import { PeriodicSalesComponent } from './reports/periodic-sales/periodic-sales.component';
+import { ProductLedgerComponent } from './reports/product-ledger/product-ledger.component';
+import { StockBalanceComponent } from './reports/stock-balance/stock-balance.component';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
 // ___________________________________________ The following section with constructor's methods logout the user if inactive for 30 minutes.
-  idle: NodeJS.Timeout;
+  idle: any;
   userInactive: Subject<any> = new Subject();
 
   putTimer() {
@@ -55,7 +58,7 @@ export class AppComponent implements OnInit {
 
   spinnerStyle = Spinkit;
   elem: any; 
-  isFullScreen: boolean;
+  // isFullScreen: boolean;
 
   testReport(){}
 
@@ -82,6 +85,9 @@ export class AppComponent implements OnInit {
   ledger(title: string, id: string){const dialogRef = this.dialog.open(CustomerLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:[title, id]})};
   mBasic(id: string, title: string){const dialogRef = this.dialog.open(MulipleBasicComponent,{width: '450px', disableClose:true, autoFocus:true, data:[id, title]})};
   recovery(id: string, title: string, data: string){const dialogRef = this.dialog.open(RecoveryComponent,{width: '450px', disableClose:true, autoFocus:true, data:[id, title, data]})}
+  periodicSales(title: string){const dialogRef = this.dialog.open(PeriodicSalesComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
+  productLedger(title: string){const dialogRef = this.dialog.open(ProductLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
+  stockBalance(title: string){const dialogRef = this.dialog.open(StockBalanceComponent,{width: '450px', maxWidth:600, disableClose:true, autoFocus:true, data:title, panelClass: 'custom-dialog-container'})}
   
 }
 
