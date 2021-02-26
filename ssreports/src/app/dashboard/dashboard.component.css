@@ -17,6 +17,14 @@ mat-card{
   border-left: solid 8px #A10A28;
   padding-left: 10px;
 }
+.prod{
+  border-left: solid 8px #9c767d;
+  padding-left: 10px;
+}
+.dispatch{
+  border-left: solid 8px #5ab3b3;
+  padding-left: 10px;
+}
 .mb-container{
   max-width: 1240px;
   margin: 0 auto;
@@ -45,17 +53,26 @@ mat-card-header{
   max-width: 355px;
   overflow-x: scroll;  
 }
+.legend-wrap *{
+  overflow: visible !important;
+}
+
+::ng-deep .legend-label-text .legend-labels *{
+  overflow: visible !important;
+}
 /* All drawer related classes are configuring scroll bar */
-::ng-deep ul.legend-labels.horizontal-legend {
-  overflow-x: scroll;
+::ng-deep ul.legend-labels.horizontal-legend *{
+  /* overflow-x: scroll; */
   scrollbar-width: none !important;
   display: inline-flex;
+  overflow: visible !important;
 }
-::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar {
-  width: 2px !important;
+::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar * {
+  /* width: 1px !important; */
   scrollbar-width: none !important;
 }
-::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar-track {
+::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar-track *{
   visibility: none;
+  overflow: visible !important;
   scrollbar-width: none !important;  
 }

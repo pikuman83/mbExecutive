@@ -30,7 +30,8 @@ namespace mbExecutive.Controllers
                     {
                         while (await reader.ReadAsync())
                         {
-                            if (table == "mgrp" || table == "location") response.Add(new objectModel { col1 = reader["gname"].ToString()});
+                            if (table == "location") response.Add(new objectModel { col1 = reader["gname"].ToString(), col2 = reader["gcode"].ToString()});
+                            if (table == "mgrp" || table == "grp") response.Add(new objectModel { col1 = reader["gname"].ToString()});
                             if (table == "pgroup") response.Add(new objectModel { col1 = reader["pgname"].ToString()});
                             if (table == "city") response.Add(new objectModel { col1 = reader["cname"].ToString()});
                             if (table == "account"||table == "Cash") response.Add(new objectModel { col1 = reader["acode"].ToString(), col2 = reader["aname"].ToString()});

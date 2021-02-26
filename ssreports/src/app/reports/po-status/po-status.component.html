@@ -1,0 +1,31 @@
+<div class="text-center w-100">
+    <div class="w-100 modalTitle">Sale Order Status</div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" tabIndex="1" [(ngModel)]="datefrom">
+        <input matEndDate placeholder="End date"tabIndex="2" [(ngModel)]="dateto">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Customer</mat-label>
+        <input #Iparam3 placeholder="Leave blank to Select All" matInput [formControl]="accInput" [matAutocomplete]="auto" >
+        <mat-hint *ngIf="aname">{{aname}}</mat-hint>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <div class="mt-2 mb-4">
+        <mat-slide-toggle #Iparam4 checked>Zero Balance</mat-slide-toggle>
+    </div>
+
+    <button class="refresh ml-3" mat-raised-button (click)="generate(datefrom, dateto, Iparam3.value, Iparam4)"
+    (keydown.enter)="generate(datefrom, dateto, Iparam3.value, Iparam4)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
+</div>

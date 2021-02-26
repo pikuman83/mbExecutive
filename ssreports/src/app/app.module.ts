@@ -40,6 +40,12 @@ import { StockBalanceComponent } from './reports/stock-balance/stock-balance.com
 import { ProductLedgerComponent } from './reports/product-ledger/product-ledger.component';
 import {MatDialogModule } from '@angular/material/dialog';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { PasswordComponent } from './login/password/password.component';
+import { SaleVsRecoveryComponent } from './reports/sale-vs-recovery/sale-vs-recovery.component';
+import { SaleVsProductionComponent } from './reports/sale-vs-production/sale-vs-production.component';
+import { FastSalesSummaryComponent } from './reports/fast-sales-summary/fast-sales-summary.component';
+import { PoStatusComponent } from './reports/po-status/po-status.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
@@ -56,7 +62,12 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
     PromptComponentComponent,
     PeriodicSalesComponent,
     StockBalanceComponent,
-    ProductLedgerComponent
+    ProductLedgerComponent,
+    PasswordComponent,
+    SaleVsRecoveryComponent,
+    SaleVsProductionComponent,
+    FastSalesSummaryComponent,
+    PoStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +95,8 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
     MatBottomSheetModule,
     MatDialogModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSlideToggleModule
   ],
   entryComponents: [
     StockBalanceComponent

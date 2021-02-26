@@ -22,34 +22,42 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Party</mat-label>
+        <input type="text" #Iparam3 placeholder="Leave blank to Select All" matInput [formControl]="accInput" [matAutocomplete]="auto" >
+        <mat-hint *ngIf="aname&&Iparam3.value">{{aname}}</mat-hint>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline">
+        <mat-label>Party</mat-label>
         <input matInput autocomplete="off" placeholder="Search by code or name" list="accounts" #Iparam3/>
         <datalist id="accounts">
-        <option value="All" selected>All</option>
+        <option value="All">All</option>
         <option *ngFor="let p of party" [value]="p.col1">{{ p.col2 }} - {{ p.col3? p.col3: '' }}</option>
         </datalist>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <mat-form-field appearance="outline">
         <mat-label>Main Group</mat-label>
         <mat-select value="All" #Iparam4>
             <mat-option [value]="m" *ngFor="let m of mgrp" >{{ m }}</mat-option>
-            <mat-option value="All">All</mat-option>
         </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Product Type</mat-label>
         <mat-select value="All" #Iparam5>
-            <mat-option [value]="s" *ngFor="let s of pgrp" >{{ s }}</mat-option>
             <mat-option value="All">All</mat-option>
+            <mat-option [value]="s" *ngFor="let s of pgrp" >{{ s }}</mat-option>
         </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Godown</mat-label>
-        <mat-select value="All" #Iparam6>
-            <mat-option [value]="c" *ngFor="let c of locations" >{{ c }}</mat-option>
+        <mat-select #Iparam6>
             <mat-option value="All">All</mat-option>
+            <mat-option [value]="c" *ngFor="let c of locations" >{{ c.col1 }}</mat-option>
         </mat-select>
     </mat-form-field>
 
@@ -62,7 +70,7 @@
     </mat-radio-group>
     </div>
 
-    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value)"
-    (keydown.enter)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value, datefrom, dateto)"
+    (keydown.enter)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value, datefrom, dateto)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

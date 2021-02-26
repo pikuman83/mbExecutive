@@ -3,7 +3,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -24,21 +24,13 @@ export class CustomerLedgerComponent implements OnInit {
     private _snackBar: MatSnackBar) {}
 
     ngOnInit(): void {
-      this.transformDateFrom();
-      this.transformDateto();
       this.getAccounts();
     }
   
     filteredOptions: Observable<string[]>;
-    dateto = new Date();
-    datefrom = new Date(this.dateto);
     accInput = new FormControl();
-
-    transformDateFrom(){
-      this.datefrom.setDate(this.datefrom.getDate() - 30);
-      return this.datepipe.transform(this.datefrom, "yyyy-MM-dd");
-    }
-    transformDateto(){return this.datepipe.transform(this.dateto, "yyyy-MM-dd");}
+    dateto = this.datepipe.transform(Date.now(), 'yyyy-MM-dd');
+    datefrom = this.datepipe.transform(`${new Date().getFullYear()}-${new Date().getMonth()+1}-01`, 'yyyy-MM-dd')
   
     code: any[];
     getAccounts(): void {
@@ -62,14 +54,14 @@ export class CustomerLedgerComponent implements OnInit {
         return value.col1;
       }
     }
-    b='';
+    aname='';
     showName(e: MatAutocompleteSelectedEvent){
-      this.b = e.option.value.col2;
+      this.aname = e.option.value.col2;
     }
-    generate(datefrom: string, dateto: string, Icode: string){
+    generate(datefrom: any, dateto: any, Icode: string){
       const isValid = this.code.some(x => x.col1 === Icode);
       if (isValid){
-        this.service.genReport("mb", this.title[1], datefrom, dateto, Icode, "" ,"","","").subscribe((data) => {
+        this.service.genReport("mb", this.title[1], datefrom.toDateString(), dateto.toDateString(), Icode, "" ,"","","").subscribe((data) => {
           const blob = new Blob([data], {type: 'application/pdf'});
           const downloadURL = window.URL.createObjectURL(blob);
           window.open(downloadURL, '_blank')
@@ -81,3 +73,16 @@ export class CustomerLedgerComponent implements OnInit {
       }
     }
   }
+
+
+
+
+  // this.transformDateFrom();
+    // this.transformDateto();
+    // dateto = new Date();
+    // datefrom = new Date(this.dateto);
+    // transformDateFrom(){
+    //   this.datefrom.setDate(this.datefrom.getDate() - 30);
+    //   return this.datepipe.transform(this.datefrom, "yyyy-MM-dd");
+    // }
+    // transformDateto(){return this.datepipe.transform(this.dateto, "yyyy-MM-dd");}

@@ -1,7 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
@@ -14,14 +13,14 @@ export class MulipleBasicComponent implements OnInit {
     private service: GlobalService, 
     private datepipe: DatePipe,
     public dialogRef: MatDialogRef<MulipleBasicComponent>,
-    @Inject(MAT_DIALOG_DATA) public id: string[],
-    private _snackBar: MatSnackBar) {}
+    @Inject(MAT_DIALOG_DATA) public id: string[]) {}
 
   ngOnInit(): void {
     this.transformDateFrom();
     this.transformDateto();
     if(this.id[0] === "Dllog") this.hideDateRange = true;
     if(this.id[0] === "ExpRpt") this.hideDate = true;
+    if(this.id[0] === "zakat") this.hideDate = true;
   }
 
   hideDate: boolean;
@@ -47,7 +46,7 @@ export class MulipleBasicComponent implements OnInit {
       });
       this.dialogRef.close();
     }
-    if (this.id[0] === "ExpRpt"){
+    if (this.id[0] === "ExpRpt" || this.id[0] === "zakat"){
       this.service.genReport("mb", this.id[0], this.datefrom.toDateString(), this.dateto.toDateString(),"","","","", "").subscribe((data) => {
         const blob = new Blob([data], {type: 'application/pdf'});
         var downloadURL = window.URL.createObjectURL(blob);

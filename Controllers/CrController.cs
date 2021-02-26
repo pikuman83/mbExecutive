@@ -33,7 +33,7 @@ namespace SsReports.Controllers
             if (id == "Dllog") { reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1)); }
 
             //Periodic Expense Report
-            if (id == "PurRepInvWise" || id == "PurRepInvWiseSumm" || id == "PurRepPartyWise" || id == "PurRepPartyWiseSumm" || id == "PurRepPrdWise" || id == "PurRepPrdWiseSumm" || id == "SaleRepInvWise" || id == "SaleRepInvWiseSumm" || id == "SaleRepPartyWise" || id == "SaleRepPartyWiseSumm" || id == "SaleRepPrdWise" || id == "SaleRepPrdWiseSumm") 
+            if (id == "PurRepInvWise" || id == "PurRepInvWiseSumm" || id == "PurRepPartyWise" || id == "PurRepPartyWiseSumm" || id == "PurRepPrdWise" || id == "PurRepPrdWiseSumm" || id == "SaleRepInvWise" || id == "SaleRepInvWiseSumm" || id == "SaleRepPartyWise" || id == "SaleRepPartyWiseSumm" || id == "SaleRepPrdWise" || id == "SaleRepPrdWiseSumm" || id == "GRNRepPrdWiseSumm" || id == "GRNRepPrdWise" || id == "GRNRepPartyWiseSumm" || id == "GRNRepPartyWise" || id == "GRNRepInvWiseSumm" || id == "GRNRepInvWise") 
             { 
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
@@ -42,8 +42,8 @@ namespace SsReports.Controllers
                 reportDocument.SetParameterValue("@sgrp", param5);
                 reportDocument.SetParameterValue("@gdcode", param6);
             }
-            //Periodic Sale | Periodic Purchase
-            if (id == "ExpRpt")
+            //Periodic Sale | Periodic Purchase | Zakat
+            if (id == "ExpRpt" || id == "zakat")
             {
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
@@ -59,8 +59,8 @@ namespace SsReports.Controllers
                 };
             }
 
-            // Stock Balance
-            if (id == "PrdBal")
+            // Stock Balance/Stock Amount
+            if (id == "PrdBal" || id == "STKAmnt")
             {
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@Godown", param2);
@@ -99,9 +99,36 @@ namespace SsReports.Controllers
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
                 reportDocument.SetParameterValue("@pcode", param3);
                 reportDocument.SetParameterValue("@gcode", param4);
-
             }
 
+            //Sale Vs Production / Sale Vs Recovery
+            if (id == "SALVSPRDTN" || id == "SALVSREC")
+            {
+                reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                reportDocument.SetParameterValue("@pgrp", param3);
+                if (id == "SALVSREC")
+                {
+                    reportDocument.SetParameterValue("@City", param4);
+                }
+            }
+
+            // Fast Sale Summary
+            if (id == "FastSaleSumm")
+            {
+                reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                reportDocument.SetParameterValue("@Tp", param3);
+            }
+
+            // Sale Order Status
+            if (id == "SORptNew")
+            {
+                reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                reportDocument.SetParameterValue("@vcode", param3);
+                reportDocument.SetParameterValue("@zbal", param4);
+            }
 
             Stream s = reportDocument.ExportToStream(ExportFormatType.PortableDocFormat);
             s.Seek(0, SeekOrigin.Begin);

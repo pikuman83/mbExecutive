@@ -30,10 +30,11 @@ export class ProductLedgerComponent implements OnInit {
   transformDateFrom(){this.datefrom.setDate(this.datefrom.getDate() - 30);
     return this.datepipe.transform(this.datefrom, "yyyy-MM-dd");}
   transformDateto(){return this.datepipe.transform(this.dateto, "yyyy-MM-dd");}
-  getProducts(): void { this.service.get('Reports/?table=product').subscribe(x => {console.log(x);this.products = x})}
-  getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x.map(y => y.col1))}
+  getProducts(): void { this.service.get('Reports/?table=product').subscribe(x => this.products = x)};
+  getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x)};
   
-  generate(product: string, godown: string){
+  generate(product: string, godown: any){
+    godown = godown&&godown!=='All'?godown.col2:'All';
     if(product.trim() === '') product = 'All'
     this.service.genReport("mb", 'StkLgr', this.datefrom.toDateString(), this.dateto.toDateString(),product,godown,'','', '').subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});

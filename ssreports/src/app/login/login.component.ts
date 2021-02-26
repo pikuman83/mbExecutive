@@ -44,10 +44,9 @@ export class LoginComponent implements OnInit {
     this.service.login(form).subscribe((res: any) => {
         sessionStorage.setItem('theepa', res);
         sessionStorage.setItem('player', form.username);
-        // this.service.user = form.username;
         this.router.navigate(['/splash']);
         this.service.splashScreen = true; //It hides the toolbar in app.componet.html meanwhile splashscreen
-        // document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen();
       },
       err => {
         this._snackBar.open('Incorrect username or password.', 'Authentication failed.');
@@ -55,4 +54,3 @@ export class LoginComponent implements OnInit {
     );
   }
 }
-

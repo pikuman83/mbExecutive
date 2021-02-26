@@ -35,6 +35,17 @@
           {{bbalance<0? '(' + (bbalance*-1|number) +')':bbalance|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
+
+      <mat-card class="border2 mb-2">
+        <mat-card-header>
+          <img src="../../assets/product.png" alt="Production">
+          <mat-card-title>Production</mat-card-title>
+        </mat-card-header>  
+        <mat-card-content class="prod">
+          {{totalProd<0? '(' + (totalProd*-1|number) +')':totalProd|number}} <small>DZN</small>
+        </mat-card-content>
+      </mat-card>
+
     </div>
     <div class="d-flex flex-column text-center gauge">
       <h1>Top 10 Products</h1>
@@ -54,21 +65,30 @@
       <mat-card class="border3 mb-2">
         <mat-card-header>
           <img src="../../assets/receivable1.png" alt="Total Receivable">
-          <mat-card-title>Total Receivable</mat-card-title>
+          <mat-card-title>Receivable</mat-card-title>
         </mat-card-header>  
         <mat-card-content class="totalReceivale">
           {{receivable<0? '(' + (receivable*-1|number) +')':receivable|number}} <small>PKR</small>
         </mat-card-content>
-        
       </mat-card>
   
-      <mat-card>
+      <mat-card class="mb-2">
         <mat-card-header>
           <img src="../../assets/payable1.png" alt="Total payable">
-          <mat-card-title>Total Payable</mat-card-title>
+          <mat-card-title>Payable</mat-card-title>
         </mat-card-header>  
         <mat-card-content class="totalPayable">
           {{payable<0? '(' + (payable*-1|number) +')':payable|number}} <small>PKR</small>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="border2">
+        <mat-card-header>
+          <img src="../../assets/sale.png" alt="bank">
+          <mat-card-title>Dispatch</mat-card-title>
+        </mat-card-header>  
+        <mat-card-content class="dispatch">
+          {{totalDisp <0? '(' + (totalDisp*-1|number) +')':totalDisp|number}} <small>DZN</small>
         </mat-card-content>
       </mat-card>
     </div>

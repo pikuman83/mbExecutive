@@ -29,7 +29,7 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
   };
 
   login(user: any) {return this.http.post(this.baseUrl + '/RequestToken', user);}
-
+  post(data: any, path: string) {return this.http.post(this.baseUrl+'/'+path, data);}
   genReport(path: string, id:string, datefrom: string, dateto: string, param3: string, param4: string, param5:string, param6: string, param7: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${path}/?id=${id}&param1=${datefrom}&param2=${dateto}&param3=${param3.toUpperCase()}&param4=${param4.toUpperCase()}&param5=${param5.toUpperCase()}&param6=${param6.toUpperCase()}&param7=${param7.toUpperCase()}`, this.httpOptions1)}
   get(path: any): Observable<any> {return this.http.get<any>(`${this.baseUrl}/${path}`, this.httpOptions)}

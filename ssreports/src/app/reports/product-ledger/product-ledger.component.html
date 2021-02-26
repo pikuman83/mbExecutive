@@ -23,9 +23,9 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Godown</mat-label>
-        <mat-select value="All" #Iparam6>
+        <mat-select #Iparam6>
             <mat-option value="All">All</mat-option>
-            <mat-option [value]="c" *ngFor="let c of locations" >{{ c }}</mat-option>
+            <mat-option [value]="c" *ngFor="let c of locations" >{{ c.col1 }}</mat-option>
         </mat-select>
     </mat-form-field>
 

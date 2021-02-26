@@ -11,26 +11,23 @@ import { GlobalService } from './global.service';
 export class ResolveResolver implements Resolve<any> {
   constructor(private service: GlobalService, private datepipe: DatePipe) {}
   
-  dateto = new Date();
-  datefrom = new Date(this.dateto);
-  transformDateFrom(){this.datefrom.setDate(this.datefrom.getDate() - 30);
-    return this.datepipe.transform(this.datefrom, "yyyy-MM-dd");}
-  transformDateto(){return this.datepipe.transform(this.dateto, "yyyy-MM-dd");}
+  dateto = this.datepipe.transform(new Date(),'yyyy-MM-dd').toString();
+  datefrom = this.datepipe.transform(new Date().setDate(new Date().getDate()-30),'yyyy-MM-dd').toString();
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return forkJoin([
-      this.service.getcash(this.transformDateto()),
-      this.service.getbbalance(this.transformDateto()),
-      this.service.getreceivable(this.transformDateto()),
-      this.service.getpayable(this.transformDateto()),
-      this.service.getTOP10(this.transformDateFrom(),this.transformDateto()),
-      this.service.getsales(this.transformDateFrom(),this.transformDateto()),
-      this.service.getexpenses(this.transformDateFrom(),this.transformDateto()),
-      this.service.getSaleAmount(this.transformDateFrom(),this.transformDateto()),
-      this.service.getSaleRecovery(this.transformDateFrom(),this.transformDateto()),
-      this.service.getSOTOP10(this.transformDateFrom(),this.transformDateto()),
-      this.service.getsaleorder(this.transformDateFrom(),this.transformDateto()),
-      this.service.getproduction(this.transformDateFrom(),this.transformDateto())
+      this.service.getcash(this.dateto),
+      this.service.getbbalance(this.dateto),
+      this.service.getreceivable(this.dateto),
+      this.service.getpayable(this.dateto),
+      this.service.getTOP10(this.datefrom,this.dateto),
+      this.service.getsales(this.datefrom,this.dateto),
+      this.service.getexpenses(this.datefrom,this.dateto),
+      this.service.getSaleAmount(this.datefrom,this.dateto),
+      this.service.getSaleRecovery(this.datefrom,this.dateto),
+      this.service.getSOTOP10(this.datefrom,this.dateto),
+      this.service.getsaleorder(this.datefrom,this.dateto),
+      this.service.getproduction(this.datefrom,this.dateto)
     ]).pipe(map(result => {
       return {
         cash: result[0],

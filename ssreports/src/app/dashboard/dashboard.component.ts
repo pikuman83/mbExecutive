@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, getLocaleMonthNames } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,12 +25,13 @@ export class DashboardComponent implements OnInit {
     this.expenses = resolver.expenses;
     this.top10SO = resolver.top10SO;
     this.oVsSVsp = resolver.oVssVsp; 
+    this.totalDispatch(resolver.oVssVsp[0].series);
+    this.totalProduction(resolver.oVssVsp[2].series);
     this.saleVsRecovery(resolver.salevsrecovery);
     this.transformDateFrom();
     this.transformDateto();
     this.responsiveCharts()
   }
-  
   cash: number;
   bbalance: number;
   receivable: number;
@@ -85,7 +86,9 @@ export class DashboardComponent implements OnInit {
     this.service.getsaleorder(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(orders => {
       this.service.getsales(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sales => {
         this.service.getproduction(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(production =>{
-          this.oVsSVsp = [orders, sales, production]
+          this.oVsSVsp = [orders, sales, production]; 
+          this.totalDispatch(sales.series);
+          this.totalProduction(production.series);
         })
       })
     });
@@ -107,6 +110,16 @@ export class DashboardComponent implements OnInit {
       this.view = [600, 300];
       this.viewG=[800, 550];
     }
+  }
+  totalDisp: number;
+  totalDispatch(obj:  any[]) {
+    this.totalDisp = obj.map(t => t.value).reduce((acc, value) => acc + value, 0);
+    return this.totalDisp;
+  }
+  totalProd: number;
+  totalProduction(obj:  any[]) {
+    this.totalProd = obj.map(t => t.value).reduce((acc, value) => acc + value, 0);
+    return this.totalProd;
   }
 
   // *** Remote chart options

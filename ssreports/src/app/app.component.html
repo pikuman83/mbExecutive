@@ -4,8 +4,8 @@
   
     <!-- Company Logo -->
     <mat-toolbar class="mt-2 mr-4, mb-2">
-        <img src="./assets/transperent-logo-circle.png" width="25%" id="icon" alt="User Icon" /><br>
-        <span class="companyname">MB TECH</span>
+        <img src="../assets/dashboard.png" width="90%" height="90%" id="icon"/><br>
+        <!-- <span class="companyname">MB TECH</span> -->
         <div class="dropdown-divider"></div>
     </mat-toolbar>
 
@@ -28,7 +28,7 @@
           <div class="divider"></div>
           <a (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
           <div class="divider"></div>
-          <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
+          <a (click)="mBasic('zakat', 'Periodic Zakat');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
           <div class="divider"></div>
           <a (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
           <div class="divider"></div>
@@ -73,11 +73,11 @@
               <!-- Sub Menu level 1 -->
               <a (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
+              <a (click)="stockBalance('Stock Amount');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
               <div class="divider"></div>
               <a (click)="productLedger('Product Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
+              <a (click)="stockBalance('Trading Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
               <div class="divider"></div>
             </div>
 
@@ -90,13 +90,13 @@
             <div id="tools" class="collapse collapsed">
               <a (click)="periodicSales('Periodic Sale');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Sale Reports</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
+              <a (click)="saleVsRecovery('Sale Vs Recovery');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Production</a>
+              <a (click)="saleVsProduction('Sale Vs Production');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Production</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
+              <a (click)="fastSale();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Order Status</a>
+              <a (click)="poStatus();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Order Status</a>
               <div class="divider"></div>
             </div>
 
@@ -109,7 +109,7 @@
             <div id="purchaseR" class="collapse collapsed">
               <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
               <div class="divider"></div>
-              <a (click)="testReport();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
+              <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
               <div class="divider"></div>
             </div>
       </mat-nav-list>
@@ -131,26 +131,15 @@
       <div>
         {{this.username? 'Hello ' + this.username: ''}} 
         <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
-        <div>
-          <i class="fas fa-home"></i>
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="passwordChange()">
+            <mat-icon>password</mat-icon>
+            <span>Change Password</span>
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>info</mat-icon>
-              <span>Tools Menu here</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>voicemail</mat-icon>
-              <span>Users</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>notifications_off</mat-icon>
-              <span>Passwords</span>
-            </button>
-          </mat-menu>
-        </div>
+        </mat-menu>
       </div>
     </mat-toolbar>
 

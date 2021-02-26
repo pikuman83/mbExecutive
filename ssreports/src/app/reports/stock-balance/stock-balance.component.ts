@@ -35,8 +35,8 @@ export class StockBalanceComponent implements OnInit {
   // shoestyp: string[];
   // article: string[];
   // typ: string[];
-  locations: string[];
-
+  locations: any[];
+  
   // getparty(): void { this.service.get('Reports/?table=customers').subscribe(x => this.party = x)}
   // getmgrp(): void { this.service.get('Reports/?table=mgrp').subscribe(x => this.mgrp = x.map(y => y.col1))}
   // getpgrp(): void { this.service.get('Reports/?table=pgroup').subscribe(x => this.pgrp = x.map(y => y.col1))}
@@ -44,10 +44,11 @@ export class StockBalanceComponent implements OnInit {
   // getstyp(): void { this.service.get('Reports/?table=shoestyp').subscribe(x => this.shoestyp = x.map(y => y.col1))}
   // getarticle(): void { this.service.get('Reports/?table=article').subscribe(x => this.article = x.map(y => y.col1))}
   // gettyp(): void { this.service.get('Reports/?table=typ').subscribe(x => this.typ = x.map(y => y.col1))}
-  getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x.map(y => y.col1))}
+  getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x)};
   
-  generate(godown: string){
-    this.service.genReport("mb", 'PrdBal', this.date, godown, this.header, '','','', '').subscribe((data) => {
+  generate(godown: any){
+    godown = godown&&godown!=='All'?godown.col2:'All';
+    this.service.genReport("mb", this.title==='Stock Balance'?'PrdBal':'STKAmnt', this.date, godown, this.header, '','','', '').subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')
