@@ -17,8 +17,9 @@ namespace mbExecutive.Controllers
             {
                 string query = "select * from " + table;
                 if (table == "product") { query = "select pcode, pname from product"; };
-                if (table == "customers") { query = "select vcode, vname, city from party where atype = 0"; };
-                if (table == "suppliers") { query = "select vcode, vname, city from party where atype = 1"; };
+                if (table == "raw") { query = "select pcode, pname from product where ptype = 0"; };
+                if (table == "customers") { query = "select vcode, vname, city from party"; };
+                if (table == "suppliers") { query = "select vcode, vname, city from party"; };
                 if (table == "Cash") { query = @"select acode, aname from account where atype in (0,4)"; };
                 
                 using (SqlCommand cmd = new SqlCommand(query, sql))
@@ -36,6 +37,7 @@ namespace mbExecutive.Controllers
                             if (table == "city") response.Add(new objectModel { col1 = reader["cname"].ToString()});
                             if (table == "account"||table == "Cash") response.Add(new objectModel { col1 = reader["acode"].ToString(), col2 = reader["aname"].ToString()});
                             if (table == "product") response.Add(new objectModel { col1 = reader["pcode"].ToString(), col2 = reader["pname"].ToString()});
+                            if (table == "raw") response.Add(new objectModel { col1 = reader["pcode"].ToString(), col2 = reader["pname"].ToString() });
                             if (table == "customers"||table == "suppliers") response.Add(new objectModel { col1 = reader["vcode"].ToString(), col2 = reader["vname"].ToString(), col3 = reader["city"].ToString() });
                         }
                     }

@@ -12,7 +12,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .modalTitle{
     background: rgb(66,0,188);
     background: linear-gradient(90deg, rgba(66,0,188,1) 0%, rgba(232,0,24,1) 76%, rgba(125,0,128,1) 99%);
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: white;
     min-height: 3rem;
     margin-bottom: 21px;

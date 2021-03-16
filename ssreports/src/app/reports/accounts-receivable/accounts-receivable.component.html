@@ -1,5 +1,5 @@
 <div class="text-center w-100">
-  <div class="w-100 modalTitle">{{id === 0? 'Customer Balance': 'Supplier Balance'}}</div>
+  <div class="w-100 modalTitle">{{id === '0'? 'Customer Balance': 'Supplier Balance'}}</div>
 
     <mat-form-field appearance="outline">
         <mat-label>Date</mat-label>
@@ -29,6 +29,13 @@
           <mat-option value="">Select All</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <div class="d-flex w-100 mb-3 justify-content-center">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="fileName" [hidden]="this.id==='1'?false:true">
+          <mat-radio-button value="PrtBalRep" class="mr-4" checked>Detail</mat-radio-button>
+          <mat-radio-button value="PrtBalRepSumm">Summary </mat-radio-button>
+        </mat-radio-group>
+      </div>
 
     <button class="refresh ml-3" mat-raised-button tabIndex="5" 
     (click)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)"

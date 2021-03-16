@@ -16,7 +16,7 @@ export class AccountsReceivableComponent implements OnInit {
     private service: GlobalService, 
     private datepipe: DatePipe,
     public dialogRef: MatDialogRef<AccountsReceivableComponent>,
-    @Inject(MAT_DIALOG_DATA) public id: number,
+    @Inject(MAT_DIALOG_DATA) public id: string,
     private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
@@ -26,6 +26,7 @@ export class AccountsReceivableComponent implements OnInit {
   }
 
   dateto = this.datepipe.transform(Date.now(), "yyyy-MM-dd");
+  fileName: string = 'PrtBalRep'; //ngmodel with radio button to assign report name
   mgrp: string[];
   pgrp: string[];
   city: string[];
@@ -35,7 +36,7 @@ export class AccountsReceivableComponent implements OnInit {
   getcities(): void { this.service.get('Reports/?table=city').subscribe(x => this.city = x.map(y => y.col1))}
   
   generate(date: Date, param3: string, param4: string, param5: string){
-    this.service.genReport("mb", "PrtBalRep", date.toString(), "",param3,param4,param5,this.id.toString(), "").subscribe((data) => {
+    this.service.genReport("mb", this.id==='0'?"PrtBalRep":this.fileName, date.toString(), "",param3,param4,param5,this.id.toString(), "").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       const downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')

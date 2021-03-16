@@ -4,7 +4,7 @@
         <div class="d-flex w-100 mb-3 justify-content-center">
             <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
             <mat-radio-button value="All" class="mr-4" [checked]="true">All</mat-radio-button>
-            <mat-radio-button value="1" class="mr-4" [checked]="true">Shoes</mat-radio-button>
+            <mat-radio-button value="1" class="mr-4">Shoes</mat-radio-button>
             <mat-radio-button value="0">Material</mat-radio-button>
             </mat-radio-group>
         </div>
@@ -63,9 +63,9 @@
 
         <mat-form-field appearance="outline">
             <mat-label>Godown</mat-label>
-            <mat-select #Iparam6>
+            <mat-select #Iparam6 value="All">
                 <mat-option value="All">All</mat-option>
-                <mat-option [value]="c" *ngFor="let c of locations" >{{ c.col1 }}</mat-option>
+                <mat-option [value]="c.col2" *ngFor="let c of locations" >{{ c.col1 }}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -85,16 +85,16 @@
             <mat-radio-button [value]="0">Maximum</mat-radio-button>
             </mat-radio-group>
         </div>
-        <h3>Output</h3>
+        <h3>Output</h3>-->
         <div class="d-flex w-100 mb-1 justify-content-center">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
-            <mat-radio-button [value]="1" class="mr-4" [checked]="true">Detail</mat-radio-button>
-            <mat-radio-button [value]="0">Summary</mat-radio-button>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="output">
+            <mat-radio-button value="0" class="mr-4" [checked]="true">Regular</mat-radio-button>
+            <mat-radio-button value="1">Cross-tab</mat-radio-button>
             </mat-radio-group>
-        </div>` -->
+        </div>
         <div class="divider1"></div>
         <button class="refresh" mat-raised-button (click)="generate(Iparam6.value)"
-        (keydown.enter)="generate(Iparam6.value)">Generate</button>
+            (keydown.enter)="generate(Iparam6.value)">Generate</button>
         <button class="refresh ml-3 mb-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
     </mat-dialog-content>
 </div>

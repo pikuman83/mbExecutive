@@ -3,8 +3,13 @@
     <mat-sidenav #drawer id="drawer" mode="push" class="sidenav" fixedInViewport (keydown.escape)="drawer.close()">
   
     <!-- Company Logo -->
-    <mat-toolbar class="mt-2 mr-4, mb-2">
-        <img src="../assets/dashboard.png" width="90%" height="90%" id="icon"/><br>
+    <!-- <mat-toolbar class="mt-2 mr-4, mb-2">
+      <img src="./assets/transperent-logo-circle.png" width="25%" id="icon" alt="User Icon" /><br>
+      <span class="companyname">MB TECH</span>
+      <div class="dropdown-divider"></div>
+    </mat-toolbar> -->
+    <mat-toolbar class="mt-5">
+        <img src="../assets/dashboard.png" width="90%" height="90%" id="icon"/><br> -->
         <!-- <span class="companyname">MB TECH</span> -->
         <div class="dropdown-divider"></div>
     </mat-toolbar>
@@ -72,6 +77,7 @@
             <div id="payroll" class="collapse collapsed">
               <!-- Sub Menu level 1 -->
               <a (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
+              <a (click)="stockBalance('Stock (color wise)');drawer.close()"><i class="fa fa-caret-right pr-2"></i>Stock (color wise)</a>
               <div class="divider"></div>
               <a (click)="stockBalance('Stock Amount');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
               <div class="divider"></div>
@@ -96,7 +102,8 @@
               <div class="divider"></div>
               <a (click)="fastSale();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
               <div class="divider"></div>
-              <a (click)="poStatus();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Order Status</a>
+              <a (click)="poStatus('SORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Party wise)</a>
+              <a (click)="poStatusPW('SOPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Product wise)</a>
               <div class="divider"></div>
             </div>
 
@@ -110,6 +117,8 @@
               <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
               <div class="divider"></div>
               <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
+              <a (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Party wise)</a>
+              <a (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Product wise)</a>
               <div class="divider"></div>
             </div>
       </mat-nav-list>

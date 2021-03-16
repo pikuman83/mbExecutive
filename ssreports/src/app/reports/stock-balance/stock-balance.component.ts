@@ -28,6 +28,7 @@ export class StockBalanceComponent implements OnInit {
 
   date = this.datepipe.transform(Date.now(), 'yyyy-MM-dd');
   header = "All";
+  output = '0';
   // party: any;
   // mgrp: string[];
   // pgrp: string[];
@@ -47,8 +48,9 @@ export class StockBalanceComponent implements OnInit {
   getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x)};
   
   generate(godown: any){
-    godown = godown&&godown!=='All'?godown.col2:'All';
-    this.service.genReport("mb", this.title==='Stock Balance'?'PrdBal':'STKAmnt', this.date, godown, this.header, '','','', '').subscribe((data) => {
+    const output = this.output === '0'? 'Prdbal1_Color': 'PrdBal_Color'; 
+    this.service.genReport("mb", this.title ==='Stock Balance'? 'PrdBal' : this.title === 'Stock (color wise)'? output : 'STKAmnt', 
+      this.date, godown, this.header, '','','', '').subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')

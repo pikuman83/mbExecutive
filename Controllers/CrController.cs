@@ -26,8 +26,9 @@ namespace SsReports.Controllers
             var location = System.Web.Hosting.HostingEnvironment.MapPath("~/" + id + ".rpt");
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
-            reportDocument.SetDatabaseLogon("sa", "");
 
+            reportDocument.SetDatabaseLogon("sa", "");
+            //reportDocument.SetDatabaseLogon("DB_A70E8A_mbdashboard_admin", "Boogeyman123*");
 
             //Cash Book
             if (id == "Dllog") { reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1)); }
@@ -50,7 +51,7 @@ namespace SsReports.Controllers
             }
 
             // CUSTOMER/SUPPLIER BALANCE REPORT
-            if (id == "PrtBalRep") { 
+            if (id == "PrtBalRep" || id == "PrtBalRepSumm") { 
                 reportDocument.SetParameterValue("@DT", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@ATYPE", param6);
                 if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
@@ -59,8 +60,8 @@ namespace SsReports.Controllers
                 };
             }
 
-            // Stock Balance/Stock Amount
-            if (id == "PrdBal" || id == "STKAmnt")
+            // Stock Balance | Stock Balance (ColorWise) | Stock Amount
+            if (id == "PrdBal" || id == "STKAmnt" || id == "PrdBal_Color" || id == "Prdbal1_Color")
             {
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@Godown", param2);
@@ -121,13 +122,26 @@ namespace SsReports.Controllers
                 reportDocument.SetParameterValue("@Tp", param3);
             }
 
-            // Sale Order Status
-            if (id == "SORptNew")
+            // Sale Order Status Party-wise
+            if (id == "SORptNew" || id == "PORptNew")
             {
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
                 reportDocument.SetParameterValue("@vcode", param3);
                 reportDocument.SetParameterValue("@zbal", param4);
+            }
+
+            // Sale Order Status Product-wise
+            if (id == "SOPrdRptNew" || id == "POPrdRptNew")
+            {
+                reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                reportDocument.SetParameterValue("@pcode", param3);
+                reportDocument.SetParameterValue("@zbal", param4);
+                if(param5 != "SELECT")
+                {
+                    reportDocument.RecordSelectionFormula = "ucase({PRODUCT.MGNAME}) = '" + param5 + "'";
+                }
             }
 
             Stream s = reportDocument.ExportToStream(ExportFormatType.PortableDocFormat);

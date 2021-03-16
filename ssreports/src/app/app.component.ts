@@ -17,6 +17,7 @@ import { SaleVsProductionComponent } from './reports/sale-vs-production/sale-vs-
 import { SaleVsRecoveryComponent } from './reports/sale-vs-recovery/sale-vs-recovery.component';
 import { FastSalesSummaryComponent } from './reports/fast-sales-summary/fast-sales-summary.component';
 import { PoStatusComponent } from './reports/po-status/po-status.component';
+import { PoStatusPwComponent } from './reports/po-status-pw/po-status-pw.component';
 
 @Component({
   selector: 'app-root',
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
     this.username = ''; //hides the menu button when logout
     this.router.navigate(['/Login']);
   }
+  
   passwordChange(){const dialogRef = this.dialog.open(PasswordComponent,{width: '450px', disableClose:true, autoFocus:true})};
   cBalance(id: string){const dialogRef = this.dialog.open(AccountsReceivableComponent,{width: '450px', disableClose:true, autoFocus:true, data:id})};
   ledger(title: string, id: string){const dialogRef = this.dialog.open(CustomerLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:[title, id]})};
@@ -96,7 +98,8 @@ export class AppComponent implements OnInit {
   saleVsProduction(title: string){const dialogRef = this.dialog.open(SaleVsProductionComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
   saleVsRecovery(title: string){const dialogRef = this.dialog.open(SaleVsRecoveryComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
   fastSale(){const dialogRef = this.dialog.open(FastSalesSummaryComponent,{width: '450px', disableClose:true, autoFocus:true})};
-  poStatus(){const dialogRef = this.dialog.open(PoStatusComponent,{width: '450px', disableClose:true, autoFocus:true})};
+  poStatus(file: string){const dialogRef = this.dialog.open(PoStatusComponent,{width: '450px', disableClose:true, autoFocus:true, data: file})};
+  poStatusPW(file: string){const dialogRef = this.dialog.open(PoStatusPwComponent,{width: '450px', disableClose:true, autoFocus:true, data: file})};
 }
 
 

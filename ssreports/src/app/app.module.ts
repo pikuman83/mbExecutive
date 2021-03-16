@@ -46,6 +46,7 @@ import { SaleVsProductionComponent } from './reports/sale-vs-production/sale-vs-
 import { FastSalesSummaryComponent } from './reports/fast-sales-summary/fast-sales-summary.component';
 import { PoStatusComponent } from './reports/po-status/po-status.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PoStatusPwComponent } from './reports/po-status-pw/po-status-pw.component';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
@@ -67,7 +68,8 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
     SaleVsRecoveryComponent,
     SaleVsProductionComponent,
     FastSalesSummaryComponent,
-    PoStatusComponent
+    PoStatusComponent,
+    PoStatusPwComponent
   ],
   imports: [
     BrowserModule,

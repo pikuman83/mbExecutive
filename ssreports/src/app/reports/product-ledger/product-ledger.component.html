@@ -12,20 +12,29 @@
         <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
         <mat-label>Products</mat-label>
         <input matInput autocomplete="off" placeholder="Search by code or name" list="accounts" #Iparam3/>
         <datalist id="accounts">
             <option value="All">All</option>
             <option *ngFor="let p of products" [value]="p.col1">{{ p.col2 }}</option>
         </datalist>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline">
+        <mat-label>Product</mat-label>
+        <input type="text" #Iparam3 placeholder="Search by name or code" matInput [formControl]="accInput" [matAutocomplete]="auto" >
+        <mat-hint *ngIf="aname">{{aname}}</mat-hint>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
+        </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Godown</mat-label>
-        <mat-select #Iparam6>
+        <mat-select #Iparam6 value="All">
             <mat-option value="All">All</mat-option>
-            <mat-option [value]="c" *ngFor="let c of locations" >{{ c.col1 }}</mat-option>
+            <mat-option [value]="c.col2" *ngFor="let c of locations" >{{ c.col1 }}</mat-option>
         </mat-select>
     </mat-form-field>
 

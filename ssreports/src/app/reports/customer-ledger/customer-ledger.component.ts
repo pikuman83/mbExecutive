@@ -5,7 +5,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GlobalService } from 'src/app/global.service';
@@ -20,8 +19,7 @@ export class CustomerLedgerComponent implements OnInit {
     private service: GlobalService, 
     private datepipe: DatePipe,
     public dialogRef: MatDialogRef<CustomerLedgerComponent>,
-    @Inject(MAT_DIALOG_DATA) public title: string[],
-    private _snackBar: MatSnackBar) {}
+    @Inject(MAT_DIALOG_DATA) public title: string[]) {}
 
     ngOnInit(): void {
       this.getAccounts();
@@ -59,18 +57,14 @@ export class CustomerLedgerComponent implements OnInit {
       this.aname = e.option.value.col2;
     }
     generate(datefrom: any, dateto: any, Icode: string){
-      const isValid = this.code.some(x => x.col1 === Icode);
-      if (isValid){
-        this.service.genReport("mb", this.title[1], datefrom.toDateString(), dateto.toDateString(), Icode, "" ,"","","").subscribe((data) => {
-          const blob = new Blob([data], {type: 'application/pdf'});
-          const downloadURL = window.URL.createObjectURL(blob);
-          window.open(downloadURL, '_blank')
-        });
-        this.dialogRef.close();
-      }
-      else {
-        this._snackBar.open('MBFW','Must chose a valid Account');
-      }
+      if(Icode.trim()) Icode = this.code.some(x => x.col1 === Icode)? Icode:'All';
+      else Icode = 'All'
+      this.service.genReport("mb", this.title[1], datefrom.toDateString(), dateto.toDateString(), Icode, "" ,"","","").subscribe((data) => {
+        const blob = new Blob([data], {type: 'application/pdf'});
+        const downloadURL = window.URL.createObjectURL(blob);
+        window.open(downloadURL, '_blank')
+      });
+      this.dialogRef.close();
     }
   }
 

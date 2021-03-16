@@ -63,7 +63,6 @@ export class PeriodicSalesComponent implements OnInit {
   getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x)}
   
   generate(party: string, mgrp: string, pgrp: string, godown: any, datefrom: any, dateto: any){
-    godown = godown&&godown!=='All'?godown.col2:'All';
     party = !party.trim()?'All':party;
     if(!this.party.some(x => x.col1 === party)) party = 'All';
     this.service.genReport("mb", this.genFilename(this.order, this.type), datefrom.toDateString(), dateto.toDateString(), party.trim()?party:'All', mgrp, pgrp, godown, "").subscribe((data) => {

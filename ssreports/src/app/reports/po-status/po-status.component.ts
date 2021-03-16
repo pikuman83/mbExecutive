@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -18,6 +18,7 @@ export class PoStatusComponent implements OnInit {
     private service: GlobalService, 
     private datepipe: DatePipe,
     public dialogRef: MatDialogRef<PoStatusComponent>,
+    @Inject(MAT_DIALOG_DATA) public file: string,
     private _snackBar: MatSnackBar) {}
 
     ngOnInit(): void {
@@ -30,7 +31,7 @@ export class PoStatusComponent implements OnInit {
     datefrom = this.datepipe.transform(`${new Date().getFullYear()}-${new Date().getMonth()+1}-01`, 'yyyy-MM-dd')
   
     code: any[];
-    getAccounts(): void {this.service.get('Reports/?table=customers').subscribe(x => {this.code = x;this.initilizeFilter()});}
+    getAccounts(): void {this.service.get(`Reports/?table=${this.file==='SORptNew'?'customers':'suppliers'}`).subscribe(x => {this.code = x;this.initilizeFilter()});}
 
     initilizeFilter(){this.filteredOptions = this.accInput.valueChanges.pipe(startWith(''),map(value => this._filter(value)));}
 
@@ -52,7 +53,7 @@ export class PoStatusComponent implements OnInit {
       let isValid = this.code.some(x => x.col1 === Icode);
       if(Icode==='All') isValid = true;
       if (isValid){
-        this.service.genReport("mb", 'SORptNew', datefrom.toDateString(), dateto.toDateString(), Icode, zb ,"","","").subscribe((data) => {
+        this.service.genReport("mb", this.file, datefrom.toDateString(), dateto.toDateString(), Icode, zb ,"","","").subscribe((data) => {
           const blob = new Blob([data], {type: 'application/pdf'});
           const downloadURL = window.URL.createObjectURL(blob);
           window.open(downloadURL, '_blank')

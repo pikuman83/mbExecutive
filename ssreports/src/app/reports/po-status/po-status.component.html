@@ -1,5 +1,5 @@
 <div class="text-center w-100">
-    <div class="w-100 modalTitle">Sale Order Status</div>
+    <div class="w-100 modalTitle" style="font-size: small;">S.O Status (PartyWise)</div>
 
     <mat-form-field appearance="outline">
         <mat-label>Enter a date range</mat-label>
@@ -13,7 +13,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-        <mat-label>Customer</mat-label>
+        <mat-label>{{file==='SORptNew'? 'Customer':'Supplier'}}</mat-label>
         <input #Iparam3 placeholder="Leave blank to Select All" matInput [formControl]="accInput" [matAutocomplete]="auto" >
         <mat-hint *ngIf="aname">{{aname}}</mat-hint>
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 

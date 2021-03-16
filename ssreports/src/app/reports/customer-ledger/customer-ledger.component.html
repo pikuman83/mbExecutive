@@ -21,15 +21,6 @@
         </mat-autocomplete>
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline">
-        <mat-label>{{title[1] === 'CustLgr'? 'Customer': title[1] === 'SuppLgr'?'Supplier':'Account'}}</mat-label>
-        <input matInput #Iparam3 autocomplete="off" tabIndex="3"
-        placeholder="Search by code or name" list="accounts"/>
-        <datalist id="accounts">
-        <option *ngFor="let c of code" [value]="c.col1">{{ c.col2 }} - {{ c.col3? c.col3: '' }}</option>
-        </datalist>
-    </mat-form-field> -->
-
     <button class="refresh ml-3" mat-raised-button tabIndex="4" (click)="generate(datefrom, dateto, Iparam3.value)"
     (keydown.enter)="generate(datefrom, dateto, Iparam3.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="5" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
