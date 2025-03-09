@@ -1,170 +1,166 @@
-<!-- <app-root-nav></app-root-nav> -->
 <mat-sidenav-container class="sidenav-container" hasBackdrop="false">
-    <mat-sidenav #drawer id="drawer" mode="push" class="sidenav" fixedInViewport (keydown.escape)="drawer.close()">
-  
-    <!-- Company Logo -->
-    <!-- <mat-toolbar class="mt-2 mr-4, mb-2">
-      <img src="./assets/transperent-logo-circle.png" width="25%" id="icon" alt="User Icon" /><br>
-      <span class="companyname">MB TECH</span>
+  <mat-sidenav #drawer id="drawer" mode="push" class="sidenav" fixedInViewport (keydown.escape)="drawer.close()">
+
+    <mat-toolbar class="mt-2">
+      <img class="mb-1" src="../assets/omega.jpg" width="90%" height="90%" id="icon"/><br>
+
+      <img src="../assets/amazon.jpg" width="90%" height="90%" id="icon"/><br>
       <div class="dropdown-divider"></div>
-    </mat-toolbar> -->
-    <mat-toolbar class="mt-5">
-        <img src="../assets/dashboard.png" width="90%" height="90%" id="icon"/><br> -->
-        <!-- <span class="companyname">MB TECH</span> -->
-        <div class="dropdown-divider"></div>
     </mat-toolbar>
 
-    <!-- Side Drawer -->
-    <mat-nav-list class="mb-3">
-        <i class="fas fa-times"  (click)="drawer.toggle()"></i>
-        <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><img class="sideNvIcons" src="../assets/speedometer.png">Dashboard</button>
-        <!-- <i class="fa fa-home pr-3"></i> -->
-      
-      <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#profiles" (click)="collapsed1? collapsed1=false:collapsed1=true">
-        <img class="sideNvIcons" src="../assets/stats.png">Financial Reports
-        <!-- <i class="fas fa-chart-line"></i>         -->
-        <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed1? true:false"></i>
+  <!-- Side Drawer -->
+  <mat-nav-list class="mb-3">
+      <i class="fas fa-times"  (click)="drawer.toggle()"></i>
+      <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><img class="sideNvIcons" src="../assets/speedometer.png">Dashboard</button>
+
+    <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#profiles" (click)="collapsed1? collapsed1=false:collapsed1=true">
+      <img class="sideNvIcons" src="../assets/stats.png">Financial Reports
+      <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed1? true:false"></i>
+    </button>
+
+    <!-- Sub Menu Level 1 -->
+      <div id="profiles" class="collapse collapsed">
+        <a (click)="ledger('Cash Book', 'Cash');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
+        <div class="divider"></div>
+        <a (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
+        <div class="divider"></div>
+        <a (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
+        <div class="divider"></div>
+        <a (click)="mBasic('zakat', 'Periodic Zakat');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
+        <div class="divider"></div>
+        <a (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Menu Activity Vouchers -->
+    <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#activity" (click)="collapsed2? collapsed2=false:collapsed2=true">
+      <img class="sideNvIcons" src="../assets/receivableside.png">Accounts Receivable
+      <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed2? true:false"></i>
+    </button>
+
+      <!-- Sub Menu level 1 -->
+      <div id="activity" class="collapse collapsed">
+        <a (click)="cBalance('0');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Balance</a>
+        <div class="divider"></div>
+        <a (click)="ledger('Customer Ledger', 'CustLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Ledger</a>
+        <div class="divider"></div>
+        <a (click)="recovery('RecoveryReport', 'Customer Recovery', 'customers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Recovery</a>
+        <div class="divider"></div>
+    </div>
+
+      <!-- Menu Reports -->
+      <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports" (click)="collapsed3? collapsed3=false:collapsed3=true">
+        <img class="sideNvIcons" src="../assets/payable-side.png">Account Payable
+        <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
       </button>
-      <!-- Sub Menu Level 1 -->
-        <div id="profiles" class="collapse collapsed">
-          <a (click)="ledger('Cash Book', 'Cash');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
+        <div id="reports" class="collapse collapsed">
+          <!-- Sub Menu level 1 -->
+          <a (click)="cBalance('1');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Balances</a>
           <div class="divider"></div>
-          <a (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
+          <a (click)="ledger('Supplier Ledger', 'SuppLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Ledger</a>
           <div class="divider"></div>
-          <a (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
-          <div class="divider"></div>
-          <a (click)="mBasic('zakat', 'Periodic Zakat');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
-          <div class="divider"></div>
-          <a (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
+          <a (click)="recovery('PaymentReport', 'Supplier Payment', 'suppliers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Payment</a>
           <div class="divider"></div>
         </div>
 
-        <!-- Menu Activity Vouchers -->
-      <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#activity" (click)="collapsed2? collapsed2=false:collapsed2=true">
-        <img class="sideNvIcons" src="../assets/receivableside.png">Accounts Receivable
-        <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed2? true:false"></i>
-      </button>      
-        <!-- Sub Menu level 1 -->
-        <div id="activity" class="collapse collapsed">
-          <a (click)="cBalance('0');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Balance</a>
-          <div class="divider"></div>
-          <a (click)="ledger('Customer Ledger', 'CustLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Ledger</a>
-          <div class="divider"></div>
-          <a (click)="recovery('RecoveryReport', 'Customer Recovery', 'customers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Recovery</a>
-          <div class="divider"></div>
-      </div>
-
-        <!-- Menu Reports -->
-        <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports" (click)="collapsed3? collapsed3=false:collapsed3=true">
-          <img class="sideNvIcons" src="../assets/payable-side.png">Account Payable
-          <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
+        <!-- Menu PayRoll -->
+        <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#payroll" (click)="collapsed4? collapsed4=false:collapsed4=true">
+          <img class="sideNvIcons" src="../assets/inventory.png">Inventory Reports
+          <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed4? true:false"></i>
         </button>
-          <div id="reports" class="collapse collapsed">
+          <div id="payroll" class="collapse collapsed">
             <!-- Sub Menu level 1 -->
-            <a (click)="cBalance('1');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Balances</a>
+            <a (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
+            <a (click)="stockBalance('Stock (color wise)');drawer.close()"><i class="fa fa-caret-right pr-2"></i>Stock (color wise)</a>
             <div class="divider"></div>
-            <a (click)="ledger('Supplier Ledger', 'SuppLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Ledger</a>
+            <a (click)="stockBalance('Stock Amount');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
             <div class="divider"></div>
-            <a (click)="recovery('PaymentReport', 'Supplier Payment', 'suppliers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Payment</a>
+            <a (click)="productLedger('Product Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
+            <div class="divider"></div>
+            <a (click)="stockBalance('Trading Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
             <div class="divider"></div>
           </div>
 
-          <!-- Menu PayRoll -->
-          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#payroll" (click)="collapsed4? collapsed4=false:collapsed4=true">
-            <img class="sideNvIcons" src="../assets/inventory.png">Inventory Reports
-            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed4? true:false"></i>
-          </button>
-            <div id="payroll" class="collapse collapsed">
-              <!-- Sub Menu level 1 -->
-              <a (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
-              <a (click)="stockBalance('Stock (color wise)');drawer.close()"><i class="fa fa-caret-right pr-2"></i>Stock (color wise)</a>
-              <div class="divider"></div>
-              <a (click)="stockBalance('Stock Amount');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
-              <div class="divider"></div>
-              <a (click)="productLedger('Product Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
-              <div class="divider"></div>
-              <a (click)="stockBalance('Trading Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
-              <div class="divider"></div>
-            </div>
+        <!-- Menu Tools -->
+        <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#tools" (click)="collapsed5? collapsed5=false:collapsed5=true">
+          <img class="sideNvIcons" src="../assets/goods.png">Sales Reports
+          <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed5? true:false"></i>
+        </button>
+        <!-- Sub Menu level 1 -->
+          <div id="tools" class="collapse collapsed">
+            <a (click)="periodicSales('Periodic Sale');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Sale Reports</a>
+            <div class="divider"></div>
+            <a (click)="saleVsRecovery('Sale Vs Recovery');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
+            <div class="divider"></div>
+            <a (click)="saleVsProduction('Sale Vs Production');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Production</a>
+            <div class="divider"></div>
+            <a (click)="fastSale();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
+            <div class="divider"></div>
+            <a (click)="poStatus('SORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Party wise)</a>
+            <a (click)="poStatusPW('SOPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Product wise)</a>
+            <div class="divider"></div>
+          </div>
 
           <!-- Menu Tools -->
-          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#tools" (click)="collapsed5? collapsed5=false:collapsed5=true">
-            <img class="sideNvIcons" src="../assets/goods.png">Sales Reports
-            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed5? true:false"></i>
-          </button>
-          <!-- Sub Menu level 1 -->
-            <div id="tools" class="collapse collapsed">
-              <a (click)="periodicSales('Periodic Sale');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Sale Reports</a>
-              <div class="divider"></div>
-              <a (click)="saleVsRecovery('Sale Vs Recovery');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
-              <div class="divider"></div>
-              <a (click)="saleVsProduction('Sale Vs Production');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Production</a>
-              <div class="divider"></div>
-              <a (click)="fastSale();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
-              <div class="divider"></div>
-              <a (click)="poStatus('SORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Party wise)</a>
-              <a (click)="poStatusPW('SOPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Product wise)</a>
-              <div class="divider"></div>
-            </div>
-
-            <!-- Menu Tools -->
-          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
-            <img class="sideNvIcons" src="../assets/box.png">Purchase Reports
-            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
-          </button>
-          <!-- Sub Menu level 1 -->
-            <div id="purchaseR" class="collapse collapsed">
-              <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
-              <div class="divider"></div>
-              <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
-              <a (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Party wise)</a>
-              <a (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Product wise)</a>
-              <div class="divider"></div>
-            </div>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">
-  
-      <!-- Top toolbar (reserved for tabs or social media + user stuff) -->
-    <mat-toolbar color="none" class="toolbar" [hidden]="service.splashScreen">
-      <button *ngIf="isLogin()" class="menubutton"
-        mat-icon-button
-        (click)="drawer.toggle(); $event.stopPropagation()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      
-      <div class="title">
-        <h2 class="title-small">{{service.title}}</h2>
-      </div>
-
-      <div>
-        {{this.username? 'Hello ' + this.username: ''}} 
-        <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>more_vert</mat-icon>
+        <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
+          <img class="sideNvIcons" src="../assets/box.png">Purchase Reports
+          <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
         </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="passwordChange()">
-            <mat-icon>password</mat-icon>
-            <span>Change Password</span>
-          </button>
-        </mat-menu>
-      </div>
-    </mat-toolbar>
+        <!-- Sub Menu level 1 -->
+          <div id="purchaseR" class="collapse collapsed">
+            <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
+            <div class="divider"></div>
+            <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
+            <a (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Party wise)</a>
+            <a (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Product wise)</a>
+            <div class="divider"></div>
+          </div>
+    </mat-nav-list>
+
+  </mat-sidenav>
+  <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">
+
+    <!-- Top toolbar (reserved for tabs or social media + user stuff) -->
+  <mat-toolbar color="none" class="toolbar">
+    <button *ngIf="isLogin()" class="menubutton"
+      mat-icon-button
+      (click)="drawer.toggle(); $event.stopPropagation()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="title">
+      <h2 class="title-small">{{service.title}}</h2>
+    </div>
+
+    <div>
+      {{this.username? 'Hello ' + this.username: ''}}
+      <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="passwordChange()">
+          <mat-icon>password</mat-icon>
+          <span>Change Password</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
 
   <!-- Routing modules selector which manage the paths of the whole app -->
     <div class="content">
       <router-outlet></router-outlet>
     </div>
     <footer>
-      <div class="footer-copyright text-center py-3">© 2020 Copyright: MB-TECH
+      <div class="footer-copyright text-center py-3">© 2025 Copyright: MB-TECH
       </div>
-    </footer> 
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<ng-http-loader 
+
+<ng-http-loader
   [spinner]="spinnerStyle.skWanderingCubes"
-  [backdrop]="false" 
+  [backdrop]="false"
   [backgroundColor]="'#303F9F'"
   [debounceDelay]="100"
   [extraDuration]="300"

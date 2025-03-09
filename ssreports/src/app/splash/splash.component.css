@@ -1,28 +1,5 @@
-.dashboard{
-    display: block;
-    position : relative;
-    width: 80vw;
-    height: 90vh;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-  }
-  .dashboard::after {
-    content: "";
-    background: url("../../assets/dashboard.png");
-    background-size: 70vw 50vh;
-    /* background: url("../../assets/logo.jpg");
-    background-size: 50vw 60vh; */
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
   .loading{
     font-size: 1.5rem;
     margin-top: 100px;
   }
-  
+

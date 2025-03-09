@@ -26,7 +26,7 @@ import { PoStatusPwComponent } from './reports/po-status-pw/po-status-pw.compone
 })
 export class AppComponent implements OnInit {
 
-  title = 'Special Executive Dashboard';
+  title = 'Omega Executive Dashboard';
 
   constructor(public service: GlobalService, private router: Router, @Inject(DOCUMENT) private document: any, public dialog: MatDialog) {
     this.putTimer();
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
   collapsed6:boolean = false;
 
   spinnerStyle = Spinkit;
-  elem: any; 
+  elem: any;
   // isFullScreen: boolean;
 
   testReport(){}
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     this.username = ''; //hides the menu button when logout
     this.router.navigate(['/Login']);
   }
-  
+
   passwordChange(){const dialogRef = this.dialog.open(PasswordComponent,{width: '450px', disableClose:true, autoFocus:true})};
   cBalance(id: string){const dialogRef = this.dialog.open(AccountsReceivableComponent,{width: '450px', disableClose:true, autoFocus:true, data:id})};
   ledger(title: string, id: string){const dialogRef = this.dialog.open(CustomerLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:[title, id]})};
@@ -117,11 +117,11 @@ export class AppComponent implements OnInit {
   // openFullscreen() {
   //   if (this.elem.requestFullscreen) {
   //     this.elem.requestFullscreen();
-  //   } 
+  //   }
   // }
   // closeFullscreen() {
   //   if (this.document.exitFullscreen) {
   //     this.document.exitFullscreen();
-  //   } 
+  //   }
   // }
 

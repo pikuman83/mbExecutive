@@ -34,7 +34,11 @@ html{
   color: white;
 }
 .title{
-  border-bottom: solid 2px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 17px;
+  /* border-bottom: solid 2px; */
   text-transform: uppercase;
   text-align: center;
 }
@@ -95,7 +99,7 @@ i{
   /* color: lightgreen; alternated for major */
   /* color: rgba(255, 255, 0, 0.932); */
   color: white;
-  
+
   /* background-color: #262626; */
 }
 .dropdown-btn:hover{
@@ -158,6 +162,7 @@ i{
   margin-left: 217px;
   padding: 0%;
 }
+
 .divider{
   height: 0;
   overflow: hidden;

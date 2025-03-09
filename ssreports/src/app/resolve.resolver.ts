@@ -10,7 +10,7 @@ import { GlobalService } from './global.service';
 })
 export class ResolveResolver implements Resolve<any> {
   constructor(private service: GlobalService, private datepipe: DatePipe) {}
-  
+
   dateto = this.datepipe.transform(new Date(),'yyyy-MM-dd').toString();
   datefrom = this.datepipe.transform(new Date().setDate(new Date().getDate()-30),'yyyy-MM-dd').toString();
 
@@ -27,7 +27,10 @@ export class ResolveResolver implements Resolve<any> {
       this.service.getSaleRecovery(this.datefrom,this.dateto),
       this.service.getSOTOP10(this.datefrom,this.dateto),
       this.service.getsaleorder(this.datefrom,this.dateto),
-      this.service.getproduction(this.datefrom,this.dateto)
+      this.service.getproduction(this.datefrom,this.dateto),
+      this.service.getCashSale(this.dateto),
+      this.service.getCreditSale(this.dateto),
+      this.service.getCheques(this.dateto)
     ]).pipe(map(result => {
       return {
         cash: result[0],
@@ -38,7 +41,10 @@ export class ResolveResolver implements Resolve<any> {
         expenses: result[6],
         salevsrecovery: [result[7], result[8]],
         top10SO: result[9],
-        oVssVsp: [result[5], result[10], result[11]]
+        oVssVsp: [result[5], result[10], result[11]],
+        cashSale: result[12],
+        creditSale: result[13],
+        cheques: result[14]
       };
     }));
   }

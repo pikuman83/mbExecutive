@@ -16,38 +16,58 @@
 
   <div class="d-md-flex justify-content-around mb-2 align-items-center">
     <div class="d-flex flex-column flex-shrink-1">
-      <mat-card class="border1 mb-2">
-        <mat-card-header>
-          <img src="../../assets/cashINhand1.png" alt="Cash in hand">
-          <mat-card-title>Cash In Hand</mat-card-title>
-        </mat-card-header>  
-        <mat-card-content class="cashInHand">
-          {{cash<0? '(' + (cash*-1|number) +')':cash|number}} <small>PKR</small>
+      <mat-card>
+        <div class="mat-card-header">
+            <img src="../../assets/cashINhand1.png" alt="Cash in hand">
+            <span>Cash In Hand</span>
+        </div>
+        <mat-card-content>
+          {{ cash < 0 ? '(' + (cash * -1 | number) +')': cash | number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
-  
-      <mat-card class="border2 mb-2">
-        <mat-card-header>
+
+      <mat-card>
+        <div class="mat-card-header">
           <img src="../../assets/bank1.png" alt="bank">
-          <mat-card-title>Bank Balance</mat-card-title>
-        </mat-card-header>  
-        <mat-card-content class="bankBalance">
-          {{bbalance<0? '(' + (bbalance*-1|number) +')':bbalance|number}} <small>PKR</small>
+          <span>Bank Balance</span>
+        </div>
+        <mat-card-content>
+          {{bbalance<0? '(' + (bbalance * -1 | number) +')' : bbalance | number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card class="border2 mb-2">
-        <mat-card-header>
-          <img src="../../assets/product.png" alt="Production">
-          <mat-card-title>Production</mat-card-title>
-        </mat-card-header>  
-        <mat-card-content class="prod">
-          {{totalProd<0? '(' + (totalProd*-1|number) +')':totalProd|number}} <small>DZN</small>
+      <mat-card>
+        <div class="mat-card-header">
+          <img src="../../assets/cash-register.png" alt="Cash in hand">
+          <span>Net Cash Sale</span>
+        </div>
+        <mat-card-content>
+          {{cashSale<0? '(' + (cashSale*-1|number) +')':cashSale|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
+      <mat-card>
+        <div class="mat-card-header">
+          <img src="../../assets/personal.png" alt="Cash in hand">
+          <span>Adv Cr Sale</span>
+        </div>
+        <mat-card-content>
+          {{creditSale<0? '(' + (creditSale*-1|number) +')':creditSale|number}} <small>PKR</small>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <div class="mat-card-header">
+          <img src="../../assets/cheque.png" alt="Cash in hand">
+          <span>Overall PDC Cheques</span>
+        </div>
+        <mat-card-content>
+          {{cheques<0? '(' + (cheques*-1|number) +')':cheques|number}} <small>PKR</small>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="d-flex flex-column text-center gauge">
+
+    <div class="d-flex mb-2 flex-column text-center gauge">
       <h1>Top 10 Products</h1>
       <ngx-charts-gauge *ngIf="expenses.length" class="d-flex justify-content-around"
         [view]="viewG"
@@ -62,40 +82,50 @@
     </div>
 
     <div class="d-flex flex-column flex-shrink-1">
-      <mat-card class="border3 mb-2">
-        <mat-card-header>
+      <mat-card>
+        <div class="mat-card-header">
           <img src="../../assets/receivable1.png" alt="Total Receivable">
-          <mat-card-title>Receivable</mat-card-title>
-        </mat-card-header>  
-        <mat-card-content class="totalReceivale">
+          <span>Receivable</span>
+        </div>
+        <mat-card-content>
           {{receivable<0? '(' + (receivable*-1|number) +')':receivable|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
-  
-      <mat-card class="mb-2">
-        <mat-card-header>
+
+      <mat-card>
+        <div class="mat-card-header">
           <img src="../../assets/payable1.png" alt="Total payable">
-          <mat-card-title>Payable</mat-card-title>
-        </mat-card-header>  
-        <mat-card-content class="totalPayable">
+          <span>Payable</span>
+        </div>
+        <mat-card-content>
           {{payable<0? '(' + (payable*-1|number) +')':payable|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card class="border2">
-        <mat-card-header>
+      <mat-card>
+        <div class="mat-card-header">
           <img src="../../assets/sale.png" alt="bank">
-          <mat-card-title>Dispatch</mat-card-title>
-        </mat-card-header>  
-        <mat-card-content class="dispatch">
+          <span>Dispatch</span>
+        </div>
+        <mat-card-content>
           {{totalDisp <0? '(' + (totalDisp*-1|number) +')':totalDisp|number}} <small>DZN</small>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <div class="mat-card-header">
+          <img src="../../assets/product.png" alt="Production">
+          <span>Production</span>
+        </div>
+        <mat-card-content>
+          {{totalProd<0? '(' + (totalProd*-1|number) +')':totalProd|number}} <small>DZN</small>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 
-  <div class="d-md-flex justify-content-around">
-    <mat-card class="mb-2">
+  <div class="d-md-flex gap-16 justify-content-around">
+    <mat-card>
       <mat-card-header>
         <mat-card-title>Monthly Expenses</mat-card-title>
       </mat-card-header>
@@ -114,10 +144,10 @@
       </ngx-charts-bar-vertical>
     </mat-card>
 
-    <mat-card class="mb-2">
+    <mat-card>
       <mat-card-header>
         <mat-card-title>Order Vs Sale Vs Production</mat-card-title>
-      </mat-card-header>  
+      </mat-card-header>
       <ngx-charts-line-chart class="d-flex justify-content-around"
         [view]="view"
         [results]="oVsSVsp"
@@ -133,8 +163,8 @@
     </mat-card>
   </div>
 
-  <div class="d-md-flex justify-content-around">
-    <mat-card class="mb-2">
+  <div class="d-md-flex gap-16 justify-content-around">
+    <mat-card>
       <mat-card-header>
         <mat-card-title>Top 10 Sales Order</mat-card-title>
       </mat-card-header>
@@ -148,11 +178,11 @@
         [legend]="false">
       </ngx-charts-bar-horizontal>
     </mat-card>
-  
-    <mat-card class="mb-2">
+
+    <mat-card>
       <mat-card-header>
         <mat-card-title>Sales Vs Recovery</mat-card-title>
-      </mat-card-header>  
+      </mat-card-header>
       <ngx-charts-pie-chart class="d-flex justify-content-around"
         [view]="view"
         [scheme]="'nightLights'"

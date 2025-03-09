@@ -1,47 +1,41 @@
 mat-card{
-  border-radius: 12px;
+  border-radius: 8px;
+  margin-bottom: 2rem;
 }
-.cashInHand{
-  border-left: solid 8px #5AA454;
-  padding-left: 10px;
-}
-.bankBalance{
-  border-left: solid 8px #56b384;
-  padding-left: 10px;
-}
-.totalReceivale{
-  border-left: solid 8px #2cc2c7;
-  padding-left: 10px;
-}
-.totalPayable{
-  border-left: solid 8px #A10A28;
-  padding-left: 10px;
-}
-.prod{
-  border-left: solid 8px #9c767d;
-  padding-left: 10px;
-}
-.dispatch{
-  border-left: solid 8px #5ab3b3;
-  padding-left: 10px;
-}
+
 .mb-container{
   max-width: 1240px;
   margin: 0 auto;
 }
+
 mat-card-content{
-  margin-top: 20px;
+  margin-top: 32px;
   margin-bottom: 5px;
-  font-size: 1.7rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  text-align: end;
 }
+
+.gap-16 {
+  gap: 16px;
+}
+
 small{
   align-self: flex-end;
   font-size: small;
 }
-mat-card-header{
+
+.mat-card-header{
+  display: flex;
   justify-content: space-between;
 }
+
+.mat-card-header img {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+}
+
 .refresh{
   align-self: center;
   margin-bottom: 18px;
@@ -49,20 +43,13 @@ mat-card-header{
 .gauge{
   overflow: hidden;
 }
-::ng-deep .chart-legend {
-  max-width: 355px;
-  overflow-x: scroll;  
-}
-.legend-wrap *{
-  overflow: visible !important;
+
+::ng-deep .legend-wrap .legend-labels {
+  overflow: auto !important;
 }
 
-::ng-deep .legend-label-text .legend-labels *{
-  overflow: visible !important;
-}
 /* All drawer related classes are configuring scroll bar */
 ::ng-deep ul.legend-labels.horizontal-legend *{
-  /* overflow-x: scroll; */
   scrollbar-width: none !important;
   display: inline-flex;
   overflow: visible !important;
@@ -74,5 +61,5 @@ mat-card-header{
 ::ng-deep ul.legend-labels.horizontal-legend::-webkit-scrollbar-track *{
   visibility: none;
   overflow: visible !important;
-  scrollbar-width: none !important;  
+  scrollbar-width: none !important;
 }

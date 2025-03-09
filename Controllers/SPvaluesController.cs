@@ -28,7 +28,20 @@ namespace mbExecutive.Controllers
                     }
                     await sql.OpenAsync();
                     var value = await cmd.ExecuteScalarAsync();
-                    return value == DBNull.Value ? 0 : (Double)value;
+
+                    if (value == null || value == DBNull.Value)
+                    {
+                        return 0;
+                    }
+
+                    try
+                    {
+                        return Convert.ToDouble(value);
+                    }
+                    catch (InvalidCastException)
+                    {
+                        return 0;
+                    }
                 }
             }
         }

@@ -11,9 +11,9 @@ import { map } from 'rxjs/operators';
 export class GlobalService {constructor(private http: HttpClient, private datepipe: DatePipe) {}
 
   public title: string;
-  public splashScreen: boolean = false;
+  // public splashScreen: boolean = false;
   baseUrl = environment.apiUrl;
-  
+
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -51,6 +51,16 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
       return Math.round(recovery);
     }))
   }
+
+  getCashSale(dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cashSale&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+
+  getCreditSale(dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=creditSale&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+
+  getCheques(dateto: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=pdcCheques&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))}
+
   getTOP10(datefrom: any, dateto: any): Observable<any> {
     const top10 = [];
     return this.http.get<any>(`${this.baseUrl}/SP?sp=SLTOP10&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
