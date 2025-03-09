@@ -29,24 +29,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(){
-    const resolver = this.route.snapshot.data['resolver'];
-    this.cash = resolver.cash;
-    this.bbalance = resolver.bbalance;
-    this.receivable = resolver.receivable;
-    this.payable = resolver.payable;
-    this.top10 = resolver.top10;
-    this.expenses = resolver.expenses;
-    this.top10SO = resolver.top10SO;
-    this.oVsSVsp = resolver.oVssVsp;
-    this.cashSale = resolver.cashSale;
-    this.creditSale = resolver.creditSale;
-    this.cheques = resolver.cheques;
-    this.totalDispatch(resolver.oVssVsp[0].series);
-    this.totalProduction(resolver.oVssVsp[2].series);
-    this.saleVsRecovery(resolver.salevsrecovery);
     this.transformDateFrom();
     this.transformDateto();
     this.updateChartsDimensions(window.innerWidth);
+    this.refreshData();
   }
   cash: number;
   bbalance: number;

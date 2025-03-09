@@ -26,19 +26,26 @@ namespace mbExecutive.Controllers
                     {
                         cmd.Parameters.Add("@vdate", SqlDbType.DateTime).Value = dateto;
                     }
-                    await sql.OpenAsync();
-                    var value = await cmd.ExecuteScalarAsync();
-
-                    if (value == null || value == DBNull.Value)
-                    {
-                        return 0;
-                    }
-
                     try
                     {
-                        return Convert.ToDouble(value);
+                        await sql.OpenAsync();
+                        var value = await cmd.ExecuteScalarAsync();
+
+                        if (value == null || value == DBNull.Value)
+                        {
+                            return 0;
+                        }
+
+                        try
+                        {
+                            return Convert.ToDouble(value);
+                        }
+                        catch (InvalidCastException)
+                        {
+                            return 0;
+                        }
                     }
-                    catch (InvalidCastException)
+                    catch (Exception ex)
                     {
                         return 0;
                     }

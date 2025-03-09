@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Serialization;
 using System.Web.Http;
-// using System.Web.Http.Cors;
+using System.Web.Http.Cors;
 
 namespace mbExecutive
 {
@@ -8,10 +8,10 @@ namespace mbExecutive
     {
         public static void Register(HttpConfiguration config)
         {
-    
-            // var cors = new EnableCorsAttribute("*", "*", "*"); //http://110.38.214.222 http://mbdashboard-001-site1.gtempurl.com
-            // config.EnableCors(cors);
-      
+
+            var cors = new EnableCorsAttribute("http://localhost:4200", "*", "*"); //http://110.38.214.222 http://mbdashboard-001-site1.gtempurl.com
+            config.EnableCors(cors);
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

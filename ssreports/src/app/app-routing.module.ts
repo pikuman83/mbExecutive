@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/Login', pathMatch: 'full'},
   {path: 'Login', component: LoginComponent},
   // {path: 'splash', component: SplashComponent},
-  {path: 'dashboard', component: DashboardComponent, canActivate : [ChillarGuard], resolve: {resolver: ResolveResolver}},
+  {path: 'dashboard', component: DashboardComponent, canActivate : [ChillarGuard]},
 ];
 
 @NgModule({
