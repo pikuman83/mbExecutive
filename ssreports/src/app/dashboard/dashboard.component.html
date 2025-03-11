@@ -70,6 +70,7 @@
     <div class="d-flex mb-2 flex-column text-center gauge">
       <h1>Top 10 Products</h1>
       <ngx-charts-gauge *ngIf="expenses.length" class="d-flex justify-content-around"
+        #gaugeChart
         [view]="viewG"
         [scheme]="'flame'"
         [results]="top10"

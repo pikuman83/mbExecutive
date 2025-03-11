@@ -74,6 +74,16 @@ mat-card-header img {
   overflow: auto !important;
 }
 
+::ng-deep .legend-wrap {
+  display: flex !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+::ng-deep .chart-legend .legend-wrap {
+  width: 70% !important;
+}
+
 /* All drawer related classes are configuring scroll bar */
 ::ng-deep ul.legend-labels.horizontal-legend *{
   scrollbar-width: none !important;

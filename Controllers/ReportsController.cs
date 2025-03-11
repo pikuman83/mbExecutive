@@ -20,7 +20,7 @@ namespace mbExecutive.Controllers
                 if (table == "raw") { query = "select pcode, pname from product where ptype = 0"; };
                 if (table == "customers") { query = "select vcode, vname, city from party"; };
                 if (table == "suppliers") { query = "select vcode, vname, city from party"; };
-                if (table == "Cash") { query = @"select acode, aname from account where atype = 4"; };
+                if (table == "Cash") { query = "select acode, aname FROM ACCOUNT WHERE [ATYPE] > 0  AND [INTERF] <> 'STOCK' AND AStatus = 0 ORDER BY aname, acode"; };
                 
                 using (SqlCommand cmd = new SqlCommand(query, sql))
                 {

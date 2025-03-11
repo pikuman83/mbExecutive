@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('gaugeChart') gaugeChart: any;
+
   @HostListener('window:resize', ['$event'])
   updateCharts(event: { target: { innerWidth: number; }; }){
     this.updateChartsDimensions(event.target.innerWidth);
@@ -22,18 +24,6 @@ export class DashboardComponent implements OnInit {
   showLabels: boolean = true;
   totalDisp: number;
   totalProd: number;
-
-  constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
-    this.service.title = "Dashboard";
-    // this.service.splashScreen = false;
-  }
-
-  ngOnInit(){
-    this.transformDateFrom();
-    this.transformDateto();
-    this.updateChartsDimensions(window.innerWidth);
-    this.refreshData();
-  }
   cash: number;
   bbalance: number;
   receivable: number;
@@ -49,6 +39,18 @@ export class DashboardComponent implements OnInit {
   creditSale: number;
   cheques: number;
   refresh: boolean = false;
+
+  constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
+    this.service.title = "Dashboard";
+    // this.service.splashScreen = false;
+  }
+
+  ngOnInit(){
+    this.transformDateFrom();
+    this.transformDateto();
+    this.updateChartsDimensions(window.innerWidth);
+    this.refreshData();
+  }
 
   saleVsRecovery(x: any[]){
     const sale = {
@@ -108,10 +110,10 @@ export class DashboardComponent implements OnInit {
       this.viewG = null;
     } else if(windowWidth >= 700 && windowWidth < 1200){
       this.view = [400, 280];
-      this.viewG=[500, 350];
+      this.viewG=[400, 350];
     } else{
       this.view = [600, 300];
-      this.viewG=[800, 550];
+      this.viewG=[450, 450];
     }
   }
 
