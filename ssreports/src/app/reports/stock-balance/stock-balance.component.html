@@ -8,58 +8,11 @@
             <mat-radio-button value="0">Material</mat-radio-button>
             </mat-radio-group>
         </div>
-        
+
         <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
             <input matInput autocomplete="off" type="date" [(ngModel)]="date"/>
         </mat-form-field>
-        
-        <!-- <mat-form-field appearance="outline">
-            <mat-label>Main Group</mat-label>
-            <mat-select #Iparam4>
-                <mat-option [value]="m" *ngFor="let m of mgrp" >{{ m }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Product Type</mat-label>
-            <mat-select #Iparam5>
-                <mat-option>All</mat-option>
-                <mat-option [value]="s" *ngFor="let s of pgrp" >{{ s }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select #Iparam6>
-                <mat-option>All</mat-option>
-                <mat-option [value]="c" *ngFor="let c of typ" >{{ c }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Size</mat-label>
-            <mat-select #Iparam6>
-                <mat-option>All</mat-option>
-                <mat-option [value]="c" *ngFor="let c of size" >{{ c }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Shoe Type</mat-label>
-            <mat-select #Iparam6>
-                <mat-option>All</mat-option>
-                <mat-option [value]="c" *ngFor="let c of shoestyp" >{{ c }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Article</mat-label>
-            <mat-select #Iparam6>
-                <mat-option>All</mat-option>
-                <mat-option [value]="c" *ngFor="let c of article" >{{ c }}</mat-option>
-            </mat-select>
-        </mat-form-field> -->
 
         <mat-form-field appearance="outline">
             <mat-label>Godown</mat-label>
@@ -69,23 +22,6 @@
             </mat-select>
         </mat-form-field>
 
-        <!-- <h3>Zero Balance</h3>
-        <div class="d-flex w-100 mb-3 justify-content-center">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
-            <mat-radio-button [value]="2" class="mr-4" [checked]="true">No</mat-radio-button>
-            <mat-radio-button [value]="1" class="mr-4" [checked]="true">Yes</mat-radio-button>
-            <mat-radio-button [value]="0">Negative Only</mat-radio-button>
-            </mat-radio-group>
-        </div>
-        <h3>Type</h3>
-        <div class="d-flex w-100 mb-3 justify-content-center">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="header">
-            <mat-radio-button [value]="2" class="mr-4" [checked]="true">All</mat-radio-button>
-            <mat-radio-button [value]="1" class="mr-4" [checked]="true">Minimum</mat-radio-button>
-            <mat-radio-button [value]="0">Maximum</mat-radio-button>
-            </mat-radio-group>
-        </div>
-        <h3>Output</h3>-->
         <div class="d-flex w-100 mb-1 justify-content-center">
             <mat-radio-group aria-label="Select an option" [(ngModel)]="output">
             <mat-radio-button value="0" class="mr-4" [checked]="true">Regular</mat-radio-button>

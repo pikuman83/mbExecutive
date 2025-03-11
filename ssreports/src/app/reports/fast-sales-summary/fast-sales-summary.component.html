@@ -15,7 +15,7 @@
     <mat-form-field appearance="outline">
         <mat-label>Filter</mat-label>
         <mat-select value="All" #Iparam3 (keydown.enter)="Iparam3.close()">
-            <mat-option value="All">Selec All</mat-option>  
+            <mat-option value="All">Selec All</mat-option>
             <mat-option value="10">Top10</mat-option>
             <mat-option value="20">Top20</mat-option>
             <mat-option value="30">Top30</mat-option>
@@ -24,7 +24,7 @@
         </mat-select>
       </mat-form-field>
 
-    <button class="refresh ml-3" mat-raised-button tabIndex="4" (click)="generate(datefrom, dateto, Iparam3.value)"
-    (keydown.enter)="generate(datefrom, dateto, Iparam3.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button tabIndex="4" (click)="generate(Iparam3.value)"
+      (keydown.enter)="generate(Iparam3.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="5" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

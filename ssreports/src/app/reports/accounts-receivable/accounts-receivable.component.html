@@ -3,7 +3,7 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Date</mat-label>
-        <input matInput tabindex="0" #Idate tabIndex="1" autocomplete="off" type="date" [value]="dateto"/>
+        <input matInput tabindex="0" tabIndex="1" autocomplete="off" type="date" [(ngModel)]="dateto"/>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -37,8 +37,8 @@
         </mat-radio-group>
       </div>
 
-    <button class="refresh ml-3" mat-raised-button tabIndex="5" 
-    (click)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)"
-    (keydown.enter)="generate(Idate.value, Iparam2.value, Iparam3.value, Iparam4.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button tabIndex="5"
+    (click)="generate(Iparam2.value, Iparam3.value, Iparam4.value)"
+    (keydown.enter)="generate(Iparam2.value, Iparam3.value, Iparam4.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

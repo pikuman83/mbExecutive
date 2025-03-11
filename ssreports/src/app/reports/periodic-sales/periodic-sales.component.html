@@ -1,6 +1,6 @@
 <div class="text-center w-100">
     <div class="w-100 modalTitle">{{title}}</div>
-    
+
     <h3>Type</h3>
     <div class="d-flex w-100 mb-3 justify-content-center">
         <mat-radio-group aria-label="Select an option" [(ngModel)]="type">
@@ -8,15 +8,14 @@
           <mat-radio-button value="Summary">Summary</mat-radio-button>
         </mat-radio-group>
     </div>
-  
+
     <mat-form-field appearance="outline">
-        <mat-label>Enter a date range</mat-label>   
+        <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" [(ngModel)]="datefrom">
-        <input matEndDate placeholder="End date" [(ngModel)]="dateto">
+            <input matStartDate placeholder="Start date" [(ngModel)]="datefrom">
+            <input matEndDate placeholder="End date" [(ngModel)]="dateto">
         </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker">
-        </mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
     </mat-form-field>
 
@@ -24,7 +23,7 @@
         <mat-label>Party</mat-label>
         <input type="text" #Iparam3 placeholder="Leave blank to Select All" matInput [formControl]="accInput" [matAutocomplete]="auto" >
         <mat-hint *ngIf="aname&&Iparam3.value">{{aname}}</mat-hint>
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
@@ -61,7 +60,7 @@
     </mat-radio-group>
     </div>
 
-    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value, datefrom, dateto)"
-    (keydown.enter)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value, datefrom, dateto)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value)"
+     (keydown.enter)="generate(Iparam3.value, Iparam4.value, Iparam5.value, Iparam6.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

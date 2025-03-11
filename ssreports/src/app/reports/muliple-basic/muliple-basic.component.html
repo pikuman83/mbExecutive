@@ -1,9 +1,9 @@
 <div class="text-center w-100">
     <div class="w-100 modalTitle"> {{id[1]}} </div>
-  
+
       <mat-form-field appearance="outline" [hidden]="hideDate">
           <mat-label>Date</mat-label>
-          <input matInput #idate autocomplete="off" type="date" [value]="singleDate"/>
+          <input matInput autocomplete="off" type="date" [(ngModel)]="singleDate"/>
       </mat-form-field>
 
       <mat-form-field appearance="outline" [hidden]="hideDateRange">
@@ -16,7 +16,7 @@
         </mat-datepicker-toggle>
         <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
       </mat-form-field>
-  
-      <button class="refresh ml-3" mat-raised-button (click)="generate(idate.value)" (keydown.enter)="generate(idate.value)">Generate</button>
+
+      <button class="refresh ml-3" mat-raised-button (click)="generate()" (keydown.enter)="generate()">Generate</button>
       <button class="refresh ml-3" mat-raised-button (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
   </div>

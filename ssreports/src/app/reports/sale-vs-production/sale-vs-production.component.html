@@ -1,8 +1,8 @@
 <div class="text-center w-100">
     <div class="w-100 modalTitle">{{title}}</div>
-  
+
     <mat-form-field appearance="outline">
-        <mat-label>Enter a date range</mat-label>   
+        <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
         <input matStartDate placeholder="Start date" [(ngModel)]="datefrom">
         <input matEndDate placeholder="End date" [(ngModel)]="dateto">
@@ -20,7 +20,7 @@
         </mat-select>
     </mat-form-field>
 
-    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, datefrom, dateto)"
-    (keydown.enter)="generate(Iparam3.value, datefrom, dateto)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value)"
+      (keydown.enter)="generate(Iparam3.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="6" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

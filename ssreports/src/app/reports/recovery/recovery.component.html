@@ -12,20 +12,11 @@
       <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Party</mat-label>
-      <input matInput #Iparam3 autocomplete="off" tabIndex="3" placeholder="Search by code or name" list="accounts"/>
-      <datalist id="accounts">
-        <option value="All">All</option>
-        <option *ngFor="let p of party" [value]="p.col1">{{ p.col2 }} - {{ p.col3? p.col3: '' }}</option>
-      </datalist>
-    </mat-form-field> -->
-
     <mat-form-field appearance="outline">
       <mat-label>Party</mat-label>
       <input type="text" #Iparam3 placeholder="Leave blank to select all" matInput [formControl]="accInput" [matAutocomplete]="auto" >
       <mat-hint *ngIf="aname">{{aname}}</mat-hint>
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
       </mat-autocomplete>
     </mat-form-field>

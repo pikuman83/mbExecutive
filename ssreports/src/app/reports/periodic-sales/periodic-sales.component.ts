@@ -1,10 +1,8 @@
 // Validate party and put value to All
-import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GlobalService } from 'src/app/global.service';
@@ -14,13 +12,21 @@ import { GlobalService } from 'src/app/global.service';
   templateUrl: './periodic-sales.component.html'
 })
 export class PeriodicSalesComponent implements OnInit {
-    
+  order: string = 'Party';
+  type: string = 'Detail';
+  party: any;
+  mgrp: string[];
+  pgrp: string[];
+  locations: string[];
+  dateto = new Date();
+  datefrom = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  filteredOptions: Observable<string[]>;
+  accInput = new FormControl();
+
   constructor(
-    private service: GlobalService, 
-    private datepipe: DatePipe,
+    private service: GlobalService,
     public dialogRef: MatDialogRef<PeriodicSalesComponent>,
-    @Inject(MAT_DIALOG_DATA) public title: string,
-    private _snackBar: MatSnackBar) {}
+    @Inject(MAT_DIALOG_DATA) public title: string) {}
 
   ngOnInit(): void {
     this.getparty();
@@ -29,24 +35,12 @@ export class PeriodicSalesComponent implements OnInit {
     this.getlocations();
   }
 
-
-  order: string = 'Party';
-  type: string = 'Detail';
-  party: any;
-  mgrp: string[];
-  pgrp: string[];
-  locations: string[];
-  dateto = this.datepipe.transform(Date.now(), 'yyyy-MM-dd');
-  datefrom = this.datepipe.transform(`${new Date().getFullYear()}-${new Date().getMonth()+1}-01`, 'yyyy-MM-dd')
-  filteredOptions: Observable<string[]>;
-  accInput = new FormControl();
-
   initilizeFilter(){
     this.filteredOptions = this.accInput.valueChanges.pipe(startWith(''),map(value => this._filter(value)));
   }
   private _filter(value: string): string[] {return this.party.filter(x => {
       if (x.col1.includes(value)||x.col2.toLowerCase().includes(value.toString().toLowerCase()))return x;})}
-  
+
   public displayProperty(value) {
     if (value) {
       return value.col1;
@@ -61,11 +55,11 @@ export class PeriodicSalesComponent implements OnInit {
   getmgrp(): void { this.service.get('Reports/?table=mgrp').subscribe(x => this.mgrp = x.map(y => y.col1))}
   getpgrp(): void { this.service.get('Reports/?table=pgroup').subscribe(x => this.pgrp = x.map(y => y.col1))}
   getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x)}
-  
-  generate(party: string, mgrp: string, pgrp: string, godown: any, datefrom: any, dateto: any){
+
+  generate(party: string, mgrp: string, pgrp: string, godown: any){
     party = !party.trim()?'All':party;
     if(!this.party.some(x => x.col1 === party)) party = 'All';
-    this.service.genReport("mb", this.genFilename(this.order, this.type), datefrom.toDateString(), dateto.toDateString(), party.trim()?party:'All', mgrp, pgrp, godown, "").subscribe((data) => {
+    this.service.genReport("mb", this.genFilename(this.order, this.type), this.datefrom, this.dateto, party.trim()?party:'All', mgrp, pgrp, godown, "").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')

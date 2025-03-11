@@ -38,7 +38,6 @@ html{
   left: 50%;
   transform: translate(-50%, -50%);
   top: 17px;
-  /* border-bottom: solid 2px; */
   text-transform: uppercase;
   text-align: center;
 }
@@ -77,9 +76,9 @@ a, button{
 }
 i{
   color: #818181;
-  width: 35px;
+  width: 18px;
   margin-left: 5px;
-  font-size: large;
+  font-size: small;
   box-sizing: border-box;
 }
 .sidenav a, .dropdown-btn {
@@ -201,7 +200,8 @@ button:focus{
 }
 
 @media only screen and (max-width: 600px) {
-  .title-small {
-    font-size:small;
+  .title{
+    position: unset;
+    transform: none;
   }
 }

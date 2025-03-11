@@ -16,12 +16,12 @@
         <mat-label>{{title[1] === 'CustLgr'? 'Customer': title[1] === 'SuppLgr'?'Supplier':'Account'}}</mat-label>
         <input type="text" #Iparam3 placeholder="Search by name or code" matInput [formControl]="accInput" [matAutocomplete]="auto" >
         <mat-hint *ngIf="aname">{{aname}}</mat-hint>
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
 
-    <button class="refresh ml-3" mat-raised-button tabIndex="4" (click)="generate(datefrom, dateto, Iparam3.value)"
-    (keydown.enter)="generate(datefrom, dateto, Iparam3.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button tabIndex="4" (click)="generate(Iparam3.value)"
+      (keydown.enter)="generate(Iparam3.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button tabIndex="5" (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

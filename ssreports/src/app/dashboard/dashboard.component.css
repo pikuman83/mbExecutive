@@ -9,11 +9,11 @@ mat-card{
 }
 
 mat-card-content{
-  margin-top: 32px;
+  margin-top: 20px;
   margin-bottom: 5px;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   font-weight: bold;
-  text-align: end;
+  padding-left: 10px;
 }
 
 .gap-16 {
@@ -25,15 +25,41 @@ small{
   font-size: small;
 }
 
-.mat-card-header{
-  display: flex;
+mat-card-header{
   justify-content: space-between;
 }
 
-.mat-card-header img {
-  width: 24px;
-  height: 24px;
-  margin-right: 16px;
+.cashInHand{
+  border-left: solid 8px #913fc7;
+}
+.bankBalance{
+  border-left: solid 8px #56b384;
+}
+.cash-regiter{
+  border-left: solid 8px #354e9c;
+}
+.credit-sale {
+  border-left: solid 8px #a1c138;
+}
+.cheque-border {
+  border-left: solid 8px #0fc7db;
+}
+.totalReceivale{
+  border-left: solid 8px #50a3a6;
+}
+.totalPayable{
+  border-left: solid 8px #235c5e;
+}
+.prod{
+  border-left: solid 8px #9c767d;
+}
+.dispatch{
+  border-left: solid 8px #5ab3b3;
+}
+
+mat-card-header img {
+  width: 64px;
+  height: 64px;
 }
 
 .refresh{

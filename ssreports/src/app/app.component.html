@@ -129,11 +129,11 @@
     </button>
 
     <div class="title">
-      <h2 class="title-small">{{service.title}}</h2>
+      <h2>{{ service.title }}</h2>
     </div>
 
     <div>
-      {{this.username? 'Hello ' + this.username: ''}}
+      <span class="text-small">{{ username }}</span>
       <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
       <button *ngIf="isLogin()" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <mat-icon>more_vert</mat-icon>
