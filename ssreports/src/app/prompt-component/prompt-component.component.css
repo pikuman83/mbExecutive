@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
   }
-  
+
 .ios-prompt {
     display: flex;
     flex-direction: column;
@@ -13,11 +13,13 @@
 .close-ios-inv {
     position: absolute;
     right: 0px;
-    top: 0;
+    top: 15px;
 }
 div {
     text-align: center;
     padding: 10px 25px 0;
+    display: flex;
+    align-items: baseline;
 }
 mat-icon {
     position: relative;

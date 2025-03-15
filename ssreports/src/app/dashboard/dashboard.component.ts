@@ -16,7 +16,6 @@ export class DashboardComponent implements OnInit {
     this.updateChartsDimensions(event.target.innerWidth);
   }
 
-  // *** Remote chart options
   view = [560, 350];
   viewG = null;
   max = 1000;
@@ -34,7 +33,7 @@ export class DashboardComponent implements OnInit {
   top10SO: any[] = [];
   oVsSVsp: any[] = [];
   dateto = new Date();
-  datefrom = new Date(this.dateto);
+  datefrom = new Date();
   cashSale: number;
   creditSale: number;
   cheques: number;
@@ -42,12 +41,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
     this.service.title = "Dashboard";
-    // this.service.splashScreen = false;
+    this.dateto.setDate(this.dateto.getDate() - 1);
+    this.datefrom.setDate(this.dateto.getDate() - 30);
   }
 
   ngOnInit(){
-    this.transformDateFrom();
-    this.transformDateto();
     this.updateChartsDimensions(window.innerWidth);
     this.refreshData();
   }
@@ -64,44 +62,34 @@ export class DashboardComponent implements OnInit {
     return this.sVSr = [sale, recovery];
   }
 
-  transformDateFrom(){
-    this.datefrom.setDate(this.datefrom.getDate() - 30);
-    return this.datepipe.transform(this.datefrom, "yyyy,MM,dd");
-  }
-  transformDateto(){
-    return this.datepipe.transform(this.dateto, "yyyy,MM,dd");
-  }
+  showButton = (): boolean => this.refresh = !!(this.datefrom && this.dateto);
 
-  showButton(){
-    if (this.datefrom && this.dateto) {this.refresh = true}
-    else {this.refresh = false}
-  }
   refreshData(){
     this.max = 1000;
-    this.service.getcash(this.dateto.toDateString()).subscribe(x => this.cash = x);
-    this.service.getbbalance(this.dateto.toDateString()).subscribe(x => this.bbalance = x);
-    this.service.getreceivable(this.dateto.toDateString()).subscribe(x => this.receivable = x);
-    this.service.getpayable(this.dateto.toDateString()).subscribe(x => this.payable = x);
-    this.service.getTOP10(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.top10 = x);
-    this.service.getexpenses(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.expenses = x);
-    this.service.getSOTOP10(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.top10SO = x);
-    this.service.getSaleAmount(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sale => {
-      this.service.getSaleRecovery(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(recovery => {
+    this.service.getcash(this.dateto).subscribe(x => this.cash = x);
+    this.service.getbbalance(this.dateto).subscribe(x => this.bbalance = x);
+    this.service.getreceivable(this.dateto).subscribe(x => this.receivable = x);
+    this.service.getpayable(this.dateto).subscribe(x => this.payable = x);
+    this.service.getTOP10(this.datefrom, this.dateto).subscribe(x => this.top10 = x);
+    this.service.getexpenses(this.datefrom, this.dateto).subscribe(x => this.expenses = x);
+    this.service.getSOTOP10(this.datefrom, this.dateto).subscribe(x => this.top10SO = x);
+    this.service.getSaleAmount(this.datefrom, this.dateto).subscribe(sale => {
+      this.service.getSaleRecovery(this.datefrom, this.dateto).subscribe(recovery => {
         this.saleVsRecovery([sale, recovery])
       })
     });
-    this.service.getsaleorder(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(orders => {
-      this.service.getsales(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sales => {
-        this.service.getproduction(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(production =>{
+    this.service.getsaleorder(this.datefrom, this.dateto).subscribe(orders => {
+      this.service.getsales(this.datefrom, this.dateto).subscribe(sales => {
+        this.service.getproduction(this.datefrom, this.dateto).subscribe(production =>{
           this.oVsSVsp = [orders, sales, production];
           this.totalDispatch(sales.series);
           this.totalProduction(production.series);
         })
       })
     });
-    this.service.getCashSale(this.dateto.toDateString()).subscribe(x => this.cashSale = x);
-    this.service.getCreditSale(this.dateto.toDateString()).subscribe(x => this.creditSale = x);
-    this.service.getCheques(this.dateto.toDateString()).subscribe(x => this.cheques = x);
+    this.service.getCashSale(this.dateto).subscribe(x => this.cashSale = x);
+    this.service.getCreditSale(this.dateto).subscribe(x => this.creditSale = x);
+    this.service.getCheques(this.dateto).subscribe(x => this.cheques = x);
   }
 
   private updateChartsDimensions(windowWidth: number): void {

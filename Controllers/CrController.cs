@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.ReportAppServer;
 using CrystalDecisions.Shared;
 using mbExecutive.Auth;
 using mbExecutive.Models;
@@ -27,6 +28,21 @@ namespace SsReports.Controllers
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
 
+            ConnectionInfo connInfo = new ConnectionInfo
+            {
+                ServerName = "OFI-SERVER",
+                DatabaseName = "Omega25",
+                UserID = "sa",
+                Password = ""
+            };
+
+            foreach (Table table in reportDocument.Database.Tables)
+            {
+                TableLogOnInfo logOnInfo = table.LogOnInfo;
+                logOnInfo.ConnectionInfo = connInfo;
+                table.ApplyLogOnInfo(logOnInfo);
+            }
+
             reportDocument.SetDatabaseLogon("sa", "");
             //reportDocument.SetDatabaseLogon("DB_A70E8A_mbdashboard_admin", "Boogeyman123*");
 
@@ -43,8 +59,8 @@ namespace SsReports.Controllers
                 reportDocument.SetParameterValue("@sgrp", param5);
                 reportDocument.SetParameterValue("@gdcode", param6);
             }
-            //Periodic Sale | Periodic Purchase | Zakat
-            if (id == "ExpRpt" || id == "zakat")
+            //Periodic Sale | Periodic Purchase | Zakat | Pdc Cheque
+            if (id == "ExpRpt" || id == "zakat" || id == "PdcChqRep")
             {
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));

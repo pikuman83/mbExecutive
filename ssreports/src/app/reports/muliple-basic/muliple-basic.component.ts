@@ -20,9 +20,9 @@ export class MulipleBasicComponent implements OnInit {
 
   ngOnInit(): void {
     this.transformDateFrom();
-    if(this.id[0] === "Dllog") this.hideDateRange = true;
-    if(this.id[0] === "ExpRpt") this.hideDate = true;
-    if(this.id[0] === "zakat") this.hideDate = true;
+    const report = this.id[0];
+    if(report === "Dllog") this.hideDateRange = true;
+    if(report === "ExpRpt" || report === "zakat" || report === "PdcChqRep") this.hideDate = true;
   }
 
   transformDateFrom(){
@@ -38,7 +38,7 @@ export class MulipleBasicComponent implements OnInit {
       });
       this.dialogRef.close();
     }
-    if (this.id[0] === "ExpRpt" || this.id[0] === "zakat"){
+    if (this.id[0] === "ExpRpt" || this.id[0] === "zakat" || this.id[0] === "PdcChqRep"){
       this.service.genReport("mb", this.id[0], this.datefrom, this.dateto, "", "", "", "", "").subscribe((data) => {
         const blob = new Blob([data], {type: 'application/pdf'});
         var downloadURL = window.URL.createObjectURL(blob);

@@ -10,8 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class GlobalService {constructor(private http: HttpClient, private datepipe: DatePipe) {}
 
-  public title: string;
-  // public splashScreen: boolean = false;
+  title: string;
   baseUrl = environment.apiUrl;
 
   httpOptions = {
@@ -20,6 +19,7 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
       'Accept': 'application/json',
     }),
   };
+
   httpOptionsPdf = {
     responseType: 'blob' as 'json',
     headers: new HttpHeaders({
@@ -46,49 +46,74 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
     return this.http.get<any>(`${this.baseUrl}/${path}`, this.httpOptions)
   }
 
-  getcash(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cash&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getcash(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cash&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => Math.round(res ?? 0)))
   }
 
-  getbbalance(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=bbalance&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getbbalance(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=bbalance&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => Math.round(res ?? 0)))
   }
 
-  getreceivable(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=receivable&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getreceivable(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=receivable&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => res && Math.round(res ?? 0)))
   }
 
-  getpayable(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=payable&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getpayable(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=payable&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => Math.round(res ?? 0)))
   }
 
-  getSaleAmount(datefrom: any, dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=saleamount&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(amount => {
-      return Math.round(amount);
-    }))
+  getSaleAmount(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=saleamount&datefrom=${from}&dateto=${to}`).pipe(map(amount => Math.round(amount ?? 0)))
   }
 
-  getSaleRecovery(datefrom: any, dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=salerecovery&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(recovery => {
-      return Math.round(recovery);
-    }))
+  getSaleRecovery(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=salerecovery&datefrom=${from}&dateto=${to}`).pipe(map(recovery => Math.round(recovery ?? 0)))
   }
 
-  getCashSale(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cashSale&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getCashSale(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=cashSale&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => Math.round(res ?? 0)))
   }
 
-  getCreditSale(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=creditSale&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getCreditSale(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=creditSale&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => Math.round(res ?? 0)))
   }
 
-  getCheques(dateto: any): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=pdcCheques&datefrom=&dateto=${dateto}`, this.httpOptions).pipe(map(res => {return Math.round(res)}))
+  getCheques(dateto: Date): Observable<any> {
+    const date = this.formatDate(dateto);
+    return this.http.get<any>(`${this.baseUrl}/SPvalues?sp=pdcCheques&datefrom=&dateto=${date}`, this.httpOptions).pipe(map(res => Math.round(res ?? 0)))
   }
 
-  getTOP10(datefrom: any, dateto: any): Observable<any> {
+  getTOP10(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+
     const top10 = [];
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=SLTOP10&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=SLTOP10&datefrom=${from}&dateto=${to}`).pipe(map(res => {
+      if (res && res.length) {
+        res.forEach(product => {
+          top10.push({ name: `${product.pname} (${product.qty})`, value: product.qty })
+        });
+      }
+      return top10;
+    }));
+  }
+
+  getSOTOP10(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+
+    const top10 = [];
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=SOTOP10&datefrom=${from}&dateto=${to}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;
@@ -99,25 +124,16 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
     }));
   }
 
-  getSOTOP10(datefrom: any, dateto: any): Observable<any> {
-    const top10 = [];
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=SOTOP10&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
-      for (let x of res){
-        let object: any = {};
-          object.name= x.pname;
-          object.value= x.qty;
-          top10.push(object)
-        }
-      return top10;
-    }));
-  }
+  getsales(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
 
-  getsales(datefrom: any, dateto: any): Observable<any> {
     const sales = {
       "name": "Sales",
       "series": []
     }
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=sales&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
+
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=sales&datefrom=${from}&dateto=${to}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname.slice(0, 8);
@@ -128,12 +144,16 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
     }));
   }
 
-  getsaleorder(datefrom: any, dateto: any): Observable<any> {
+  getsaleorder(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+
     const orders = {
       "name": "Orders",
       "series": []
     }
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=saleorder&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
+
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=saleorder&datefrom=${from}&dateto=${to}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname.slice(0, 8);
@@ -144,12 +164,16 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
     }));
   }
 
-  getproduction(datefrom: any, dateto: any): Observable<any> {
+  getproduction(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+
     const production = {
       "name": "Productions",
       "series": []
     }
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=production&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
+
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=production&datefrom=${from}&dateto=${to}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname.slice(0, 8);
@@ -160,9 +184,12 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
     }));
   }
 
-  getexpenses(datefrom: any, dateto: any): Observable<any> {
+  getexpenses(datefrom: Date, dateto: Date): Observable<any> {
+    const from = this.formatDate(datefrom);
+    const to = this.formatDate(dateto);
+
     const expenses: any[] = [];
-    return this.http.get<any>(`${this.baseUrl}/SP?sp=expenses&datefrom=${datefrom}&dateto=${dateto}`).pipe(map(res => {
+    return this.http.get<any>(`${this.baseUrl}/SP?sp=expenses&datefrom=${from}&dateto=${to}`).pipe(map(res => {
       for (let x of res){
         let object: any = {};
           object.name= x.pname;

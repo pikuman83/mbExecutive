@@ -204,4 +204,8 @@ button:focus{
     position: unset;
     transform: none;
   }
+
+  .mat-toolbar {
+    justify-content: unset;
+  }
 }

@@ -22,13 +22,15 @@
       <div id="profiles" class="collapse collapsed">
         <a (click)="ledger('Cash Book', 'Cash');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
         <div class="divider"></div>
-        <a (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Ledgers</a>
+        <a (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Account Ledger</a>
         <div class="divider"></div>
         <a (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
         <div class="divider"></div>
         <a (click)="mBasic('zakat', 'Periodic Zakat');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
         <div class="divider"></div>
         <a (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
+        <div class="divider"></div>
+        <a (click)="mBasic('PdcChqRep', 'PDC Cheque');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>PDC Cheque</a>
         <div class="divider"></div>
       </div>
 
@@ -132,7 +134,7 @@
       <h2>{{ service.title }}</h2>
     </div>
 
-    <div>
+    <div class="ml-auto">
       <span class="text-small">{{ username }}</span>
       <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
       <button *ngIf="isLogin()" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
