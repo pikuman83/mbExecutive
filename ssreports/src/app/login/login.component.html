@@ -2,21 +2,22 @@
   <div id="formContent">
     <!-- Icons -->
     <img src="./assets/logo.jpg" id="icon" alt="User Icon" />
-    <div class="fadeIn first">
-      <img src="./assets/omega.jpg" alt="Background 1" class="bg-image" />
-      <img src="./assets/amazon.jpg" alt="Background 2" class="bg-image" />
-    </div>
 
     <!-- Login Form -->
     <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" [(ngModel)]="loginuser.username">
-      <input type="password" id="password" class="fadeIn third" name="login" placeholder="password" [(ngModel)]="loginuser.password">
-      <button class="fadeIn fourth" (click)="Submit(loginuser)">Activate</button>
+      <input type="text" id="login" class="w-auto fadeIn second" name="login" placeholder="user" [(ngModel)]="loginuser.username">
+      <input type="password" id="password" class="w-auto fadeIn third" name="login" placeholder="password" [(ngModel)]="loginuser.password">
+      <button class="fadeIn fourth" (click)="Submit(loginuser)">Login</button>
     </form>
 
     <!-- Remind Passowrd -->
     <div id="formFooter">
       <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+    <div class="fadeIn first d-flex align-items-center justify-content-center">
+      <img src="./assets/omega-full.jpg" alt="Background 1" class="bg-image" />
+      <img src="./assets/amazon.jpg" alt="Background 2" class="bg-image" />
     </div>
 
   </div>
