@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "ssreports"
+  "defaultProject": "ssreports",
+  "cli": {
+    "analytics": false
+  }
 }

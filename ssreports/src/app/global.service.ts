@@ -202,6 +202,12 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
 
   private formatDate(date: string | Date): string {
     if (!date) return '';
-    return typeof date === 'string' ? date : date.toISOString().split('T')[0];
-}
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2); // getMonth() es base 0
+    const day = ('0' + d.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+    // return typeof date === 'string' ? date : date.toISOString().split('T')[0];
+  }
 }
