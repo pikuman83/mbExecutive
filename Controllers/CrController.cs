@@ -80,17 +80,17 @@ namespace SsReports.Controllers
             if (id == "PrdBal" || id == "STKAmnt" || id == "PrdBal_Color" || id == "Prdbal1_Color")
             {
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param1));
-                reportDocument.SetParameterValue("@Godown", param2);
-                reportDocument.SetParameterValue("@PTYP", param3);
+                reportDocument.SetParameterValue("@Godown", param3);
+                reportDocument.SetParameterValue("@PTYP", param4);
             }
 
             // ACCOUNT/CUSTOMER/SUPPLIER LEDGERS
-            if (id == "Lgrrep" || id == "CustLgr" || id == "SuppLgr" || id == "Cash")
+            if (id == "Lgrrep" || id == "CustLgr" || id == "CustLgrWdChq" || id == "SuppLgr" || id == "Cash")
             {
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
                 reportDocument.SetParameterValue("@acode", param3);
-                if (id == "CustLgr" || id == "SuppLgr") { reportDocument.SetParameterValue("Pm-LGRREP.ACode", param3); }
+                if (id == "CustLgr" || id == "CustLgrWdChq" || id == "SuppLgr") { reportDocument.SetParameterValue("Pm-LGRREP.ACode", param3); }
             }
 
             //PAYMENT REPORT
@@ -103,7 +103,8 @@ namespace SsReports.Controllers
                     reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                     reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
                 }
-                    if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
+
+                if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
                 {
                     reportDocument.RecordSelectionFormula = _sF1.myFormula(param3, param4, param5);
                 }
