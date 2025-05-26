@@ -18,6 +18,8 @@ export class CustomerLedgerComponent implements OnInit {
   dateto = new Date();
   datefrom = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   aname='';
+  withCheck = '0';
+  isCustomerLeger = false;
 
   constructor(
     private service: GlobalService,
@@ -31,8 +33,11 @@ export class CustomerLedgerComponent implements OnInit {
   getAccounts(): void {
     if (this.title[1]=== 'Lgrrep') this.service.get('Reports/?table=account').subscribe(x => {this.code = x;
       this.initilizeFilter()});
-    if (this.title[1]=== 'CustLgr') this.service.get('Reports/?table=customers').subscribe(x => {this.code = x;
-      this.initilizeFilter()});
+    if (this.title[1]=== 'CustLgr') {
+      this.isCustomerLeger = true;
+      this.service.get('Reports/?table=customers').subscribe(x => {this.code = x;
+        this.initilizeFilter()});
+      }
     if (this.title[1]=== 'SuppLgr') this.service.get('Reports/?table=suppliers').subscribe(x => {this.code = x;
       this.initilizeFilter()});
     if (this.title[1]=== 'Cash') this.service.get('Reports/?table=Cash').subscribe(x => {this.code = x;
@@ -58,11 +63,17 @@ export class CustomerLedgerComponent implements OnInit {
   generate(Icode: string){
     if(Icode.trim()) Icode = this.code.some(x => x.col1 === Icode)? Icode:'All';
     else Icode = 'All'
-    this.service.genReport("mb", this.title[1], this.datefrom, this.dateto, Icode, "" ,"","","").subscribe((data) => {
+    this.service.genReport("mb", this.withCheck === '1' ? 'CustLgrWdChq' : this.title[1], this.datefrom, this.dateto, Icode, "","","","").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       const downloadURL = window.URL.createObjectURL(blob);
-      window.open(downloadURL, '_blank')
+      const a = document.createElement('a');
+      a.href = downloadURL;
+      a.download = `report-${this.code.find(c => c.col1 === Icode)?.col2}.pdf`;
+      a.click();
+
+      window.URL.revokeObjectURL(downloadURL);
     });
+
     this.dialogRef.close();
   }
 }
