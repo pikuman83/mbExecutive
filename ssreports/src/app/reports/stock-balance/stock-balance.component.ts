@@ -10,6 +10,7 @@ export class StockBalanceComponent implements OnInit {
   date = new Date().toISOString().split('T')[0];
   header = "All";
   output = '0';
+  goDown = "All"
   locations: any[];
 
   constructor(
@@ -23,10 +24,10 @@ export class StockBalanceComponent implements OnInit {
 
   getlocations(): void { this.service.get('Reports/?table=location').subscribe(x => this.locations = x)};
 
-  generate(godown: any){
+  generate(){
     const output = this.output === '0'? 'Prdbal1_Color': 'PrdBal_Color';
     this.service.genReport("mb", this.title ==='Stock Balance'? 'PrdBal' : this.title === 'Stock (color wise)'? output : 'STKAmnt',
-      this.date, godown, this.header, '','','', '').subscribe((data) => {
+      this.date, '', this.goDown, this.header, '','','').subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')
