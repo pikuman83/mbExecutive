@@ -61,9 +61,9 @@ export class RecoveryComponent implements OnInit {
   }
 
   generate(party: string, param4: string){
-    if(party.trim()) party = this.party.some(x => x.col1 === party)? party:'All';
-      else party = 'All'
-    this.service.genReport("mb", this.fileName, this.datefrom, this.dateto, party,param4,"","", "").subscribe((data) => {
+    if(party.trim()) party = this.party.some(x => x.col1 === party)? party:'';
+      else party = ''
+    this.service.genReport("mb", this.fileName, this.datefrom, this.dateto, party, param4,"","", "").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')
