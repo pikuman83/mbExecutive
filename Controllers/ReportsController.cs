@@ -21,7 +21,8 @@ namespace mbExecutive.Controllers
                 if (table == "customers") { query = "select vcode, vname, city from party"; };
                 if (table == "suppliers") { query = "select vcode, vname, city from party"; };
                 if (table == "Cash") { query = "select acode, aname FROM ACCOUNT WHERE [ATYPE] > 0  AND [INTERF] <> 'STOCK' AND AStatus = 0 ORDER BY aname, acode"; };
-                
+                if (table == "account") { query = "SELECT ACode, AName FROM Account WHERE (AType > 0) AND (Levl = 4) ORDER BY AName, ACode"; };
+
                 using (SqlCommand cmd = new SqlCommand(query, sql))
                 {
                     var response = new List<Object>();
@@ -35,7 +36,7 @@ namespace mbExecutive.Controllers
                             if (table == "mgrp" || table == "grp") response.Add(new objectModel { col1 = reader["gname"].ToString()});
                             if (table == "pgroup") response.Add(new objectModel { col1 = reader["pgname"].ToString()});
                             if (table == "city") response.Add(new objectModel { col1 = reader["cname"].ToString()});
-                            if (table == "account"||table == "Cash") response.Add(new objectModel { col1 = reader["acode"].ToString(), col2 = reader["aname"].ToString()});
+                            if (table == "account" || table == "Cash") response.Add(new objectModel { col1 = reader["acode"].ToString(), col2 = reader["aname"].ToString()});
                             if (table == "product") response.Add(new objectModel { col1 = reader["pcode"].ToString(), col2 = reader["pname"].ToString()});
                             if (table == "raw") response.Add(new objectModel { col1 = reader["pcode"].ToString(), col2 = reader["pname"].ToString() });
                             if (table == "customers"||table == "suppliers") response.Add(new objectModel { col1 = reader["vcode"].ToString(), col2 = reader["vname"].ToString(), col3 = reader["city"].ToString() });
