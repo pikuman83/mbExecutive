@@ -31,7 +31,7 @@ export class MulipleBasicComponent implements OnInit {
 
   generate(){
     if (this.id[0] === "Dllog"){
-      this.service.genReport("mb", this.id[0], this.singleDate, null, "", "", "", "", "").subscribe((data) => {
+      this.service.genReport("mb", this.id[0], this.singleDate, "", "", "", "", "", "").subscribe((data) => {
         const blob = new Blob([data], {type: 'application/pdf'});
         var downloadURL = window.URL.createObjectURL(blob);
         window.open(downloadURL, '_blank')

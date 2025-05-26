@@ -17,7 +17,7 @@
       <input type="text" #Iparam3 placeholder="Leave blank to select all" matInput [formControl]="accInput" [matAutocomplete]="auto" >
       <mat-hint *ngIf="aname">{{aname}}</mat-hint>
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col2}}</mat-option>
       </mat-autocomplete>
     </mat-form-field>
 

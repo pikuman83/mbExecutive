@@ -208,6 +208,5 @@ export class GlobalService {constructor(private http: HttpClient, private datepi
     const day = ('0' + d.getDate()).slice(-2);
 
     return `${year}-${month}-${day}`;
-    // return typeof date === 'string' ? date : date.toISOString().split('T')[0];
   }
 }
