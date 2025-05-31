@@ -18,6 +18,7 @@ import { SaleVsRecoveryComponent } from './reports/sale-vs-recovery/sale-vs-reco
 import { FastSalesSummaryComponent } from './reports/fast-sales-summary/fast-sales-summary.component';
 import { PoStatusComponent } from './reports/po-status/po-status.component';
 import { PoStatusPwComponent } from './reports/po-status-pw/po-status-pw.component';
+import { PdcChequeComponent } from './reports/pdc-cheque/pdc-cheque.component';
 
 @Component({
   selector: 'app-root',
@@ -100,6 +101,7 @@ export class AppComponent implements OnInit {
   fastSale(){const dialogRef = this.dialog.open(FastSalesSummaryComponent,{width: '450px', disableClose:true, autoFocus:true})};
   poStatus(file: string){const dialogRef = this.dialog.open(PoStatusComponent,{width: '450px', disableClose:true, autoFocus:true, data: file})};
   poStatusPW(file: string){const dialogRef = this.dialog.open(PoStatusPwComponent,{width: '450px', disableClose:true, autoFocus:true, data: file})};
+  pdcCheque(){const dialogRef = this.dialog.open(PdcChequeComponent,{width: '450px', disableClose:true, autoFocus:true})};
 }
 
 

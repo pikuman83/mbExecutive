@@ -1,0 +1,31 @@
+<div class="text-center w-100">
+  <div class="w-100 modalTitle">PDC Cheque</div>
+
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput autocomplete="off" type="date" formControlName="dateto" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Party</mat-label>
+      <input placeholder="Customers" matInput formControlName="customers" [matAutocomplete]="auto" >
+      <mat-hint *ngIf="customerCode" align="end">{{ customerCode }}</mat-hint>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showCode($event)">
+        <mat-option value="">Select All</mat-option>
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col2}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Group</mat-label>
+      <mat-select formControlName="productGroup">
+        <mat-option value="">Select All</mat-option>
+        <mat-option *ngFor="let s of pgrp" [value]="s">{{ s }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button class="refresh ml-3" mat-raised-button (click)="generate()" (keydown.enter)="generate()">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
+  </form>
+</div>

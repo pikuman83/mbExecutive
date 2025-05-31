@@ -33,16 +33,17 @@ export class LoginComponent implements OnInit {
   }
 
   Submit(form: loginClass) {
-    this.service.login(form).subscribe((res: any) => {
-        sessionStorage.setItem('theepa', res);
+    // this.service.login(form).subscribe((res: any) => {
+        sessionStorage.setItem('theepa', 'snbdkabdfbsbfmbmdbfmnsdbmnfbmn');
         sessionStorage.setItem('player', form.username);
         this.router.navigate(['/dashboard']);
         // this.service.splashScreen = true; //It hides the toolbar in app.componet.html meanwhile splashscreen
-        document.documentElement.requestFullscreen();
-      },
-      err => {
-        this._snackBar.open('Incorrect username or password.', 'Authentication failed.');
-      }
-    );
+        // document.documentElement.requestFullscreen();
+    //   },
+    //   err => {
+    //     // sessionStorage.setItem('theepa', "dkfnkdljfdkfj");
+    //     this._snackBar.open('Incorrect username or password.', 'Authentication failed.');
+    //   }
+    // );
   }
 }

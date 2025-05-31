@@ -3,9 +3,9 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web.Hosting;
 using System.Web.Http;
 using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.ReportAppServer;
 using CrystalDecisions.Shared;
 using mbExecutive.Auth;
 using mbExecutive.Models;
@@ -24,7 +24,7 @@ namespace SsReports.Controllers
         // GET: api/SsReports/?actions //i.e; api/SsReports/?id=SalesInv&formula=
         public IHttpActionResult Get(string id, string param1, string param2, string param3, string param4, string param5, string param6, string param7)
         {
-            var location = System.Web.Hosting.HostingEnvironment.MapPath("~/" + id + ".rpt");
+            var location = HostingEnvironment.MapPath("~/" + id + ".rpt");
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
 
@@ -60,7 +60,7 @@ namespace SsReports.Controllers
                 reportDocument.SetParameterValue("@gdcode", param6);
             }
             //Periodic Sale | Periodic Purchase | Zakat | Pdc Cheque
-            if (id == "ExpRpt" || id == "zakat" || id == "PdcChqRep")
+            if (id == "ExpRpt" || id == "zakat")
             {
                 reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
@@ -158,6 +158,24 @@ namespace SsReports.Controllers
                 if(param5 != "SELECT")
                 {
                     reportDocument.RecordSelectionFormula = "ucase({PRODUCT.MGNAME}) = '" + param5 + "'";
+                }
+            }
+
+            // PDC Cheque Report
+            if (id == "PdcChqRep")
+            {
+                reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
+                if (!string.IsNullOrEmpty(param3) && !string.IsNullOrEmpty(param4))
+                {
+                    reportDocument.RecordSelectionFormula = "ucase({PARTY.PGNAME}) = '" + param3 + "' AND ucase({LGRREP.VCODE}) = '" + param4 + "'";
+                }
+                else if (!string.IsNullOrEmpty(param3))
+                {
+                    reportDocument.RecordSelectionFormula = "ucase({PARTY.PGNAME}) = '" + param3 + "'";
+                }
+                else if (!string.IsNullOrEmpty(param4))
+                {
+                    reportDocument.RecordSelectionFormula = "ucase({LGRREP.VCODE}) = '" + param4 + "'";
                 }
             }
 
