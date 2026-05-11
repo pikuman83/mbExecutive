@@ -1,7 +1,5 @@
-import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
@@ -9,25 +7,23 @@ import { GlobalService } from 'src/app/global.service';
   templateUrl: './sale-vs-production.component.html'
 })
 export class SaleVsProductionComponent implements OnInit {
-      
+  pgrp: string[];
+  dateto = new Date();
+  datefrom = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
   constructor(
-    private service: GlobalService, 
-    private datepipe: DatePipe,
+    private service: GlobalService,
     public dialogRef: MatDialogRef<SaleVsProductionComponent>,
-    @Inject(MAT_DIALOG_DATA) public title: string,
-    private _snackBar: MatSnackBar) {}
+    @Inject(MAT_DIALOG_DATA) public title: string) {}
 
   ngOnInit(): void {
     this.getpgrp();
   }
 
-  pgrp: string[];
-  dateto = this.datepipe.transform(Date.now(), 'yyyy-MM-dd');
-  datefrom = this.datepipe.transform(`${new Date().getFullYear()}-${new Date().getMonth()+1}-01`, 'yyyy-MM-dd')
   getpgrp(): void { this.service.get('Reports/?table=grp').subscribe(x => this.pgrp = x.map(y => y.col1))}
-  
-  generate(pgrp: string, datefrom: any, dateto: any){
-    this.service.genReport('mb', 'SALVSPRDTN', datefrom.toDateString(), dateto.toDateString(), pgrp, '','','', '').subscribe((data) => {
+
+  generate(pgrp: string){
+    this.service.genReport('mb', 'SALVSPRDTN', this.datefrom, this.dateto, pgrp, '','','', '').subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       var downloadURL = window.URL.createObjectURL(blob);
       window.open(downloadURL, '_blank')

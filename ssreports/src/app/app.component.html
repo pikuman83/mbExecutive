@@ -1,4 +1,3 @@
-<!-- <app-root-nav></app-root-nav> -->
 <mat-sidenav-container class="sidenav-container" hasBackdrop="false">
     <mat-sidenav #drawer id="drawer" mode="push" class="sidenav" fixedInViewport (keydown.escape)="drawer.close()">
   
@@ -9,8 +8,7 @@
       <div class="dropdown-divider"></div>
     </mat-toolbar> -->
     <mat-toolbar class="mt-5">
-        <img src="../assets/dashboard.png" width="90%" height="90%" id="icon"/><br> -->
-        <!-- <span class="companyname">MB TECH</span> -->
+        <img src="../assets/dashboard.png" width="90%" height="90%" id="icon"/><br>
         <div class="dropdown-divider"></div>
     </mat-toolbar>
 
@@ -107,50 +105,51 @@
               <div class="divider"></div>
             </div>
 
-            <!-- Menu Tools -->
-          <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
-            <img class="sideNvIcons" src="../assets/box.png">Purchase Reports
-            <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
-          </button>
-          <!-- Sub Menu level 1 -->
-            <div id="purchaseR" class="collapse collapsed">
-              <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
-              <div class="divider"></div>
-              <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
-              <a (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Party wise)</a>
-              <a (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Product wise)</a>
-              <div class="divider"></div>
-            </div>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">
-  
-      <!-- Top toolbar (reserved for tabs or social media + user stuff) -->
-    <mat-toolbar color="none" class="toolbar" [hidden]="service.splashScreen">
-      <button *ngIf="isLogin()" class="menubutton"
-        mat-icon-button
-        (click)="drawer.toggle(); $event.stopPropagation()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      
-      <div class="title">
-        <h2 class="title-small">{{service.title}}</h2>
-      </div>
-
-      <div>
-        {{this.username? 'Hello ' + this.username: ''}} 
-        <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>more_vert</mat-icon>
+          <!-- Menu Tools -->
+        <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
+          <img class="sideNvIcons" src="../assets/box.png">Purchase Reports
+          <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
         </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="passwordChange()">
-            <mat-icon>password</mat-icon>
-            <span>Change Password</span>
-          </button>
-        </mat-menu>
-      </div>
-    </mat-toolbar>
+        <!-- Sub Menu level 1 -->
+          <div id="purchaseR" class="collapse collapsed">
+            <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
+            <div class="divider"></div>
+            <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
+            <a (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Party wise)</a>
+            <a (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Product wise)</a>
+            <div class="divider"></div>
+          </div>
+    </mat-nav-list>
+
+  </mat-sidenav>
+  <mat-sidenav-content (click)="drawer.opened? drawer.close():true" class="mothercontainer">
+
+    <!-- Top toolbar (reserved for tabs or social media + user stuff) -->
+  <mat-toolbar color="none" class="toolbar">
+    <button *ngIf="isLogin()" class="menubutton"
+      mat-icon-button
+      (click)="drawer.toggle(); $event.stopPropagation()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="title">
+      <h2>{{ service.title }}</h2>
+    </div>
+
+    <div class="ml-auto">
+      <span class="text-small">{{ username }}</span>
+      <i class="fa fa-power-off" aria-hidden="true" (click)="signOut()" [hidden]="!isLogin()" title="Sign out"></i>
+      <button *ngIf="isLogin()" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="passwordChange()">
+          <mat-icon>password</mat-icon>
+          <span>Change Password</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
 
   <!-- Routing modules selector which manage the paths of the whole app -->
     <div class="content">
@@ -159,12 +158,13 @@
     <footer>
       <div class="footer-copyright text-center py-3">© 2020 Copyright: MB-TECH
       </div>
-    </footer> 
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<ng-http-loader 
+
+<ng-http-loader
   [spinner]="spinnerStyle.skWanderingCubes"
-  [backdrop]="false" 
+  [backdrop]="false"
   [backgroundColor]="'#303F9F'"
   [debounceDelay]="100"
   [extraDuration]="300"

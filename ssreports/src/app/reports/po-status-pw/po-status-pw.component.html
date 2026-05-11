@@ -24,7 +24,7 @@
         <mat-label>Product</mat-label>
         <input #Iparam3 placeholder="Leave blank to Select All" matInput [formControl]="accInput" [matAutocomplete]="auto" >
         <mat-hint *ngIf="aname">{{aname}}</mat-hint>
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)"> 
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayProperty" (optionSelected)="showName($event)">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.col1}} - {{option.col2}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
@@ -33,7 +33,7 @@
         <mat-slide-toggle #Iparam4>Zero Balance</mat-slide-toggle>
     </div>
 
-    <button class="refresh ml-3" mat-raised-button (click)="generate(datefrom, dateto,Iparam3.value, Iparam4, Iparam2.value)"
-        (keydown.enter)="generate(datefrom, dateto, Iparam3.value, Iparam4, Iparam2.value)">Generate</button>
+    <button class="refresh ml-3" mat-raised-button (click)="generate(Iparam3.value, Iparam4, Iparam2.value)"
+        (keydown.enter)="generate(Iparam3.value, Iparam4, Iparam2.value)">Generate</button>
     <button class="refresh ml-3" mat-raised-button (click)="dialogRef.close()" (keydown.enter)="dialogRef.close()">Close</button>
 </div>

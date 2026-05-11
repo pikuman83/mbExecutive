@@ -1,8 +1,11 @@
-﻿using System;
+using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web.Hosting;
 using System.Web.Http;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
@@ -23,9 +26,27 @@ namespace SsReports.Controllers
         // GET: api/SsReports/?actions //i.e; api/SsReports/?id=SalesInv&formula=
         public IHttpActionResult Get(string id, string param1, string param2, string param3, string param4, string param5, string param6, string param7)
         {
-            var location = System.Web.Hosting.HostingEnvironment.MapPath("~/" + id + ".rpt");
+            var location = HostingEnvironment.MapPath("~/" + id + ".rpt");
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
+
+            var connectionString = ConfigurationManager.ConnectionStrings["cstring"]?.ConnectionString;
+            var builder = !string.IsNullOrEmpty(connectionString) ? new SqlConnectionStringBuilder(connectionString) : null;
+ 
+            ConnectionInfo connInfo = new ConnectionInfo
+            {
+                ServerName = builder?.DataSource ?? "SPS-SERVER",
+                DatabaseName = builder?.InitialCatalog ?? "Special24",
+                UserID = builder?.UserID ?? "sa",
+                Password = builder?.Password ?? ""
+            };
+
+            foreach (Table table in reportDocument.Database.Tables)
+            {
+                TableLogOnInfo logOnInfo = table.LogOnInfo;
+                logOnInfo.ConnectionInfo = connInfo;
+                table.ApplyLogOnInfo(logOnInfo);
+            }
 
             reportDocument.SetDatabaseLogon("sa", "");
             //reportDocument.SetDatabaseLogon("DB_A70E8A_mbdashboard_admin", "Boogeyman123*");
@@ -64,8 +85,8 @@ namespace SsReports.Controllers
             if (id == "PrdBal" || id == "STKAmnt" || id == "PrdBal_Color" || id == "Prdbal1_Color")
             {
                 reportDocument.SetParameterValue("@dateto", DateTime.Parse(param1));
-                reportDocument.SetParameterValue("@Godown", param2);
-                reportDocument.SetParameterValue("@PTYP", param3);
+                reportDocument.SetParameterValue("@Godown", param3);
+                reportDocument.SetParameterValue("@PTYP", param4);
             }
 
             // ACCOUNT/CUSTOMER/SUPPLIER LEDGERS
@@ -87,7 +108,7 @@ namespace SsReports.Controllers
                     reportDocument.SetParameterValue("@datefrom", DateTime.Parse(param1));
                     reportDocument.SetParameterValue("@dateto", DateTime.Parse(param2));
                 }
-                    if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
+                if (!string.IsNullOrEmpty(param3) || !string.IsNullOrEmpty(param4) || !string.IsNullOrEmpty(param5))
                 {
                     reportDocument.RecordSelectionFormula = _sF1.myFormula(param3, param4, param5);
                 }

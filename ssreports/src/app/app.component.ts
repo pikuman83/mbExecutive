@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     this.elem = document.documentElement;
   }
 
-// ___________________________________________ The following section with constructor's methods logout the user if inactive for 30 minutes.
+  // ___________________________________________ The following section with constructor's methods logout the user if inactive for 30 minutes.
   idle: any;
   userInactive: Subject<any> = new Subject();
 
@@ -55,22 +55,22 @@ export class AppComponent implements OnInit {
   }
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  collapsed1:boolean = false;
-  collapsed2:boolean = false;
-  collapsed3:boolean = false;
-  collapsed4:boolean = false;
-  collapsed5:boolean = false;
-  collapsed6:boolean = false;
+  collapsed1: boolean = false;
+  collapsed2: boolean = false;
+  collapsed3: boolean = false;
+  collapsed4: boolean = false;
+  collapsed5: boolean = false;
+  collapsed6: boolean = false;
 
   spinnerStyle = Spinkit;
-  elem: any; 
+  elem: any;
   // isFullScreen: boolean;
 
-  testReport(){}
+  testReport() { }
 
   username: string;
-  isLogin(){
-    if (sessionStorage.getItem('player') != null){
+  isLogin() {
+    if (sessionStorage.getItem('player') != null) {
       this.username = sessionStorage.getItem('player');
       return true
     }
@@ -79,49 +79,49 @@ export class AppComponent implements OnInit {
     }
   }
 
-  signOut(){
+  signOut() {
     sessionStorage.removeItem('player');
     sessionStorage.removeItem('theepa');
     this.isLogin();
     this.username = ''; //hides the menu button when logout
     this.router.navigate(['/Login']);
   }
-  
-  passwordChange(){const dialogRef = this.dialog.open(PasswordComponent,{width: '450px', disableClose:true, autoFocus:true})};
-  cBalance(id: string){const dialogRef = this.dialog.open(AccountsReceivableComponent,{width: '450px', disableClose:true, autoFocus:true, data:id})};
-  ledger(title: string, id: string){const dialogRef = this.dialog.open(CustomerLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:[title, id]})};
-  mBasic(id: string, title: string){const dialogRef = this.dialog.open(MulipleBasicComponent,{width: '450px', disableClose:true, autoFocus:true, data:[id, title]})};
-  recovery(id: string, title: string, data: string){const dialogRef = this.dialog.open(RecoveryComponent,{width: '450px', disableClose:true, autoFocus:true, data:[id, title, data]})}
-  periodicSales(title: string){const dialogRef = this.dialog.open(PeriodicSalesComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
-  productLedger(title: string){const dialogRef = this.dialog.open(ProductLedgerComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
-  stockBalance(title: string){const dialogRef = this.dialog.open(StockBalanceComponent,{width: '450px', maxWidth:600, disableClose:true, autoFocus:true, data:title, panelClass: 'custom-dialog-container'})}
-  saleVsProduction(title: string){const dialogRef = this.dialog.open(SaleVsProductionComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
-  saleVsRecovery(title: string){const dialogRef = this.dialog.open(SaleVsRecoveryComponent,{width: '450px', disableClose:true, autoFocus:true, data:title})};
-  fastSale(){const dialogRef = this.dialog.open(FastSalesSummaryComponent,{width: '450px', disableClose:true, autoFocus:true})};
-  poStatus(file: string){const dialogRef = this.dialog.open(PoStatusComponent,{width: '450px', disableClose:true, autoFocus:true, data: file})};
-  poStatusPW(file: string){const dialogRef = this.dialog.open(PoStatusPwComponent,{width: '450px', disableClose:true, autoFocus:true, data: file})};
+
+  passwordChange() { const dialogRef = this.dialog.open(PasswordComponent, { width: '450px', disableClose: true, autoFocus: true }) };
+  cBalance(id: string) { const dialogRef = this.dialog.open(AccountsReceivableComponent, { width: '450px', disableClose: true, autoFocus: true, data: id }) };
+  ledger(title: string, id: string) { const dialogRef = this.dialog.open(CustomerLedgerComponent, { width: '450px', disableClose: true, autoFocus: true, data: [title, id] }) };
+  mBasic(id: string, title: string) { const dialogRef = this.dialog.open(MulipleBasicComponent, { width: '450px', disableClose: true, autoFocus: true, data: [id, title] }) };
+  recovery(id: string, title: string, data: string) { const dialogRef = this.dialog.open(RecoveryComponent, { width: '450px', disableClose: true, autoFocus: true, data: [id, title, data] }) }
+  periodicSales(title: string) { const dialogRef = this.dialog.open(PeriodicSalesComponent, { width: '450px', disableClose: true, autoFocus: true, data: title }) };
+  productLedger(title: string) { const dialogRef = this.dialog.open(ProductLedgerComponent, { width: '450px', disableClose: true, autoFocus: true, data: title }) };
+  stockBalance(title: string) { const dialogRef = this.dialog.open(StockBalanceComponent, { width: '450px', maxWidth: 600, disableClose: true, autoFocus: true, data: title, panelClass: 'custom-dialog-container' }) }
+  saleVsProduction(title: string) { const dialogRef = this.dialog.open(SaleVsProductionComponent, { width: '450px', disableClose: true, autoFocus: true, data: title }) };
+  saleVsRecovery(title: string) { const dialogRef = this.dialog.open(SaleVsRecoveryComponent, { width: '450px', disableClose: true, autoFocus: true, data: title }) };
+  fastSale() { const dialogRef = this.dialog.open(FastSalesSummaryComponent, { width: '450px', disableClose: true, autoFocus: true }) };
+  poStatus(file: string) { const dialogRef = this.dialog.open(PoStatusComponent, { width: '450px', disableClose: true, autoFocus: true, data: file }) };
+  poStatusPW(file: string) { const dialogRef = this.dialog.open(PoStatusPwComponent, { width: '450px', disableClose: true, autoFocus: true, data: file }) };
 }
 
 
-    // @HostListener('document:fullscreenchange', ['$event'])
-  // fullscreenmodes(event){
-  //   this.chkScreenMode();
-  // }
-  // chkScreenMode(){
-  //   if(document.fullscreenElement){
-  //     this.isFullScreen = true;
-  //   }else{
-  //     this.isFullScreen = false;
-  //   }
-  // }
-  // openFullscreen() {
-  //   if (this.elem.requestFullscreen) {
-  //     this.elem.requestFullscreen();
-  //   } 
-  // }
-  // closeFullscreen() {
-  //   if (this.document.exitFullscreen) {
-  //     this.document.exitFullscreen();
-  //   } 
-  // }
+// @HostListener('document:fullscreenchange', ['$event'])
+// fullscreenmodes(event){
+//   this.chkScreenMode();
+// }
+// chkScreenMode(){
+//   if(document.fullscreenElement){
+//     this.isFullScreen = true;
+//   }else{
+//     this.isFullScreen = false;
+//   }
+// }
+// openFullscreen() {
+//   if (this.elem.requestFullscreen) {
+//     this.elem.requestFullscreen();
+//   }
+// }
+// closeFullscreen() {
+//   if (this.document.exitFullscreen) {
+//     this.document.exitFullscreen();
+//   }
+// }
 

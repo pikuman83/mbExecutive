@@ -1,5 +1,5 @@
-import { DatePipe, getLocaleMonthNames } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,29 +9,20 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  
-  constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
-    this.service.title = "Dashboard";
-    this.service.splashScreen = false;
+  @ViewChild('gaugeChart') gaugeChart: any;
+
+  @HostListener('window:resize', ['$event'])
+  updateCharts(event: { target: { innerWidth: number; }; }) {
+    this.updateChartsDimensions(event.target.innerWidth);
   }
-  
-  ngOnInit(){
-    const resolver = this.route.snapshot.data['resolver'];
-    this.cash = resolver.cash;
-    this.bbalance = resolver.bbalance;
-    this.receivable = resolver.receivable;
-    this.payable = resolver.payable;
-    this.top10 = resolver.top10;
-    this.expenses = resolver.expenses;
-    this.top10SO = resolver.top10SO;
-    this.oVsSVsp = resolver.oVssVsp; 
-    this.totalDispatch(resolver.oVssVsp[0].series);
-    this.totalProduction(resolver.oVssVsp[2].series);
-    this.saleVsRecovery(resolver.salevsrecovery);
-    this.transformDateFrom();
-    this.transformDateto();
-    this.responsiveCharts()
-  }
+
+  view = [560, 350];
+  viewG = null;
+  max = 1000;
+  gradient: boolean = false;
+  showLabels: boolean = true;
+  totalDisp: number;
+  totalProd: number;
   cash: number;
   bbalance: number;
   receivable: number;
@@ -42,9 +33,24 @@ export class DashboardComponent implements OnInit {
   top10SO: any[] = [];
   oVsSVsp: any[] = [];
   dateto = new Date();
-  datefrom = new Date(this.dateto);
-  
-  saleVsRecovery(x: any[]){
+  datefrom = new Date();
+  cashSale: number;
+  creditSale: number;
+  cheques: number;
+  refresh: boolean = false;
+
+  constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
+    this.service.title = "Dashboard";
+    this.dateto.setDate(this.dateto.getDate() - 1);
+    this.datefrom.setDate(this.dateto.getDate() - 30);
+  }
+
+  ngOnInit() {
+    this.updateChartsDimensions(window.innerWidth);
+    this.refreshData();
+  }
+
+  saleVsRecovery(x: any[]) {
     const sale = {
       name: "Sale",
       value: x[0]
@@ -56,37 +62,26 @@ export class DashboardComponent implements OnInit {
     return this.sVSr = [sale, recovery];
   }
 
-  transformDateFrom(){
-    this.datefrom.setDate(this.datefrom.getDate() - 30);
-    return this.datepipe.transform(this.datefrom, "yyyy,MM,dd");
-  }
-  transformDateto(){
-    return this.datepipe.transform(this.dateto, "yyyy,MM,dd");
-  }
+  showButton = (): boolean => this.refresh = !!(this.datefrom && this.dateto);
 
-  refresh: boolean = false;
-  showButton(){
-    if (this.datefrom && this.dateto) {this.refresh = true}
-    else {this.refresh = false}
-  }
-  refreshData(){
+  refreshData() {
     this.max = 1000;
-    this.service.getcash(this.dateto.toDateString()).subscribe(x => this.cash = x);
-    this.service.getbbalance(this.dateto.toDateString()).subscribe(x => this.bbalance = x);
-    this.service.getreceivable(this.dateto.toDateString()).subscribe(x => this.receivable = x);
-    this.service.getpayable(this.dateto.toDateString()).subscribe(x => this.payable = x);
-    this.service.getTOP10(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.top10 = x);
-    this.service.getexpenses(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.expenses = x);
-    this.service.getSOTOP10(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(x => this.top10SO = x);
-    this.service.getSaleAmount(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sale => {
-      this.service.getSaleRecovery(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(recovery => {
+    this.service.getcash(this.dateto).subscribe(x => this.cash = x);
+    this.service.getbbalance(this.dateto).subscribe(x => this.bbalance = x);
+    this.service.getreceivable(this.dateto).subscribe(x => this.receivable = x);
+    this.service.getpayable(this.dateto).subscribe(x => this.payable = x);
+    this.service.getTOP10(this.datefrom, this.dateto).subscribe(x => this.top10 = x);
+    this.service.getexpenses(this.datefrom, this.dateto).subscribe(x => this.expenses = x);
+    this.service.getSOTOP10(this.datefrom, this.dateto).subscribe(x => this.top10SO = x);
+    this.service.getSaleAmount(this.datefrom, this.dateto).subscribe(sale => {
+      this.service.getSaleRecovery(this.datefrom, this.dateto).subscribe(recovery => {
         this.saleVsRecovery([sale, recovery])
       })
     });
-    this.service.getsaleorder(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(orders => {
-      this.service.getsales(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(sales => {
-        this.service.getproduction(this.datefrom.toDateString(), this.dateto.toDateString()).subscribe(production =>{
-          this.oVsSVsp = [orders, sales, production]; 
+    this.service.getsaleorder(this.datefrom, this.dateto).subscribe(orders => {
+      this.service.getsales(this.datefrom, this.dateto).subscribe(sales => {
+        this.service.getproduction(this.datefrom, this.dateto).subscribe(production => {
+          this.oVsSVsp = [orders, sales, production];
           this.totalDispatch(sales.series);
           this.totalProduction(production.series);
         })
@@ -94,38 +89,26 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  responsiveCharts(){if(window.innerWidth<=600){this.view = [300, 200]; this.viewG =[600, 350];}
-}
-  @HostListener('window:resize', ['$event'])
-  responsivCharts1(event: { target: { innerWidth: number; }; }){
-    if(event.target.innerWidth<=600){
+  private updateChartsDimensions(windowWidth: number): void {
+    if (windowWidth < 700) {
       this.view = [300, 200];
-      this.viewG=[600, 350];
-    }
-    else if(event.target.innerWidth>700 && event.target.innerWidth < 900){
-      this.view = [380, 250];
-      this.viewG=[600, 350];
-    }
-    else{
+      this.viewG = null;
+    } else if (windowWidth >= 700 && windowWidth < 1200) {
+      this.view = [400, 280];
+      this.viewG = [400, 350];
+    } else {
       this.view = [600, 300];
-      this.viewG=[800, 550];
+      this.viewG = [450, 450];
     }
   }
-  totalDisp: number;
-  totalDispatch(obj:  any[]) {
+
+  totalDispatch(obj: any[]) {
     this.totalDisp = obj.map(t => t.value).reduce((acc, value) => acc + value, 0);
     return this.totalDisp;
   }
-  totalProd: number;
-  totalProduction(obj:  any[]) {
+
+  totalProduction(obj: any[]) {
     this.totalProd = obj.map(t => t.value).reduce((acc, value) => acc + value, 0);
     return this.totalProd;
   }
-
-  // *** Remote chart options
-  view = [560, 350];
-  viewG=[750, 500];
-  max = 1000;
-  gradient: boolean = false;
-  showLabels: boolean = true;
 }
