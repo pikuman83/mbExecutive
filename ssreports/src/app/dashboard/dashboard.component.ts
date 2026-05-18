@@ -21,12 +21,12 @@ export class DashboardComponent implements OnInit {
   max = 1000;
   gradient: boolean = false;
   showLabels: boolean = true;
-  totalDisp: number;
-  totalProd: number;
-  cash: number;
-  bbalance: number;
-  receivable: number;
-  payable: number;
+  totalDisp: number | null = null;
+  totalProd: number | null = null;
+  cash: number | null = null;
+  bbalance: number | null = null;
+  receivable: number | null = null;
+  payable: number | null = null;
   sVSr: any[] = [];
   top10: any[] = [];
   expenses: any[] = [];
@@ -34,9 +34,9 @@ export class DashboardComponent implements OnInit {
   oVsSVsp: any[] = [];
   dateto = new Date();
   datefrom = new Date();
-  cashSale: number;
-  creditSale: number;
-  cheques: number;
+  cashSale: number | null = null;
+  creditSale: number | null = null;
+  cheques: number | null = null;
   refresh: boolean = false;
 
   constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
@@ -98,10 +98,10 @@ export class DashboardComponent implements OnInit {
       this.viewG = null;
     } else if(windowWidth >= 700 && windowWidth < 1200){
       this.view = [400, 280];
-      this.viewG=[400, 350];
+      this.viewG = [400, 350] as any;
     } else{
       this.view = [600, 300];
-      this.viewG=[450, 450];
+      this.viewG = [450, 450] as any;
     }
   }
 

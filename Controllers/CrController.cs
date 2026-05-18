@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -28,12 +30,15 @@ namespace SsReports.Controllers
             ReportDocument reportDocument = new ReportDocument();
             reportDocument.Load(location);
 
+            var connectionString = ConfigurationManager.ConnectionStrings["cstring"]?.ConnectionString;
+            var builder = !string.IsNullOrEmpty(connectionString) ? new SqlConnectionStringBuilder(connectionString) : null;
+
             ConnectionInfo connInfo = new ConnectionInfo
             {
-                ServerName = "OFI-SERVER",
-                DatabaseName = "Omega25",
-                UserID = "sa",
-                Password = ""
+                ServerName = builder?.DataSource ?? "SPS-SERVER",
+                DatabaseName = builder?.InitialCatalog ?? "Special24",
+                UserID = builder?.UserID ?? "sa",
+                Password = builder?.Password ?? ""
             };
 
             foreach (Table table in reportDocument.Database.Tables)
