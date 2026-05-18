@@ -1,11 +1,11 @@
 <mat-sidenav-container class="sidenav-container" hasBackdrop="false">
   <mat-sidenav #drawer id="drawer" mode="push" class="sidenav" fixedInViewport (keydown.escape)="drawer.close()">
 
-    <mat-toolbar class="mt-2">
-      <img class="mb-1" src="../assets/omega.jpg" width="90%" height="90%" id="icon"/><br>
-
-      <img src="../assets/amazon.jpg" width="90%" height="90%" id="icon"/><br>
-      <div class="dropdown-divider"></div>
+    <mat-toolbar>
+      <div class="bg-white">
+        <img class="mt-2" src="../assets/logo.jpg" width="50%" id="icon"/><br>
+        <div class="dropdown-divider"></div>
+      </div>
     </mat-toolbar>
 
   <!-- Side Drawer -->
@@ -154,7 +154,7 @@
       <router-outlet></router-outlet>
     </div>
     <footer>
-      <div class="footer-copyright text-center py-3">© 2025 Copyright: MB-TECH
+      <div class="footer-copyright text-center py-3">© 2026 Copyright: MB-TECH
       </div>
     </footer>
   </mat-sidenav-content>

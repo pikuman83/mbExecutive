@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('theepa', res);
         sessionStorage.setItem('player', form.username);
         this.router.navigate(['/dashboard']);
-        // this.service.splashScreen = true; //It hides the toolbar in app.componet.html meanwhile splashscreen
         document.documentElement.requestFullscreen();
       },
       err => {

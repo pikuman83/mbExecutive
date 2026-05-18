@@ -27,7 +27,7 @@ import { PdcChequeComponent } from './reports/pdc-cheque/pdc-cheque.component';
 })
 export class AppComponent implements OnInit {
 
-  title = 'Omega Executive Dashboard';
+  title = 'MB Executive Dashboard';
 
   constructor(public service: GlobalService, private router: Router, @Inject(DOCUMENT) private document: any, public dialog: MatDialog) {
     this.putTimer();
@@ -69,10 +69,10 @@ export class AppComponent implements OnInit {
 
   testReport(){}
 
-  username: string;
+  username: string = '';
   isLogin(){
     if (sessionStorage.getItem('player') != null){
-      this.username = sessionStorage.getItem('player');
+      this.username = sessionStorage.getItem('player') || '';
       return true
     }
     else {
