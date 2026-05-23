@@ -18,7 +18,7 @@ function Write-Banner {
 }
 
 # ==============================================================
-# DEFAULTS (no prompts needed for these)
+# DEFAULTS
 # ==============================================================
 
 # The script lives inside the _deploy folder - IIS serves from here directly.
@@ -28,7 +28,6 @@ $AppPoolName = "mb-executive"
 
 # Auto-pick a free port starting from 80
 function Find-FreePort {
-    # Load WebAdministration so we can read existing IIS bindings
     Import-Module WebAdministration -ErrorAction SilentlyContinue
     $usedPorts = @()
     try {
@@ -47,7 +46,7 @@ function Find-FreePort {
 $Port = Find-FreePort
 
 # ==============================================================
-# PROMPTS (only what cannot be defaulted)
+# PROMPTS
 # ==============================================================
 Write-Banner "mbExecutive Installer"
 
@@ -74,11 +73,15 @@ $SqlPasswordPlain = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
 
 $ConnString = "Data Source=$SqlServer;Initial Catalog=$SqlDatabase;User ID=$SqlUser;Password=$SqlPasswordPlain;"
 
+# URL shown to user at the end - "localhost" when binding all interfaces
+$DisplayUrl = if ($IpAddress -eq "*") { "http://localhost:$Port" } else { "http://${IpAddress}:${Port}" }
+
 Write-Host ""
 Write-Host "  Summary:" -ForegroundColor White
 Write-Host "    App folder  : $InstallDir"
 Write-Host "    IIS Site    : $SiteName"
 Write-Host "    Binding     : ${IpAddress}:${Port}"
+Write-Host "    URL         : $DisplayUrl"
 Write-Host "    SQL Server  : $SqlServer"
 Write-Host "    Database    : $SqlDatabase"
 Write-Host "    SQL User    : $SqlUser"
@@ -95,10 +98,16 @@ if ($confirm -notmatch '^[Yy]') {
 # ==============================================================
 Write-Step "Enabling IIS Windows features..."
 
-$isServer = (Get-WmiObject Win32_OperatingSystem).Caption -match "Server"
+# Support both CIM (modern) and WMI (legacy) to detect server vs desktop
+try {
+    $osCaption = (Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Stop).Caption
+} catch {
+    $osCaption = (Get-WmiObject -Class Win32_OperatingSystem -ErrorAction SilentlyContinue).Caption
+}
+$isServer = $osCaption -match "Server"
 
 if ($isServer) {
-    # Windows Server
+    # Windows Server — includes Web-AppInit needed for AlwaysRunning app pool startMode
     $features = @(
         "Web-Server",
         "Web-WebServer",
@@ -120,6 +129,7 @@ if ($isServer) {
         "Web-ISAPI-Filter",
         "Web-Mgmt-Tools",
         "Web-Mgmt-Console",
+        "Web-AppInit",
         "NET-Framework-45-ASPNET"
     )
     foreach ($f in $features) {
@@ -132,7 +142,7 @@ if ($isServer) {
         }
     }
 } else {
-    # Windows 10/11 Desktop
+    # Windows 10/11 Desktop — includes IIS-ApplicationInit for AlwaysRunning support
     $features = @(
         "IIS-WebServerRole",
         "IIS-WebServer",
@@ -153,6 +163,7 @@ if ($isServer) {
         "IIS-ISAPIExtensions",
         "IIS-ISAPIFilter",
         "IIS-ManagementConsole",
+        "IIS-ApplicationInit",
         "NetFx4Extended-ASPNET45"
     )
     foreach ($f in $features) {
@@ -180,7 +191,7 @@ if (Test-Path $aspnetRegiis) {
 }
 
 # ==============================================================
-# STEP 3 - Install URL Rewrite 2.1 (required for Angular routing)
+# STEP 3 - Install URL Rewrite 2.1 (required for Angular HTML5 routing)
 # ==============================================================
 Write-Step "Checking URL Rewrite module..."
 
@@ -191,14 +202,22 @@ if (Test-Path $rewriteDll) {
     Write-Host "    Downloading URL Rewrite 2.1..." -ForegroundColor DarkGray
     $rwInstaller = "$env:TEMP\rewrite_amd64.msi"
     $rwUrl = "https://download.microsoft.com/download/1/2/8/128E2E22-C1B9-44A4-BE2A-5859ED1D4592/rewrite_amd64_en-US.msi"
+    $rwInstalled = $false
     try {
         Invoke-WebRequest -Uri $rwUrl -OutFile $rwInstaller -UseBasicParsing
         Start-Process msiexec.exe -ArgumentList "/i `"$rwInstaller`" /qn" -Wait
+        $rwInstalled = $true
         Write-Ok "URL Rewrite 2.1 installed."
     } catch {
         Write-Warn "Could not auto-install URL Rewrite. Download manually from:"
         Write-Warn "  https://www.iis.net/downloads/microsoft/url-rewrite"
         Write-Warn "Install it, then run iisreset and rerun this script."
+    }
+    if ($rwInstalled) {
+        # IIS must be restarted so it picks up the newly registered rewrite module
+        Write-Host "    Restarting IIS to register URL Rewrite..." -ForegroundColor DarkGray
+        iisreset /restart 2>&1 | Out-Null
+        Write-Ok "IIS restarted after URL Rewrite install."
     }
 }
 
@@ -207,7 +226,6 @@ if (Test-Path $rewriteDll) {
 # ==============================================================
 Write-Step "Patching Web.config..."
 
-# Script runs from inside the _deploy folder - Web.config is right here.
 $webConfigPath = Join-Path $InstallDir "Web.config"
 if (-not (Test-Path $webConfigPath)) {
     Write-Fail "Web.config not found at $webConfigPath - check your deploy source."
@@ -216,7 +234,7 @@ if (-not (Test-Path $webConfigPath)) {
 
 [xml]$cfg = Get-Content $webConfigPath -Encoding UTF8
 
-# --- Connection string ---
+# Connection string
 $csNode = $cfg.configuration.connectionStrings.add | Where-Object { $_.name -eq "cstring" }
 if ($csNode) {
     $csNode.connectionString = $ConnString
@@ -225,17 +243,35 @@ if ($csNode) {
     Write-Warn "Connection string node 'cstring' not found in Web.config. Add it manually."
 }
 
-# --- CORS origins (empty = same-origin, no CORS needed) ---
+# CORS origins — empty string = same-origin deployment, no CORS header needed
 $corsNode = $cfg.configuration.appSettings.add | Where-Object { $_.key -eq "corsOrigins" }
 if ($corsNode) {
     $corsNode.value = ""
-    Write-Ok "corsOrigins cleared (same-origin deployment - no CORS needed)."
+    Write-Ok "corsOrigins cleared (same-origin deployment)."
 } else {
     Write-Warn "corsOrigins key not found in Web.config appSettings."
 }
 
 $cfg.Save($webConfigPath)
 Write-Ok "Web.config saved."
+
+# ==============================================================
+# STEP 5 - Test SQL Server connection
+# ==============================================================
+Write-Step "Testing SQL Server connection..."
+
+try {
+    Add-Type -AssemblyName System.Data -ErrorAction SilentlyContinue
+    $testConn = New-Object System.Data.SqlClient.SqlConnection($ConnString)
+    $testConn.Open()
+    $testConn.Close()
+    Write-Ok "SQL Server connection successful."
+} catch {
+    Write-Warn "SQL connection test FAILED: $($_.Exception.Message)"
+    Write-Warn "The app will be installed but sign-in will fail until the database is reachable."
+    Write-Warn "After fixing the database, update the connection string in:"
+    Write-Warn "  $webConfigPath"
+}
 
 # ==============================================================
 # STEP 6 - Create IIS App Pool
@@ -251,7 +287,7 @@ if (Test-Path "IIS:\AppPools\$AppPoolName") {
     Write-Ok "App pool '$AppPoolName' created."
 }
 
-# Configure pool: .NET 4, Integrated pipeline, always running
+# .NET 4, Integrated pipeline, AlwaysRunning (requires Web-AppInit / IIS-ApplicationInit)
 Set-ItemProperty "IIS:\AppPools\$AppPoolName" managedRuntimeVersion "v4.0"
 Set-ItemProperty "IIS:\AppPools\$AppPoolName" managedPipelineMode   "Integrated"
 Set-ItemProperty "IIS:\AppPools\$AppPoolName" startMode             "AlwaysRunning"
@@ -262,13 +298,11 @@ Write-Ok "App pool configured (.NET 4, Integrated, AlwaysRunning)."
 # ==============================================================
 Write-Step "Setting up IIS Website: $SiteName ..."
 
-$bindingInfo = "${IpAddress}:${Port}:"
-
 $existingSite = Get-Website -Name $SiteName -ErrorAction SilentlyContinue
 if ($existingSite) {
-    Write-Warn "Site '$SiteName' already exists. Updating physical path and binding."
+    Write-Warn "Site '$SiteName' already exists. Updating physical path and bindings."
     Set-ItemProperty "IIS:\Sites\$SiteName" physicalPath $InstallDir
-    # Remove old bindings and add the correct one
+    # Replace all bindings with the requested one
     Get-WebBinding -Name $SiteName | Remove-WebBinding
     New-WebBinding -Name $SiteName -Protocol http -IPAddress $IpAddress -Port $Port -HostHeader ""
 } else {
@@ -281,6 +315,21 @@ if ($existingSite) {
 }
 
 Set-ItemProperty "IIS:\Sites\$SiteName" applicationPool $AppPoolName
+
+# When bound to a specific IP, also listen on 127.0.0.1 so the app is testable
+# from a browser on the server itself (e.g. http://localhost).
+if ($IpAddress -ne "*") {
+    $localbinding = Get-WebBinding -Name $SiteName -Protocol http -IPAddress "127.0.0.1" -Port $Port -ErrorAction SilentlyContinue
+    if (-not $localbinding) {
+        try {
+            New-WebBinding -Name $SiteName -Protocol http -IPAddress "127.0.0.1" -Port $Port -HostHeader ""
+            Write-Ok "Added 127.0.0.1:$Port binding for local browser testing."
+        } catch {
+            Write-Warn "Could not add 127.0.0.1 binding (non-critical): $($_.Exception.Message)"
+        }
+    }
+}
+
 Write-Ok "Website bound to ${IpAddress}:${Port}."
 
 # ==============================================================
@@ -332,14 +381,20 @@ Write-Ok "IIS restarted."
 # ==============================================================
 Write-Banner "Installation complete!"
 Write-Host "  Site     : $SiteName" -ForegroundColor White
-Write-Host "  URL      : http://${IpAddress}:${Port}" -ForegroundColor White
+Write-Host "  URL      : $DisplayUrl" -ForegroundColor White
 Write-Host "  Files    : $InstallDir" -ForegroundColor White
-Write-Host "  App Pool : $AppPoolName (.NET 4, Integrated)" -ForegroundColor White
+Write-Host "  App Pool : $AppPoolName (.NET 4, Integrated, AlwaysRunning)" -ForegroundColor White
 Write-Host ""
 Write-Host "  IMPORTANT - Manual step required:" -ForegroundColor Yellow
 Write-Host "    Install SAP Crystal Reports runtime (v13.x, .NET 4, 64-bit)." -ForegroundColor Yellow
 Write-Host "    Without it, any report page will crash the app pool." -ForegroundColor Yellow
 Write-Host "    Download: https://www.sap.com/cmp/syb/crv/index.epx" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "  Open a browser and navigate to: http://localhost:$Port" -ForegroundColor Cyan
+Write-Host "  If sign-in fails after opening the app:" -ForegroundColor Yellow
+Write-Host "    1. Check that SQL Server is running and reachable from this machine." -ForegroundColor Yellow
+Write-Host "    2. Verify the SQL login '$SqlUser' can connect to '$SqlDatabase'." -ForegroundColor Yellow
+Write-Host "    3. Edit the connection string in: $webConfigPath" -ForegroundColor Yellow
+Write-Host "    4. Run 'iisreset' after any Web.config change." -ForegroundColor Yellow
+Write-Host ""
+Write-Host "  Open a browser and navigate to: $DisplayUrl" -ForegroundColor Cyan
 Write-Host ""
