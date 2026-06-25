@@ -35,6 +35,7 @@ import { MatRadioModule} from '@angular/material/radio';
 import { MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { PromptComponentComponent } from './prompt-component/prompt-component.component';
 import { PwaService } from './pwa.service';
+import { ConfigService } from './config.service';
 import { PeriodicSalesComponent } from './reports/periodic-sales/periodic-sales.component';
 import { StockBalanceComponent } from './reports/stock-balance/stock-balance.component';
 import { ProductLedgerComponent } from './reports/product-ledger/product-ledger.component';
@@ -50,6 +51,7 @@ import { PoStatusPwComponent } from './reports/po-status-pw/po-status-pw.compone
 import { PdcChequeComponent } from './reports/pdc-cheque/pdc-cheque.component';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
+const loadConfig = (configService: ConfigService) => () => configService.load();
 
 @NgModule({
   declarations: [
@@ -108,6 +110,7 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
   providers: [DatePipe, 
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
     { provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true},
+    { provide: APP_INITIALIZER, useFactory: loadConfig, deps: [ConfigService], multi: true},
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true}  
   ],

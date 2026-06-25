@@ -1,0 +1,150 @@
+{
+  "_readme": [
+    "Controls the frontend per install. Two independent sections:",
+    "1) Visibility flags below (dashboard, reports): set a value to false to HIDE it.",
+    "   A missing key or true means VISIBLE (show by default).",
+    "   Setting a report section's _group to false hides that whole sidebar section;",
+    "   a section is also hidden automatically when every report inside it is false.",
+    "2) labels: rename anything shown on screen. Edit the text on the right of each key.",
+    "   A report section header is labels.reports.<section>._title.",
+    "   Clearing or removing a label restores the built-in default text.",
+    "Edit this file on the server, then reload the app (Ctrl+F5) to apply. No rebuild needed."
+  ],
+  "dashboard": {
+    "kpis": {
+      "cash": true,
+      "bankBalance": true,
+      "netCashSale": true,
+      "advCreditSale": true,
+      "pdcCheques": true,
+      "receivable": true,
+      "payable": true,
+      "dispatch": true,
+      "production": true
+    },
+    "charts": {
+      "top10Products": true,
+      "monthlyExpenses": true,
+      "orderVsSaleVsProduction": true,
+      "top10SalesOrder": true,
+      "salesVsRecovery": true
+    }
+  },
+  "reports": {
+    "financial": {
+      "_group": true,
+      "cashBook": true,
+      "accountLedger": true,
+      "dailyLog": true,
+      "periodicZakat": true,
+      "periodicExpense": true,
+      "pdcCheque": true
+    },
+    "receivable": {
+      "_group": true,
+      "customerBalance": true,
+      "customerLedger": true,
+      "customerRecovery": true
+    },
+    "payable": {
+      "_group": true,
+      "supplierBalance": true,
+      "supplierLedger": true,
+      "supplierPayment": true
+    },
+    "inventory": {
+      "_group": true,
+      "stockBalance": true,
+      "stockColorWise": true,
+      "stockAmount": true,
+      "productLedger": true,
+      "tradingStockBalance": true
+    },
+    "sales": {
+      "_group": true,
+      "periodicSale": true,
+      "salesVsRecovery": true,
+      "salesVsProduction": true,
+      "fastSalesSummary": true,
+      "soStatusPartyWise": true,
+      "soStatusProductWise": true
+    },
+    "purchase": {
+      "_group": true,
+      "periodicPurchase": true,
+      "grn": true,
+      "poStatusPartyWise": true,
+      "poStatusProductWise": true
+    }
+  },
+  "labels": {
+    "dashboard": {
+      "nav": "Dashboard",
+      "kpis": {
+        "cash": "Cash In Hand",
+        "bankBalance": "Bank Balance",
+        "netCashSale": "Net Cash Sale",
+        "advCreditSale": "Adv Cr Sale",
+        "pdcCheques": "Overall PDC Cheques",
+        "receivable": "Receivable",
+        "payable": "Payable",
+        "dispatch": "Dispatch",
+        "production": "Production"
+      },
+      "charts": {
+        "top10Products": "Top 10 Products",
+        "monthlyExpenses": "Monthly Expenses",
+        "orderVsSaleVsProduction": "Order Vs Sale Vs Production",
+        "top10SalesOrder": "Top 10 Sales Order",
+        "salesVsRecovery": "Sales Vs Recovery"
+      }
+    },
+    "reports": {
+      "financial": {
+        "_title": "Financial Reports",
+        "cashBook": "Cash Book",
+        "accountLedger": "Account Ledger",
+        "dailyLog": "Daily Log",
+        "periodicZakat": "Periodic Zakat",
+        "periodicExpense": "Periodic Expense",
+        "pdcCheque": "PDC Cheque"
+      },
+      "receivable": {
+        "_title": "Accounts Receivable",
+        "customerBalance": "Customer Balance",
+        "customerLedger": "Customer Ledger",
+        "customerRecovery": "Customer Recovery"
+      },
+      "payable": {
+        "_title": "Account Payable",
+        "supplierBalance": "Supplier Balances",
+        "supplierLedger": "Supplier Ledger",
+        "supplierPayment": "Supplier Payment"
+      },
+      "inventory": {
+        "_title": "Inventory Reports",
+        "stockBalance": "Stock Balance",
+        "stockColorWise": "Stock (color wise)",
+        "stockAmount": "Stock Amount",
+        "productLedger": "Product Ledger",
+        "tradingStockBalance": "Trading Stock Balance"
+      },
+      "sales": {
+        "_title": "Sales Reports",
+        "periodicSale": "Periodic Sale Reports",
+        "salesVsRecovery": "Sales Vs Recovery",
+        "salesVsProduction": "Sales Vs Production",
+        "fastSalesSummary": "Fast Sales Summery",
+        "soStatusPartyWise": "S.O Status (Party wise)",
+        "soStatusProductWise": "S.O Status (Product wise)"
+      },
+      "purchase": {
+        "_title": "Purchase Reports",
+        "periodicPurchase": "Periodic Purchase Reports",
+        "grn": "GRN",
+        "poStatusPartyWise": "P.O Status (Party wise)",
+        "poStatusProductWise": "P.O Status (Product wise)"
+      }
+    }
+  }
+}

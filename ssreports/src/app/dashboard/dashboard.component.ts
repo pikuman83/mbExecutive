@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { GlobalService } from '../global.service';
+import { ConfigService } from '../config.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -39,8 +40,8 @@ export class DashboardComponent implements OnInit {
   cheques: number | null = null;
   refresh: boolean = false;
 
-  constructor(private service: GlobalService, private datepipe: DatePipe, private route: ActivatedRoute) {
-    this.service.title = "Dashboard";
+  constructor(private service: GlobalService, public config: ConfigService, private datepipe: DatePipe, private route: ActivatedRoute) {
+    this.service.title = this.config.label('dashboard.nav', 'Dashboard');
     this.dateto.setDate(this.dateto.getDate() - 1);
     this.datefrom.setDate(this.dateto.getDate() - 30);
   }

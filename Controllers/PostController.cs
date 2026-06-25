@@ -21,9 +21,9 @@ namespace mbExecutive.Controllers
                 string cs = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString;
                 using (SqlConnection sql = new SqlConnection(cs))
                 {
-                    string query = "update loginweb set usernm=@usernm,PASSWRD=@PASSWRD,TYPE=@TYPE where usernm=@usernm";
-                    using (SqlCommand cmd = new SqlCommand(query, sql))
+                    using (SqlCommand cmd = new SqlCommand("web_UpdateLoginPassword", sql))
                     {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@usernm", value[0]);
                         cmd.Parameters.AddWithValue("@PASSWRD", value[2]);
                         cmd.Parameters.AddWithValue("@TYPE", "0");

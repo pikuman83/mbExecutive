@@ -56,6 +56,41 @@ Quick guide for the person running the installation on the client's server.
 | SQL login username | Press Enter for default `sa`, or type the user | `sa` |
 | SQL login password | SQL password (won't show while typing) | *(type it)* |
 | Proceed? | Confirm and start | `Y` |
+| Reset app-config.json? | *(only on re-install)* Press Enter to keep current show/hide settings; `y` to reset to "show everything" | `N` |
+
+---
+
+## Showing / hiding and renaming features (`app-config.json`)
+
+Which dashboard cards, charts, and sidebar reports appear — **and what they are
+called** — is controlled by a single file in the install folder: **`app-config.json`**.
+
+The installer creates it automatically (from `app-config.default.json`) the first
+time you install. After any edit, save the file and reload the app in the browser
+(**Ctrl + F5**) to apply. No reinstall needed.
+
+**To hide something** (top half of the file: `dashboard` and `reports`):
+
+- Set the item to `false`. Example: `"bankBalance": false` hides the Bank Balance card.
+- Setting a whole section's `"_group": false` (e.g. under `"purchase"`) hides that
+  entire sidebar menu. A section also disappears automatically when all of its
+  reports are set to `false`.
+- A missing entry or `true` means **visible** — you only ever need to add `false` lines.
+
+**To rename something** (bottom half of the file: `labels`):
+
+- Change the text on the right of the key. Example, under `labels.dashboard.kpis`:
+  `"cash": "Cash In Hand"` → `"cash": "Available Cash"`.
+- A sidebar section header is `labels.reports.<section>._title`
+  (e.g. `labels.reports.purchase._title`).
+- Clearing or removing a label restores the built-in default text. Renaming only
+  changes what is shown on screen — it never affects which report actually opens.
+
+**Upgrades preserve your settings.** New `_deploy` packages ship the defaults as
+`app-config.default.json` and do *not* contain `app-config.json`, so copying a new
+build over an existing install will not erase your customizations. If you re-run
+`install.ps1` and it finds an existing `app-config.json`, it keeps it unless you
+answer `y` to the reset prompt.
 
 ---
 

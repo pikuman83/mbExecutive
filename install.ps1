@@ -256,21 +256,98 @@ $cfg.Save($webConfigPath)
 Write-Ok "Web.config saved."
 
 # ==============================================================
+# STEP 4b - Feature visibility config (app-config.json)
+# ==============================================================
+# Controls which dashboard KPIs/charts and sidebar reports are shown.
+# The package ships a template (app-config.default.json); the live file the app
+# reads is app-config.json. We create the live file from the template only when
+# it is missing, so a client's customizations survive future redeploys.
+Write-Step "Setting up feature visibility config (app-config.json)..."
+
+$liveConfig     = Join-Path $InstallDir "app-config.json"
+$templateConfig = Join-Path $InstallDir "app-config.default.json"
+
+if (-not (Test-Path $templateConfig)) {
+    Write-Warn "app-config.default.json template not found - skipping (app shows all features by default)."
+} elseif (-not (Test-Path $liveConfig)) {
+    # First install on this server: create the live config from the packaged template.
+    Copy-Item -Path $templateConfig -Destination $liveConfig -Force
+    Write-Ok "Created app-config.json from template (all dashboard items and reports visible)."
+} else {
+    # A customized config from a previous install is present - keep it by default.
+    Write-Warn "Existing app-config.json found - your show/hide settings will be PRESERVED."
+    $overwriteCfg = Read-Host "Reset it to package defaults (show everything)? [y/N]"
+    if ($overwriteCfg -match '^[Yy]') {
+        Copy-Item -Path $templateConfig -Destination $liveConfig -Force
+        Write-Ok "app-config.json reset to package defaults."
+    } else {
+        Write-Ok "Kept existing app-config.json (customizations preserved)."
+    }
+}
+
+# ==============================================================
 # STEP 5 - Test SQL Server connection
 # ==============================================================
 Write-Step "Testing SQL Server connection..."
 
+$sqlConnectionOk = $false
 try {
     Add-Type -AssemblyName System.Data -ErrorAction SilentlyContinue
     $testConn = New-Object System.Data.SqlClient.SqlConnection($ConnString)
     $testConn.Open()
     $testConn.Close()
+    $sqlConnectionOk = $true
     Write-Ok "SQL Server connection successful."
 } catch {
     Write-Warn "SQL connection test FAILED: $($_.Exception.Message)"
     Write-Warn "The app will be installed but sign-in will fail until the database is reachable."
     Write-Warn "After fixing the database, update the connection string in:"
     Write-Warn "  $webConfigPath"
+}
+
+# ==============================================================
+# STEP 5b - Create / update stored procedures
+# ==============================================================
+# The Web API calls a set of stored procedures (StoredProcedures.sql, shipped
+# next to this installer). Run it so those procs exist on the target database.
+# The script is idempotent (drop-if-exists then create) and SQL Server 2000+
+# compatible. 'GO' is a sqlcmd/SSMS batch separator (not valid T-SQL), so the
+# script is split on GO and each batch is executed on its own command.
+Write-Step "Creating / updating stored procedures..."
+
+$spScript = Join-Path $InstallDir "StoredProcedures.sql"
+if (-not (Test-Path $spScript)) {
+    Write-Warn "StoredProcedures.sql not found next to the installer - skipping."
+    Write-Warn "The API will fail until the procedures exist. Run the script manually against '$SqlDatabase'."
+} elseif (-not $sqlConnectionOk) {
+    Write-Warn "Skipping stored-procedure setup because the SQL connection test failed."
+    Write-Warn "Once the database is reachable, run StoredProcedures.sql against '$SqlDatabase' manually."
+} else {
+    try {
+        Add-Type -AssemblyName System.Data -ErrorAction SilentlyContinue
+        $sqlText = Get-Content -Path $spScript -Raw
+        $batches = [System.Text.RegularExpressions.Regex]::Split($sqlText, '(?im)^\s*GO\s*$')
+
+        $spConn = New-Object System.Data.SqlClient.SqlConnection($ConnString)
+        $spConn.Open()
+        try {
+            $applied = 0
+            foreach ($batch in $batches) {
+                if ([string]::IsNullOrWhiteSpace($batch)) { continue }
+                $cmd = $spConn.CreateCommand()
+                $cmd.CommandText = $batch
+                $cmd.CommandTimeout = 60
+                [void]$cmd.ExecuteNonQuery()
+                $applied++
+            }
+            Write-Ok "Stored procedures created/updated ($applied batches executed)."
+        } finally {
+            $spConn.Close()
+        }
+    } catch {
+        Write-Warn "Stored-procedure setup FAILED: $($_.Exception.Message)"
+        Write-Warn "Run StoredProcedures.sql manually against '$SqlDatabase' (e.g. in SSMS)."
+    }
 }
 
 # ==============================================================

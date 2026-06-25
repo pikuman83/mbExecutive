@@ -15,17 +15,25 @@ namespace mbExecutive.Controllers
             string cs = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString;
             using (SqlConnection sql = new SqlConnection(cs))
             {
-                string query = "select * from " + table;
-                if (table == "product") { query = "select pcode, pname from product"; };
-                if (table == "raw") { query = "select pcode, pname from product where ptype = 0"; };
-                if (table == "customers") { query = "select vcode, vname, city from party"; };
-                if (table == "suppliers") { query = "select vcode, vname, city from party"; };
-                if (table == "Cash") { query = "select acode, aname FROM ACCOUNT WHERE [ATYPE] > 0  AND [INTERF] <> 'STOCK' AND AStatus = 0 ORDER BY aname, acode"; };
-                if (table == "account") { query = "SELECT ACode, AName FROM Account WHERE (AType > 0) AND (Levl = 4) ORDER BY AName, ACode"; };
+                var response = new List<Object>();
 
-                using (SqlCommand cmd = new SqlCommand(query, sql))
+                string sp = null;
+                if (table == "product") sp = "web_GetProducts";
+                else if (table == "raw") sp = "web_GetRawProducts";
+                else if (table == "customers" || table == "suppliers") sp = "web_GetParties";
+                else if (table == "Cash") sp = "web_GetCashAccounts";
+                else if (table == "account") sp = "web_GetLedgerAccounts";
+                else if (table == "location") sp = "web_GetLocations";
+                else if (table == "mgrp") sp = "web_GetMGroups";
+                else if (table == "grp") sp = "web_GetGroups";
+                else if (table == "pgroup") sp = "web_GetPGroups";
+                else if (table == "city") sp = "web_GetCities";
+
+                if (sp == null) return response;
+
+                using (SqlCommand cmd = new SqlCommand(sp, sql))
                 {
-                    var response = new List<Object>();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     await sql.OpenAsync();
 
                     using (var reader = await cmd.ExecuteReaderAsync())

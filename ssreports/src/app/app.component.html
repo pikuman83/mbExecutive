@@ -11,112 +11,124 @@
   <!-- Side Drawer -->
   <mat-nav-list class="mb-3">
       <i class="fas fa-times"  (click)="drawer.toggle()"></i>
-      <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><img class="sideNvIcons" src="../assets/speedometer.png">Dashboard</button>
+      <button class="dropdown-btn p-2 mt-4" routerLink="/dashboard" (click)="drawer.close()"><img class="sideNvIcons" src="../assets/speedometer.png">{{ config.label('dashboard.nav', 'Dashboard') }}</button>
 
+    <ng-container *ngIf="config.groupVisible('reports.financial')">
     <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#profiles" (click)="collapsed1? collapsed1=false:collapsed1=true">
-      <img class="sideNvIcons" src="../assets/stats.png">Financial Reports
+      <img class="sideNvIcons" src="../assets/stats.png">{{ config.label('reports.financial._title', 'Financial Reports') }}
       <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed1? true:false"></i>
     </button>
 
     <!-- Sub Menu Level 1 -->
       <div id="profiles" class="collapse collapsed">
-        <a (click)="ledger('Cash Book', 'Cash');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Cash Book</a>
+        <a *ngIf="config.enabled('reports.financial.cashBook')" (click)="ledger('Cash Book', 'Cash');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.financial.cashBook', 'Cash Book') }}</a>
         <div class="divider"></div>
-        <a (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Account Ledger</a>
+        <a *ngIf="config.enabled('reports.financial.accountLedger')" (click)="ledger('Account Ledger', 'Lgrrep');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.financial.accountLedger', 'Account Ledger') }}</a>
         <div class="divider"></div>
-        <a (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Daily Log</a>
+        <a *ngIf="config.enabled('reports.financial.dailyLog')" (click)="mBasic('Dllog', 'Daily Log');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.financial.dailyLog', 'Daily Log') }}</a>
         <div class="divider"></div>
-        <a (click)="mBasic('zakat', 'Periodic Zakat');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Perioddic Zakat</a>
+        <a *ngIf="config.enabled('reports.financial.periodicZakat')" (click)="mBasic('zakat', 'Periodic Zakat');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.financial.periodicZakat', 'Periodic Zakat') }}</a>
         <div class="divider"></div>
-        <a (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Expense</a>
+        <a *ngIf="config.enabled('reports.financial.periodicExpense')" (click)="mBasic('ExpRpt', 'Periodic Expense');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.financial.periodicExpense', 'Periodic Expense') }}</a>
         <div class="divider"></div>
-        <a (click)="pdcCheque();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>PDC Cheque</a>
+        <a *ngIf="config.enabled('reports.financial.pdcCheque')" (click)="pdcCheque();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.financial.pdcCheque', 'PDC Cheque') }}</a>
         <div class="divider"></div>
       </div>
+    </ng-container>
 
       <!-- Menu Activity Vouchers -->
+    <ng-container *ngIf="config.groupVisible('reports.receivable')">
     <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#activity" (click)="collapsed2? collapsed2=false:collapsed2=true">
-      <img class="sideNvIcons" src="../assets/receivableside.png">Accounts Receivable
+      <img class="sideNvIcons" src="../assets/receivableside.png">{{ config.label('reports.receivable._title', 'Accounts Receivable') }}
       <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed2? true:false"></i>
     </button>
 
       <!-- Sub Menu level 1 -->
       <div id="activity" class="collapse collapsed">
-        <a (click)="cBalance('0');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Balance</a>
+        <a *ngIf="config.enabled('reports.receivable.customerBalance')" (click)="cBalance('0');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.receivable.customerBalance', 'Customer Balance') }}</a>
         <div class="divider"></div>
-        <a (click)="ledger('Customer Ledger', 'CustLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Ledger</a>
+        <a *ngIf="config.enabled('reports.receivable.customerLedger')" (click)="ledger('Customer Ledger', 'CustLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.receivable.customerLedger', 'Customer Ledger') }}</a>
         <div class="divider"></div>
-        <a (click)="recovery('RecoveryReport', 'Customer Recovery', 'customers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Customer Recovery</a>
+        <a *ngIf="config.enabled('reports.receivable.customerRecovery')" (click)="recovery('RecoveryReport', 'Customer Recovery', 'customers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.receivable.customerRecovery', 'Customer Recovery') }}</a>
         <div class="divider"></div>
     </div>
+    </ng-container>
 
       <!-- Menu Reports -->
+      <ng-container *ngIf="config.groupVisible('reports.payable')">
       <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#reports" (click)="collapsed3? collapsed3=false:collapsed3=true">
-        <img class="sideNvIcons" src="../assets/payable-side.png">Account Payable
+        <img class="sideNvIcons" src="../assets/payable-side.png">{{ config.label('reports.payable._title', 'Account Payable') }}
         <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed3? true:false"></i>
       </button>
         <div id="reports" class="collapse collapsed">
           <!-- Sub Menu level 1 -->
-          <a (click)="cBalance('1');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Balances</a>
+          <a *ngIf="config.enabled('reports.payable.supplierBalance')" (click)="cBalance('1');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.payable.supplierBalance', 'Supplier Balances') }}</a>
           <div class="divider"></div>
-          <a (click)="ledger('Supplier Ledger', 'SuppLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Ledger</a>
+          <a *ngIf="config.enabled('reports.payable.supplierLedger')" (click)="ledger('Supplier Ledger', 'SuppLgr');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.payable.supplierLedger', 'Supplier Ledger') }}</a>
           <div class="divider"></div>
-          <a (click)="recovery('PaymentReport', 'Supplier Payment', 'suppliers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Supplier Payment</a>
+          <a *ngIf="config.enabled('reports.payable.supplierPayment')" (click)="recovery('PaymentReport', 'Supplier Payment', 'suppliers');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.payable.supplierPayment', 'Supplier Payment') }}</a>
           <div class="divider"></div>
         </div>
+      </ng-container>
 
         <!-- Menu PayRoll -->
+        <ng-container *ngIf="config.groupVisible('reports.inventory')">
         <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#payroll" (click)="collapsed4? collapsed4=false:collapsed4=true">
-          <img class="sideNvIcons" src="../assets/inventory.png">Inventory Reports
+          <img class="sideNvIcons" src="../assets/inventory.png">{{ config.label('reports.inventory._title', 'Inventory Reports') }}
           <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed4? true:false"></i>
         </button>
           <div id="payroll" class="collapse collapsed">
             <!-- Sub Menu level 1 -->
-            <a (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Balance</a>
-            <a (click)="stockBalance('Stock (color wise)');drawer.close()"><i class="fa fa-caret-right pr-2"></i>Stock (color wise)</a>
+            <a *ngIf="config.enabled('reports.inventory.stockBalance')" (click)="stockBalance('Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.inventory.stockBalance', 'Stock Balance') }}</a>
+            <a *ngIf="config.enabled('reports.inventory.stockColorWise')" (click)="stockBalance('Stock (color wise)');drawer.close()"><i class="fa fa-caret-right pr-2"></i>{{ config.label('reports.inventory.stockColorWise', 'Stock (color wise)') }}</a>
             <div class="divider"></div>
-            <a (click)="stockBalance('Stock Amount');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Stock Amount</a>
+            <a *ngIf="config.enabled('reports.inventory.stockAmount')" (click)="stockBalance('Stock Amount');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.inventory.stockAmount', 'Stock Amount') }}</a>
             <div class="divider"></div>
-            <a (click)="productLedger('Product Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Product Ledger</a>
+            <a *ngIf="config.enabled('reports.inventory.productLedger')" (click)="productLedger('Product Ledger');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.inventory.productLedger', 'Product Ledger') }}</a>
             <div class="divider"></div>
-            <a (click)="stockBalance('Trading Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Trading Stock Balance</a>
+            <a *ngIf="config.enabled('reports.inventory.tradingStockBalance')" (click)="stockBalance('Trading Stock Balance');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.inventory.tradingStockBalance', 'Trading Stock Balance') }}</a>
             <div class="divider"></div>
           </div>
+        </ng-container>
 
         <!-- Menu Tools -->
+        <ng-container *ngIf="config.groupVisible('reports.sales')">
         <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#tools" (click)="collapsed5? collapsed5=false:collapsed5=true">
-          <img class="sideNvIcons" src="../assets/goods.png">Sales Reports
+          <img class="sideNvIcons" src="../assets/goods.png">{{ config.label('reports.sales._title', 'Sales Reports') }}
           <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed5? true:false"></i>
         </button>
         <!-- Sub Menu level 1 -->
           <div id="tools" class="collapse collapsed">
-            <a (click)="periodicSales('Periodic Sale');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Sale Reports</a>
+            <a *ngIf="config.enabled('reports.sales.periodicSale')" (click)="periodicSales('Periodic Sale');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.sales.periodicSale', 'Periodic Sale Reports') }}</a>
             <div class="divider"></div>
-            <a (click)="saleVsRecovery('Sale Vs Recovery');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Recovery</a>
+            <a *ngIf="config.enabled('reports.sales.salesVsRecovery')" (click)="saleVsRecovery('Sale Vs Recovery');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.sales.salesVsRecovery', 'Sales Vs Recovery') }}</a>
             <div class="divider"></div>
-            <a (click)="saleVsProduction('Sale Vs Production');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Sales Vs Production</a>
+            <a *ngIf="config.enabled('reports.sales.salesVsProduction')" (click)="saleVsProduction('Sale Vs Production');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.sales.salesVsProduction', 'Sales Vs Production') }}</a>
             <div class="divider"></div>
-            <a (click)="fastSale();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Fast Sales Summery</a>
+            <a *ngIf="config.enabled('reports.sales.fastSalesSummary')" (click)="fastSale();drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.sales.fastSalesSummary', 'Fast Sales Summery') }}</a>
             <div class="divider"></div>
-            <a (click)="poStatus('SORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Party wise)</a>
-            <a (click)="poStatusPW('SOPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>S.O Status (Product wise)</a>
+            <a *ngIf="config.enabled('reports.sales.soStatusPartyWise')" (click)="poStatus('SORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.sales.soStatusPartyWise', 'S.O Status (Party wise)') }}</a>
+            <a *ngIf="config.enabled('reports.sales.soStatusProductWise')" (click)="poStatusPW('SOPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.sales.soStatusProductWise', 'S.O Status (Product wise)') }}</a>
             <div class="divider"></div>
           </div>
+        </ng-container>
 
           <!-- Menu Tools -->
+        <ng-container *ngIf="config.groupVisible('reports.purchase')">
         <button class="dropdown-btn p-2" data-toggle="collapse" data-target="#purchaseR" (click)="collapsed6=!collapsed6">
-          <img class="sideNvIcons" src="../assets/box.png">Purchase Reports
+          <img class="sideNvIcons" src="../assets/box.png">{{ config.label('reports.purchase._title', 'Purchase Reports') }}
           <i class="fa fa-caret-down" [class.fa-caret-up]="collapsed6? true:false"></i>
         </button>
         <!-- Sub Menu level 1 -->
           <div id="purchaseR" class="collapse collapsed">
-            <a (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>Periodic Purchase Reports</a>
+            <a *ngIf="config.enabled('reports.purchase.periodicPurchase')" (click)="periodicSales('Periodic Purchase');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.purchase.periodicPurchase', 'Periodic Purchase Reports') }}</a>
             <div class="divider"></div>
-            <a (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>GRN</a>
-            <a (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Party wise)</a>
-            <a (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>P.O Status (Product wise)</a>
+            <a *ngIf="config.enabled('reports.purchase.grn')" (click)="periodicSales('GRN');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.purchase.grn', 'GRN') }}</a>
+            <a *ngIf="config.enabled('reports.purchase.poStatusPartyWise')" (click)="poStatus('PORptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.purchase.poStatusPartyWise', 'P.O Status (Party wise)') }}</a>
+            <a *ngIf="config.enabled('reports.purchase.poStatusProductWise')" (click)="poStatusPW('POPrdRptNew');drawer.close()"><i class="fa fa-caret-right pr-2" ></i>{{ config.label('reports.purchase.poStatusProductWise', 'P.O Status (Product wise)') }}</a>
             <div class="divider"></div>
           </div>
+        </ng-container>
     </mat-nav-list>
 
   </mat-sidenav>

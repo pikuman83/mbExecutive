@@ -134,6 +134,55 @@ Copy-Item -Path "$distDir\*" -Destination $DeployDir -Recurse -Force
 Write-Ok "Frontend merged into: $DeployDir"
 
 # ─────────────────────────────────────────────────────────────────
+# 4b. COPY DEPLOYMENT SUPPORT FILES (installer, docs, DB script)
+#     These are not part of the .NET build output (WebPublish only emits
+#     Content items), but the client package must contain them so the
+#     server can be installed and the stored procedures created.
+# ─────────────────────────────────────────────────────────────────
+Write-Step "Copying deployment support files..."
+
+$supportFiles = @(
+    "install.ps1",              # IIS installer (run on the client server)
+    "INSTALL.md",               # plain-language install guide
+    "StoredProcedures.sql",     # stored procedures used by the Web API
+    "frontend-db-mapping.md"    # reference: which API/SP backs each screen
+)
+foreach ($f in $supportFiles) {
+    $src = Join-Path $RepoRoot $f
+    if (Test-Path $src) {
+        Copy-Item -Path $src -Destination $DeployDir -Force
+        Write-Ok "Packaged: $f"
+    } else {
+        Write-Host "    (note) $f not found in repo root - skipped." -ForegroundColor DarkGray
+    }
+}
+
+# Crystal Reports templates. CrController loads these from the app root via
+# MapPath("~/{id}.rpt"), so every .rpt in the repo root must ship to _deploy root.
+# Non-recursive on purpose - the reportsbckup\ copies are NOT shipped.
+$rptFiles = Get-ChildItem -Path $RepoRoot -Filter *.rpt -File
+if ($rptFiles) {
+    Copy-Item -Path $rptFiles.FullName -Destination $DeployDir -Force
+    Write-Ok ("Packaged: {0} Crystal Reports (*.rpt)" -f $rptFiles.Count)
+} else {
+    Write-Host "    (note) no *.rpt files found in repo root - reports will not work." -ForegroundColor DarkGray
+}
+
+# Ship the feature-flag file as a TEMPLATE only (app-config.default.json), never
+# as the live app-config.json. install.ps1 seeds the live file from this template
+# on first install. Because the package does NOT contain app-config.json itself,
+# copying a fresh _deploy over an existing install will not overwrite a client's
+# customized show/hide settings.
+$pkgConfig      = Join-Path $DeployDir "app-config.json"
+$templateConfig = Join-Path $DeployDir "app-config.default.json"
+if (Test-Path $pkgConfig) {
+    Move-Item -Path $pkgConfig -Destination $templateConfig -Force
+    Write-Ok "Feature config packaged as template: app-config.default.json"
+} else {
+    Write-Host "    (note) app-config.json not found in build output - feature config template not packaged." -ForegroundColor DarkGray
+}
+
+# ─────────────────────────────────────────────────────────────────
 # DONE
 # ─────────────────────────────────────────────────────────────────
 Write-Host @"
@@ -149,6 +198,10 @@ Write-Host @"
     Global.asax   — ASP.NET entry point
     index.html    — Angular app entry point
     *.js / assets — Angular bundles and assets
+    app-config.default.json — feature show/hide template (install.ps1 seeds app-config.json)
+    install.ps1 / INSTALL.md — IIS installer and guide
+    StoredProcedures.sql     — DB stored procedures (install.ps1 runs this)
+    frontend-db-mapping.md   — API/stored-procedure reference
 
   Next step:
     Copy the _deploy folder to the client's server,

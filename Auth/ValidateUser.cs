@@ -10,9 +10,9 @@ namespace mbExecutive.Auth
             string cs = System.Configuration.ConfigurationManager.ConnectionStrings["cstring"].ConnectionString;
             using (SqlConnection sql = new SqlConnection(cs))
             {
-                string query = "Select * from Loginweb";
-                using (SqlCommand cmd = new SqlCommand(query, sql))
+                using (SqlCommand cmd = new SqlCommand("web_GetLoginUsers", sql))
                 {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     bool response = false;
                     sql.Open();
 

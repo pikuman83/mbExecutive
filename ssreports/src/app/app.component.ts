@@ -1,4 +1,5 @@
 import { GlobalService } from './global.service';
+import { ConfigService } from './config.service';
 import { Spinkit } from 'ng-http-loader'
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
 
   title = 'MB Executive Dashboard';
 
-  constructor(public service: GlobalService, private router: Router, @Inject(DOCUMENT) private document: any, public dialog: MatDialog) {
+  constructor(public service: GlobalService, public config: ConfigService, private router: Router, @Inject(DOCUMENT) private document: any, public dialog: MatDialog) {
     this.putTimer();
     this.userInactive.subscribe(() => {
       this.signOut();

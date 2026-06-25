@@ -16,50 +16,50 @@
 
   <div class="d-md-flex justify-content-around mb-2 align-items-center">
     <div class="d-flex flex-column flex-shrink-1">
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.cash')">
         <mat-card-header>
           <img src="../../assets/cashINhand1.png" alt="Cash in hand">
-          <mat-card-title>Cash In Hand</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.cash', 'Cash In Hand') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="cashInHand">
           {{cash<0? '(' + (cash*-1|number) +')':cash|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.bankBalance')">
         <mat-card-header>
           <img src="../../assets/bank1.png" alt="bank">
-          <mat-card-title>Bank Balance</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.bankBalance', 'Bank Balance') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="bankBalance">
           {{bbalance<0? '(' + (bbalance*-1|number) +')':bbalance|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.netCashSale')">
         <mat-card-header>
           <img src="../../assets/cash-register.png" alt="Cash register">
-          <mat-card-title>Net Cash Sale</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.netCashSale', 'Net Cash Sale') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="cash-regiter">
           {{cashSale<0? '(' + (cashSale*-1|number) +')':cashSale|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.advCreditSale')">
         <mat-card-header>
           <img src="../../assets/personal.png" alt="Cash in hand">
-          <mat-card-title>Adv Cr Sale</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.advCreditSale', 'Adv Cr Sale') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="credit-sale">
           {{creditSale<0? '(' + (creditSale*-1|number) +')':creditSale|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.pdcCheques')">
         <mat-card-header>
           <img src="../../assets/cheque.png" alt="Cheque">
-          <mat-card-title>Overall PDC Cheques</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.pdcCheques', 'Overall PDC Cheques') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="cheque-border">
           {{cheques<0? '(' + (cheques*-1|number) +')':cheques|number}} <small>PKR</small>
@@ -67,8 +67,8 @@
       </mat-card>
     </div>
 
-    <div class="d-flex mb-2 flex-column text-center gauge">
-      <h1>Top 10 Products</h1>
+    <div class="d-flex mb-2 flex-column text-center gauge" *ngIf="config.enabled('dashboard.charts.top10Products')">
+      <h1>{{ config.label('dashboard.charts.top10Products', 'Top 10 Products') }}</h1>
       <ngx-charts-gauge *ngIf="expenses.length" class="d-flex justify-content-around"
         #gaugeChart
         [view]="viewG"
@@ -83,40 +83,40 @@
     </div>
 
     <div class="d-flex flex-column flex-shrink-1">
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.receivable')">
         <mat-card-header>
           <img src="../../assets/receivable1.png" alt="Total Receivable">
-          <mat-card-title>Receivable</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.receivable', 'Receivable') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="totalReceivale">
           {{receivable<0? '(' + (receivable*-1|number) +')':receivable|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.payable')">
         <mat-card-header>
           <img src="../../assets/payable1.png" alt="Total payable">
-          <mat-card-title>Payable</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.payable', 'Payable') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="totalPayable">
           {{payable<0? '(' + (payable*-1|number) +')':payable|number}} <small>PKR</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.dispatch')">
         <mat-card-header>
           <img src="../../assets/sale.png" alt="bank">
-          <mat-card-title>Dispatch</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.dispatch', 'Dispatch') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="dispatch">
           {{totalDisp <0? '(' + (totalDisp*-1|number) +')':totalDisp|number}} <small>DZN</small>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card *ngIf="config.enabled('dashboard.kpis.production')">
         <mat-card-header>
           <img src="../../assets/product.png" alt="Production">
-          <mat-card-title>Production</mat-card-title>
+          <mat-card-title>{{ config.label('dashboard.kpis.production', 'Production') }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="prod">
           {{totalProd<0? '(' + (totalProd*-1|number) +')':totalProd|number}} <small>DZN</small>
@@ -126,9 +126,9 @@
   </div>
 
   <div class="d-md-flex gap-16 justify-content-around">
-    <mat-card>
+    <mat-card *ngIf="config.enabled('dashboard.charts.monthlyExpenses')">
       <mat-card-header>
-        <mat-card-title>Monthly Expenses</mat-card-title>
+        <mat-card-title>{{ config.label('dashboard.charts.monthlyExpenses', 'Monthly Expenses') }}</mat-card-title>
       </mat-card-header>
       <ngx-charts-bar-vertical class="d-flex justify-content-around"
         [view]="view"
@@ -145,9 +145,9 @@
       </ngx-charts-bar-vertical>
     </mat-card>
 
-    <mat-card>
+    <mat-card *ngIf="config.enabled('dashboard.charts.orderVsSaleVsProduction')">
       <mat-card-header>
-        <mat-card-title>Order Vs Sale Vs Production</mat-card-title>
+        <mat-card-title>{{ config.label('dashboard.charts.orderVsSaleVsProduction', 'Order Vs Sale Vs Production') }}</mat-card-title>
       </mat-card-header>
       <ngx-charts-line-chart class="d-flex justify-content-around"
         [view]="view"
@@ -165,9 +165,9 @@
   </div>
 
   <div class="d-md-flex gap-16 justify-content-around">
-    <mat-card>
+    <mat-card *ngIf="config.enabled('dashboard.charts.top10SalesOrder')">
       <mat-card-header>
-        <mat-card-title>Top 10 Sales Order</mat-card-title>
+        <mat-card-title>{{ config.label('dashboard.charts.top10SalesOrder', 'Top 10 Sales Order') }}</mat-card-title>
       </mat-card-header>
       <ngx-charts-bar-horizontal class="d-flex justify-content-around"
         [view]="view"
@@ -180,9 +180,9 @@
       </ngx-charts-bar-horizontal>
     </mat-card>
 
-    <mat-card>
+    <mat-card *ngIf="config.enabled('dashboard.charts.salesVsRecovery')">
       <mat-card-header>
-        <mat-card-title>Sales Vs Recovery</mat-card-title>
+        <mat-card-title>{{ config.label('dashboard.charts.salesVsRecovery', 'Sales Vs Recovery') }}</mat-card-title>
       </mat-card-header>
       <ngx-charts-pie-chart class="d-flex justify-content-around"
         [view]="view"
