@@ -20,9 +20,13 @@
         <mat-card-header>
           <img src="../../assets/cashINhand1.png" alt="Cash in hand">
           <mat-card-title>{{ config.label('dashboard.kpis.cash', 'Cash In Hand') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('cash') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('cash')"></i>
         </mat-card-header>
-        <mat-card-content class="cashInHand">
-          {{cash<0? '(' + (cash*-1|number) +')':cash|number}} <small>PKR</small>
+        <mat-card-content class="cashInHand" (click)="toggle('cash')">
+          <ng-container *ngIf="isRevealed('cash'); else hiddenCash">
+            {{cash<0? '(' + (cash*-1|number) +')':cash|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenCash>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -30,9 +34,13 @@
         <mat-card-header>
           <img src="../../assets/bank1.png" alt="bank">
           <mat-card-title>{{ config.label('dashboard.kpis.bankBalance', 'Bank Balance') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('bankBalance') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('bankBalance')"></i>
         </mat-card-header>
-        <mat-card-content class="bankBalance">
-          {{bbalance<0? '(' + (bbalance*-1|number) +')':bbalance|number}} <small>PKR</small>
+        <mat-card-content class="bankBalance" (click)="toggle('bankBalance')">
+          <ng-container *ngIf="isRevealed('bankBalance'); else hiddenBankBalance">
+            {{bbalance<0? '(' + (bbalance*-1|number) +')':bbalance|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenBankBalance>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -40,9 +48,13 @@
         <mat-card-header>
           <img src="../../assets/cash-register.png" alt="Cash register">
           <mat-card-title>{{ config.label('dashboard.kpis.netCashSale', 'Net Cash Sale') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('netCashSale') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('netCashSale')"></i>
         </mat-card-header>
-        <mat-card-content class="cash-regiter">
-          {{cashSale<0? '(' + (cashSale*-1|number) +')':cashSale|number}} <small>PKR</small>
+        <mat-card-content class="cash-regiter" (click)="toggle('netCashSale')">
+          <ng-container *ngIf="isRevealed('netCashSale'); else hiddenNetCashSale">
+            {{cashSale<0? '(' + (cashSale*-1|number) +')':cashSale|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenNetCashSale>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -50,9 +62,13 @@
         <mat-card-header>
           <img src="../../assets/personal.png" alt="Cash in hand">
           <mat-card-title>{{ config.label('dashboard.kpis.advCreditSale', 'Adv Cr Sale') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('advCreditSale') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('advCreditSale')"></i>
         </mat-card-header>
-        <mat-card-content class="credit-sale">
-          {{creditSale<0? '(' + (creditSale*-1|number) +')':creditSale|number}} <small>PKR</small>
+        <mat-card-content class="credit-sale" (click)="toggle('advCreditSale')">
+          <ng-container *ngIf="isRevealed('advCreditSale'); else hiddenAdvCreditSale">
+            {{creditSale<0? '(' + (creditSale*-1|number) +')':creditSale|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenAdvCreditSale>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -60,9 +76,13 @@
         <mat-card-header>
           <img src="../../assets/cheque.png" alt="Cheque">
           <mat-card-title>{{ config.label('dashboard.kpis.pdcCheques', 'Overall PDC Cheques') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('pdcCheques') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('pdcCheques')"></i>
         </mat-card-header>
-        <mat-card-content class="cheque-border">
-          {{cheques<0? '(' + (cheques*-1|number) +')':cheques|number}} <small>PKR</small>
+        <mat-card-content class="cheque-border" (click)="toggle('pdcCheques')">
+          <ng-container *ngIf="isRevealed('pdcCheques'); else hiddenPdcCheques">
+            {{cheques<0? '(' + (cheques*-1|number) +')':cheques|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenPdcCheques>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
     </div>
@@ -87,9 +107,13 @@
         <mat-card-header>
           <img src="../../assets/receivable1.png" alt="Total Receivable">
           <mat-card-title>{{ config.label('dashboard.kpis.receivable', 'Receivable') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('receivable') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('receivable')"></i>
         </mat-card-header>
-        <mat-card-content class="totalReceivale">
-          {{receivable<0? '(' + (receivable*-1|number) +')':receivable|number}} <small>PKR</small>
+        <mat-card-content class="totalReceivale" (click)="toggle('receivable')">
+          <ng-container *ngIf="isRevealed('receivable'); else hiddenReceivable">
+            {{receivable<0? '(' + (receivable*-1|number) +')':receivable|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenReceivable>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -97,9 +121,13 @@
         <mat-card-header>
           <img src="../../assets/payable1.png" alt="Total payable">
           <mat-card-title>{{ config.label('dashboard.kpis.payable', 'Payable') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('payable') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('payable')"></i>
         </mat-card-header>
-        <mat-card-content class="totalPayable">
-          {{payable<0? '(' + (payable*-1|number) +')':payable|number}} <small>PKR</small>
+        <mat-card-content class="totalPayable" (click)="toggle('payable')">
+          <ng-container *ngIf="isRevealed('payable'); else hiddenPayable">
+            {{payable<0? '(' + (payable*-1|number) +')':payable|number}} <small>PKR</small>
+          </ng-container>
+          <ng-template #hiddenPayable>&bull;&bull;&bull;&bull;&bull;&bull; <small>PKR</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -107,9 +135,13 @@
         <mat-card-header>
           <img src="../../assets/sale.png" alt="bank">
           <mat-card-title>{{ config.label('dashboard.kpis.dispatch', 'Dispatch') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('dispatch') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('dispatch')"></i>
         </mat-card-header>
-        <mat-card-content class="dispatch">
-          {{totalDisp <0? '(' + (totalDisp*-1|number) +')':totalDisp|number}} <small>DZN</small>
+        <mat-card-content class="dispatch" (click)="toggle('dispatch')">
+          <ng-container *ngIf="isRevealed('dispatch'); else hiddenDispatch">
+            {{totalDisp <0? '(' + (totalDisp*-1|number) +')':totalDisp|number}} <small>DZN</small>
+          </ng-container>
+          <ng-template #hiddenDispatch>&bull;&bull;&bull;&bull;&bull;&bull; <small>DZN</small></ng-template>
         </mat-card-content>
       </mat-card>
 
@@ -117,9 +149,13 @@
         <mat-card-header>
           <img src="../../assets/product.png" alt="Production">
           <mat-card-title>{{ config.label('dashboard.kpis.production', 'Production') }}</mat-card-title>
+          <i class="fa" [ngClass]="isRevealed('production') ? 'fa-eye-slash' : 'fa-eye'" (click)="toggle('production')"></i>
         </mat-card-header>
-        <mat-card-content class="prod">
-          {{totalProd<0? '(' + (totalProd*-1|number) +')':totalProd|number}} <small>DZN</small>
+        <mat-card-content class="prod" (click)="toggle('production')">
+          <ng-container *ngIf="isRevealed('production'); else hiddenProduction">
+            {{totalProd<0? '(' + (totalProd*-1|number) +')':totalProd|number}} <small>DZN</small>
+          </ng-container>
+          <ng-template #hiddenProduction>&bull;&bull;&bull;&bull;&bull;&bull; <small>DZN</small></ng-template>
         </mat-card-content>
       </mat-card>
     </div>

@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   creditSale: number | null = null;
   cheques: number | null = null;
   refresh: boolean = false;
+  revealed: { [key: string]: boolean } = {};
 
   constructor(private service: GlobalService, public config: ConfigService, private datepipe: DatePipe, private route: ActivatedRoute) {
     this.service.title = this.config.label('dashboard.nav', 'Dashboard');
@@ -64,6 +65,14 @@ export class DashboardComponent implements OnInit {
   }
 
   showButton = (): boolean => this.refresh = !!(this.datefrom && this.dateto);
+
+  isRevealed(key: string): boolean {
+    return key in this.revealed ? this.revealed[key] : !this.config.enabled('dashboard.hiddenByDefault');
+  }
+
+  toggle(key: string): void {
+    this.revealed[key] = !this.isRevealed(key);
+  }
 
   refreshData(){
     this.max = 1000;

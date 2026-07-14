@@ -5,12 +5,15 @@
     "   A missing key or true means VISIBLE (show by default).",
     "   Setting a report section's _group to false hides that whole sidebar section;",
     "   a section is also hidden automatically when every report inside it is false.",
+    "   dashboard.hiddenByDefault: true masks all KPI card values until clicked;",
+    "   set to false to show KPI values immediately on load.",
     "2) labels: rename anything shown on screen. Edit the text on the right of each key.",
     "   A report section header is labels.reports.<section>._title.",
     "   Clearing or removing a label restores the built-in default text.",
     "Edit this file on the server, then reload the app (Ctrl+F5) to apply. No rebuild needed."
   ],
   "dashboard": {
+    "hiddenByDefault": true,
     "kpis": {
       "cash": true,
       "bankBalance": true,
