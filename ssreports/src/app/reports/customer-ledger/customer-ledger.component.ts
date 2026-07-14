@@ -16,7 +16,7 @@ export class CustomerLedgerComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   accInput = new FormControl();
   dateto = new Date();
-  datefrom = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  datefrom = new Date();
   aname='';
   withCheck = '0';
   isCustomerLeger = false;
@@ -24,7 +24,9 @@ export class CustomerLedgerComponent implements OnInit {
   constructor(
     private service: GlobalService,
     public dialogRef: MatDialogRef<CustomerLedgerComponent>,
-    @Inject(MAT_DIALOG_DATA) public title: string[]) {}
+    @Inject(MAT_DIALOG_DATA) public title: string[]) {
+    this.datefrom.setDate(this.dateto.getDate() - 30);
+  }
 
   ngOnInit(): void {
     this.getAccounts();
