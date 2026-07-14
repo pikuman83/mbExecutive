@@ -241,3 +241,86 @@ BEGIN
     FROM city
 END
 GO
+
+/*==============================================================================
+  LICENSE ENFORCEMENT
+  Run this section once on initial deployment to each client database.
+  The AppLicense table is the primary kill-switch: the vendor updates Status
+  during their routine database maintenance to suspend or restore access.
+==============================================================================*/
+
+/*------------------------------------------------------------------------------
+  AppLicense table  (single-row configuration — Id is always 1)
+------------------------------------------------------------------------------*/
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects
+               WHERE id = OBJECT_ID(N'[dbo].[AppLicense]')
+                 AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+    CREATE TABLE [dbo].[AppLicense] (
+        [Id]                 INT           NOT NULL,
+        [ClientId]           NVARCHAR(100) NOT NULL,
+        [Status]             NVARCHAR(20)  NOT NULL,
+        [LicenseExpiryDate]  DATETIME      NULL,
+        [LastPhoneHomeOk]    DATETIME      NULL,
+        [PhoneHomeGraceDays] INT           NOT NULL,
+        [Notes]              NVARCHAR(500) NULL,
+        CONSTRAINT [PK_AppLicense]   PRIMARY KEY ([Id]),
+        CONSTRAINT [CK_AL_Status]    CHECK ([Status] IN ('Active','Expired','Revoked')),
+        CONSTRAINT [CK_AL_SingleRow] CHECK ([Id] = 1)
+    )
+
+    INSERT INTO [dbo].[AppLicense]
+        ([Id],[ClientId],[Status],[PhoneHomeGraceDays],[Notes])
+    VALUES
+        (1, 'CLIENT-XXX', 'Active', 7, 'Initial setup — replace CLIENT-XXX with actual client id')
+END
+GO
+
+/*------------------------------------------------------------------------------
+  Vendor kill-switch cheat-sheet (run against the client DB during maintenance):
+    Suspend : UPDATE AppLicense SET Status = 'Expired'  WHERE Id = 1
+    Restore : UPDATE AppLicense SET Status = 'Active'   WHERE Id = 1
+    Revoke  : UPDATE AppLicense SET Status = 'Revoked'  WHERE Id = 1
+    Expiry  : UPDATE AppLicense SET LicenseExpiryDate = '2026-12-31' WHERE Id = 1
+------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------
+  web_CheckLicense
+  Called by LicenseValidator on every protected request.
+------------------------------------------------------------------------------*/
+IF EXISTS (SELECT * FROM dbo.sysobjects
+           WHERE id = OBJECT_ID(N'[dbo].[web_CheckLicense]')
+             AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE [dbo].[web_CheckLicense]
+GO
+CREATE PROCEDURE [dbo].[web_CheckLicense]
+AS
+BEGIN
+    SELECT
+        [Status],
+        [LicenseExpiryDate],
+        [LastPhoneHomeOk],
+        [PhoneHomeGraceDays],
+        [ClientId]
+    FROM [dbo].[AppLicense]
+    WHERE [Id] = 1
+END
+GO
+
+/*------------------------------------------------------------------------------
+  web_UpdatePhoneHome
+  Called by LicenseValidator after a successful phone-home check.
+------------------------------------------------------------------------------*/
+IF EXISTS (SELECT * FROM dbo.sysobjects
+           WHERE id = OBJECT_ID(N'[dbo].[web_UpdatePhoneHome]')
+             AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE [dbo].[web_UpdatePhoneHome]
+GO
+CREATE PROCEDURE [dbo].[web_UpdatePhoneHome]
+AS
+BEGIN
+    UPDATE [dbo].[AppLicense]
+    SET    [LastPhoneHomeOk] = GETUTCDATE()
+    WHERE  [Id] = 1
+END
+GO

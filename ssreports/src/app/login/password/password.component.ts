@@ -9,9 +9,8 @@ import { GlobalService } from 'src/app/global.service';
   styleUrls: ['./password.component.css']
 })
 export class PasswordComponent {
-  
   constructor(private service: GlobalService, private _snackBar: MatSnackBar, public dialogRef: MatDialogRef<PasswordComponent>) {}
-  
+
   generate(old: string, nw1: string, nw2: string){
     if (nw1 !== nw2){
       this._snackBar.open('New Passwords doesn\'t match', 'MBFW');
@@ -20,7 +19,7 @@ export class PasswordComponent {
       this._snackBar.open('Password must contain atleast 4 characters', 'MBFW');
     }
     else{
-      const userName = sessionStorage.getItem('player');
+      const userName = sessionStorage.getItem('username');
       this.service.post([userName, old, nw1], 'Post').subscribe(()=>{
         this._snackBar.open('Changed successfully', '-MBFW-', {panelClass: 'happy'});
         this.dialogRef.close();

@@ -1,0 +1,87 @@
+html {
+  background-color: #56baed;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 90vh;
+  padding: 20px;
+}
+
+#formContent {
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 16px 8px 12px;
+}
+
+.message {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 0 16px 8px;
+}
+
+.contact-info {
+  padding: 8px 24px 20px;
+  font-size: 13px;
+  color: #333;
+  border-top: 1px solid #eee;
+  margin-top: 8px;
+}
+
+.contact-info p {
+  margin: 8px 0;
+}
+
+.bg-image {
+  width: 60%;
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn ease-in 1;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+}
+
+.fadeIn.first {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }

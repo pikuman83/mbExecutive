@@ -9,8 +9,12 @@ namespace mbExecutive.Controllers
     {
         public HttpResponseMessage Post(Users user)
         {
+            if (!LicenseValidator.IsLicenseValid())
+                return Request.CreateResponse((HttpStatusCode)402, "License Expired");
+
             if (CheckUser(user))
             {
+                LicenseValidator.TriggerPhoneHomeAsync();
                 return Request.CreateResponse(HttpStatusCode.OK,
              JwtAuthManager.GenerateJWTToken(user.username));
             }
@@ -24,14 +28,7 @@ namespace mbExecutive.Controllers
         private bool CheckUser(Users users)
         {
             ValidateUser validate = new ValidateUser();
-            if (validate.IsValidUser(users))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return validate.IsValidUser(users);
         }
     }
     public class Users

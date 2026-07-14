@@ -42,7 +42,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(private service: GlobalService, public config: ConfigService, private datepipe: DatePipe, private route: ActivatedRoute) {
     this.service.title = this.config.label('dashboard.nav', 'Dashboard');
-    this.dateto.setDate(this.dateto.getDate() - 1);
     this.datefrom.setDate(this.dateto.getDate() - 30);
   }
 

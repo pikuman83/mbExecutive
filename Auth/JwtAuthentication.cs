@@ -30,11 +30,16 @@ namespace mbExecutive.Auth
             if (principal == null)
             {
                 context.ErrorResult = new AuthFailureResult("Invalid JWT Token", request);
+                return;
             }
-            else
+
+            if (!LicenseValidator.IsLicenseValid())
             {
-                context.Principal = principal;
+                context.ErrorResult = new LicenseExpiredResult(request);
+                return;
             }
+
+            context.Principal = principal;
         }
         private static bool ValidateToken(string token, out string username)
         {

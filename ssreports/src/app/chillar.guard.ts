@@ -13,12 +13,14 @@ export class ChillarGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (sessionStorage.getItem('theepa') != null){
-      return true;
-    }
-    else {
-      this.router.navigate(['/Login']);
+    if (sessionStorage.getItem('licenseExpired') === 'true') {
+      this.router.navigate(['/license-expired']);
       return false;
     }
+    if (sessionStorage.getItem('token') != null) {
+      return true;
+    }
+    this.router.navigate(['/Login']);
+    return false;
   }
 }

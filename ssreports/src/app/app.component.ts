@@ -72,8 +72,8 @@ export class AppComponent implements OnInit {
 
   username: string = '';
   isLogin(){
-    if (sessionStorage.getItem('player') != null){
-      this.username = sessionStorage.getItem('player') || '';
+    if (sessionStorage.getItem('username') != null){
+      this.username = sessionStorage.getItem('username') || '';
       return true
     }
     else {
@@ -82,8 +82,8 @@ export class AppComponent implements OnInit {
   }
 
   signOut(){
-    sessionStorage.removeItem('player');
-    sessionStorage.removeItem('theepa');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('token');
     this.isLogin();
     this.username = ''; //hides the menu button when logout
     this.router.navigate(['/Login']);

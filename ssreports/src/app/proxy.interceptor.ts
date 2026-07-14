@@ -11,22 +11,27 @@ export class ProxyInterceptor implements HttpInterceptor {
   constructor(private router: Router, private _snackBar: MatSnackBar) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (sessionStorage.getItem('theepa') != null) {
+    if (sessionStorage.getItem('token') != null) {
       const clonedReq = request.clone({
-          headers: request.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('theepa'))
+          headers: request.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
       });
       return next.handle(clonedReq).pipe(
           tap(
               succ => {},
               err => {
-                  if (err.status == 401){
-                    this._snackBar.open('You are not authorized to access this page', 'Authentication failed');
-                      sessionStorage.removeItem('theepa');
+                  if (err.status === 402) {
+                      sessionStorage.setItem('licenseExpired', 'true');
+                      sessionStorage.removeItem('token');
+                      sessionStorage.removeItem('username');
+                      this.router.navigate(['/license-expired']);
+                  } else if (err.status === 401) {
+                      this._snackBar.open('You are not authorized to access this page', 'Authentication failed');
+                      sessionStorage.removeItem('token');
+                      this.router.navigate(['/Login']);
+                  } else if (err.status === 403) {
+                      this._snackBar.open('Request has been rejected by the server due to invalid credentials', 'Authentication failed');
                       this.router.navigate(['/Login']);
                   }
-                  else if(err.status == 403)
-                  this.router.navigate(['/Login']);
-                  this._snackBar.open('Request has been rejected by the server due to invalid credentials', 'Authentication failed');
               }
           )
       )

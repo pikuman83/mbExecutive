@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (sessionStorage.getItem('theepa') != null){
+    if (sessionStorage.getItem('token') != null){
       this.router.navigate(['/dashboard'])
     }
   }
@@ -34,8 +34,9 @@ export class LoginComponent implements OnInit {
 
   Submit(form: loginClass) {
     this.service.login(form).subscribe((res: any) => {
-        sessionStorage.setItem('theepa', res);
-        sessionStorage.setItem('player', form.username);
+        sessionStorage.removeItem('licenseExpired');
+        sessionStorage.setItem('token', res);
+        sessionStorage.setItem('username', form.username);
         this.router.navigate(['/dashboard']);
         document.documentElement.requestFullscreen();
       },

@@ -49,6 +49,7 @@ import { PoStatusComponent } from './reports/po-status/po-status.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PoStatusPwComponent } from './reports/po-status-pw/po-status-pw.component';
 import { PdcChequeComponent } from './reports/pdc-cheque/pdc-cheque.component';
+import { LicenseExpiredComponent } from './license-expired/license-expired.component';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 const loadConfig = (configService: ConfigService) => () => configService.load();
@@ -73,7 +74,8 @@ const loadConfig = (configService: ConfigService) => () => configService.load();
     FastSalesSummaryComponent,
     PoStatusComponent,
     PoStatusPwComponent,
-    PdcChequeComponent
+    PdcChequeComponent,
+    LicenseExpiredComponent
   ],
   imports: [
     BrowserModule,
