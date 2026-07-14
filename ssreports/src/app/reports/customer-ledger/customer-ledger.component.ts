@@ -66,12 +66,7 @@ export class CustomerLedgerComponent implements OnInit {
     this.service.genReport("mb", this.withCheck === '1' ? 'CustLgrWdChq' : this.title[1], this.datefrom, this.dateto, Icode, "","","","").subscribe((data) => {
       const blob = new Blob([data], {type: 'application/pdf'});
       const downloadURL = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadURL;
-      a.download = `report-${this.code.find(c => c.col1 === Icode)?.col2}.pdf`;
-      a.click();
-
-      window.URL.revokeObjectURL(downloadURL);
+      window.open(downloadURL, '_blank')
     });
 
     this.dialogRef.close();
