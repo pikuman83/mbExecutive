@@ -12,7 +12,7 @@ import { GlobalService } from 'src/app/global.service';
 })
 export class ProductLedgerComponent implements OnInit {
   dateto = new Date();
-  datefrom = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  datefrom = new Date();
   products: any[]; //return 2 columns col1(pcode) & col2(pname)
   locations: string[];
   filteredOptions: Observable<string[]>;
@@ -22,7 +22,9 @@ export class ProductLedgerComponent implements OnInit {
   constructor(
     private service: GlobalService,
     public dialogRef: MatDialogRef<ProductLedgerComponent>,
-    @Inject(MAT_DIALOG_DATA) public title: string) {}
+    @Inject(MAT_DIALOG_DATA) public title: string) {
+    this.datefrom.setDate(this.dateto.getDate() - 30);
+  }
 
   ngOnInit(): void {
     this.getProducts();
