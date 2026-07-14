@@ -53,11 +53,11 @@ export class DashboardComponent implements OnInit {
 
   saleVsRecovery(x: any[]){
     const sale = {
-      name: "Sale",
+      name: `Sale (${x[0].toLocaleString()})`,
       value: x[0]
     }
     const recovery = {
-      name: "Recovery",
+      name: `Recovery (${x[1].toLocaleString()})`,
       value: x[1]
     }
     return this.sVSr = [sale, recovery];
