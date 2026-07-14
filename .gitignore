@@ -341,3 +341,6 @@ healthchecksdb
 
 # mbExecutive build output
 _deploy/
+
+# Claude Code worktrees
+.worktrees/
