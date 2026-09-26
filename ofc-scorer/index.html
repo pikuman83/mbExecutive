@@ -79,6 +79,9 @@ header p{margin:6px 0 0;max-width:60ch}
 .player.infl .flrow{color:var(--warn-ink);font-weight:600}
 .pfoot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
 .errs{color:var(--neg);font-size:13px;margin:0}
+.import{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.import ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.import textarea{font:500 14px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--sunk);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%;resize:vertical}
 .results{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:16px}
 .totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
 .tot{background:var(--sunk);border-radius:10px;padding:12px 14px}
@@ -121,6 +124,27 @@ summary{cursor:pointer;font:700 20px var(--display)}
 
   <div class="banner" id="exampleBanner" hidden>These are example hands so you can see how scoring works. Press <b>New round</b> to clear them and enter your own.</div>
   <div class="banner" id="noAiBanner" hidden></div>
+
+  <section class="import">
+    <h2>Read photos in the Claude app</h2>
+    <ol>
+      <li>Tap <b>Copy instructions</b>, open a new chat in the Claude app, and paste them.</li>
+      <li>Attach one photo per player (up to 4) and send.</li>
+      <li>Copy Claude's reply, paste it below and tap <b>Fill in hands</b>. Check the cards before scoring.</li>
+    </ol>
+    <div class="actions">
+      <button type="button" id="btnCopyPrompt">Copy instructions</button>
+      <span class="status" id="copyNote"></span>
+    </div>
+    <textarea id="chatPrompt" readonly hidden rows="6"></textarea>
+    <label for="importBox" class="muted" style="font-size:13px">Claude's reply</label>
+    <textarea id="importBox" rows="5" placeholder="Player 1: Qs Qd 4c / 9h 9c 9d 4s 2h / Ah Kh 8h 6h 3h
+Player 2: Jc 6s 3s / 8s 8d Ks Kd 3c / 7c 7h 7s Tc Td"></textarea>
+    <div class="actions">
+      <button type="button" class="primary" id="btnImport">Fill in hands</button>
+      <span class="status" id="importNote"></span>
+    </div>
+  </section>
 
   <section class="players" id="players"></section>
 
@@ -332,7 +356,7 @@ summary{cursor:pointer;font:700 20px var(--display)}
     b.innerHTML = html + ' Meanwhile you can type the cards, e.g. <code>Qs Qd 4c</code> (T = ten; s h d c = suits).';
     b.hidden = false;
   }
-  const OPEN_IN_BROWSER = "Photo reading doesn't work in this view. Open the artifact link in your phone's browser (Safari or Chrome) at claude.ai, signed in to your Claude account, and try again.";
+  const OPEN_IN_BROWSER = "Photo reading doesn't work in this view. Use <b>Read photos in the Claude app</b> above: send the photos in a Claude chat and paste its reply.";
   function markEdited(){
     if(state.example){ state.example = false; document.getElementById("exampleBanner").hidden = true; }
   }
@@ -596,6 +620,46 @@ List in "unsure" any card you could not read confidently (use your best guess in
   resetBtn.addEventListener("click", ()=>{
     if(!armed){ armed = true; resetBtn.textContent = "Tap again to reset"; setTimeout(()=>{ armed=false; resetBtn.textContent="Reset totals"; }, 3000); return; }
     armed = false; resetBtn.textContent = "Reset totals"; state.tally = []; save(); renderTally();
+  });
+
+  // ---------- import from a Claude chat ----------
+  const CHAT_PROMPT = `I'm sending photos of finished Open Face Chinese Poker hands, one photo per player, in order (first photo = Player 1). Each hand has 13 cards in three rows: TOP row 3 cards (farthest from the player), MIDDLE row 5 cards, BOTTOM row 5 cards (closest to the player). If a photo is rotated, the 3-card row is the top.
+Read each card from its corner index. Don't guess from the card art.
+Reply with ONLY one line per player in exactly this format, nothing else:
+Player 1: Qs Qd 4c / 9h 9c 9d 4s 2h / Ah Kh 8h 6h 3h
+(top / middle / bottom; ranks 2-9 T J Q K A, T = ten; suits s h d c)
+If you're unsure of a card, still give your best guess and add "?" right after it, like Qd?`;
+  document.getElementById("chatPrompt").value = CHAT_PROMPT;
+  document.getElementById("btnCopyPrompt").addEventListener("click", async ()=>{
+    const note = document.getElementById("copyNote");
+    try{ await navigator.clipboard.writeText(CHAT_PROMPT); note.textContent = "Copied. Paste it into a new Claude chat."; }
+    catch(e){
+      const ta = document.getElementById("chatPrompt"); ta.hidden = false; ta.focus(); ta.select();
+      note.textContent = "Select this text and copy it.";
+    }
+  });
+  document.getElementById("btnImport").addEventListener("click", ()=>{
+    const note = document.getElementById("importNote");
+    const lines = document.getElementById("importBox").value.split(/\n+/).map(l=>l.trim()).filter(l=>l.includes("/"));
+    if(!lines.length){ note.textContent = "Nothing to fill in. Paste lines like: Player 1: Qs Qd 4c / … / …"; return; }
+    const unsure = [];
+    const hands = lines.slice(0,4).map(l=>{
+      let name = "", body = l;
+      const m = l.match(/^\s*[*_#\-\d.)\s]*([^:]{1,30}):\s*(.*)$/);
+      if(m){ name = m[1].replace(/[*_]/g,"").trim(); body = m[2]; }
+      const parts = body.split("/").map(x=>x.replace(/[*_`]/g," ").trim());
+      const clean = x => (x||"").replace(/(\S+)\?/g,(_,c)=>{ unsure.push(c); return c; }).replace(/\s+/g," ").trim();
+      return {name, top:clean(parts[0]), middle:clean(parts[1]), bottom:clean(parts[2])};
+    });
+    markEdited();
+    hands.forEach((h,i)=>{
+      const p = state.players[i];
+      if(h.name && !/^player\s*\d+$/i.test(h.name)) p.name = h.name;
+      p.top = h.top; p.middle = h.middle; p.bottom = h.bottom;
+    });
+    state.count = Math.max(2, hands.length);
+    save(); buildPlayers(); recompute();
+    note.textContent = `Filled in ${hands.length} hand${hands.length>1?"s":""}.` + (unsure.length ? ` Claude wasn't sure about: ${unsure.join(", ")}. Check those against the photos.` : " Check them against the photos.");
   });
 
   buildPlayers(); recompute(); renderTally();
