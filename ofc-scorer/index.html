@@ -54,7 +54,8 @@ header p{margin:6px 0 0;max-width:60ch}
 .phead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
 .pname{font:700 22px var(--display);border:0;border-bottom:1px dashed var(--line);background:transparent;color:var(--ink);width:12ch;padding:2px 0}
 .photo-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.photo-row input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:100px}
 .thumb{max-height:120px;border-radius:6px;border:1px solid var(--line)}
 .status{font-size:13px;color:var(--muted)}
 .status.err{color:var(--neg)}
@@ -297,10 +298,8 @@ summary{cursor:pointer;font:700 20px var(--display)}
         <div class="phead">
           <input class="pname" id="name${i}" aria-label="Player name" maxlength="20">
           <div class="photo-row">
-            <label class="btn" for="cam${i}">Take photo</label>
-            <input type="file" id="cam${i}" accept="image/*" capture="environment">
-            <label class="btn" for="file${i}">Choose photo</label>
-            <input type="file" id="file${i}" accept="image/*">
+            <span class="btn filebtn">Take photo<input type="file" id="cam${i}" accept="image/*" capture="environment" aria-label="Take photo"></span>
+            <span class="btn filebtn">Choose photo<input type="file" id="file${i}" accept="image/*" aria-label="Choose photo"></span>
           </div>
         </div>
         <label class="flrow" for="fl${i}"><input type="checkbox" id="fl${i}"> Playing Fantasyland this round</label>
