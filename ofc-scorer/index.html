@@ -7,7 +7,7 @@
   --bg:#EEF1EC; --surface:#FFFFFF; --sunk:#E3E8E1; --ink:#17201B; --muted:#5B6760; --line:#CBD4CC;
   --felt:#1E5B40; --felt-ink:#FFFFFF; --brass:#9A6B12;
   --card:#FFFEFA; --card-line:#C9CEC5; --black:#18201C; --red:#C0322A;
-  --pos:#1E7A45; --neg:#B3261E; --warn-bg:#FBEBD0; --warn-ink:#7A4B00; --bad-bg:#F8DEDB; --bad-ink:#8E1E17;
+  --fl-tint:rgba(201,154,46,.08); --pos:#1E7A45; --neg:#B3261E; --warn-bg:#FBEBD0; --warn-ink:#7A4B00; --bad-bg:#F8DEDB; --bad-ink:#8E1E17;
   --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
@@ -73,6 +73,9 @@ header p{margin:6px 0 0;max-width:60ch}
 .chip.roy{background:var(--felt);color:var(--felt-ink)}
 .chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
 .chip.fl{background:var(--warn-bg);color:var(--warn-ink)}
+.flrow{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer}
+.player.infl{background:linear-gradient(var(--fl-tint),var(--fl-tint)),var(--surface)}
+.player.infl .flrow{color:var(--warn-ink);font-weight:600}
 .pfoot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
 .errs{color:var(--neg);font-size:13px;margin:0}
 .results{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:16px}
@@ -109,6 +112,7 @@ summary{cursor:pointer;font:700 20px var(--display)}
       <div class="seg" role="group" aria-label="Number of players" id="countSeg">
         <button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4">4</button>
       </div>
+      <label class="btn" for="progFL"><input type="checkbox" id="progFL"> Progressive Fantasyland</label>
       <button type="button" id="btnExample">Load example</button>
       <button type="button" id="btnClear">New round</button>
     </div>
@@ -122,8 +126,9 @@ summary{cursor:pointer;font:700 20px var(--display)}
   <section class="results" aria-live="polite">
     <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center">
       <h2>This round</h2>
-      <div class="actions"><button type="button" class="primary" id="btnTally" disabled>Add round to running total</button></div>
+      <div class="actions"><button type="button" class="primary" id="btnTally" disabled>Save round &amp; start next</button></div>
     </div>
+    <p class="status" id="roundNote" style="margin:0"></p>
     <div id="resultBody"></div>
   </section>
 
@@ -153,7 +158,13 @@ summary{cursor:pointer;font:700 20px var(--display)}
           <li>Two fouled hands score 0 against each other.</li>
         </ul>
         <h3 style="margin-top:12px">Fantasyland</h3>
-        <ul><li>QQ or better on top without fouling is flagged. It doesn't change the points.</li></ul>
+        <ul>
+          <li>Fantasyland doesn't change the points. A Fantasyland hand is scored like any other, and fouls the same way.</li>
+          <li><b>Getting in:</b> QQ or better on top without fouling.</li>
+          <li><b>Staying in</b> (for a player already in Fantasyland): trips on top, a full house or better in the middle, or quads or better on the bottom, without fouling.</li>
+          <li><b>Progressive</b> (Pineapple) option: QQ = 14 cards, KK = 15, AA = 16, trips = 17. A player who stays in gets 14.</li>
+          <li><b>Save round &amp; start next</b> marks who plays Fantasyland in the next round.</li>
+        </ul>
       </div>
       <div>
         <h3>Royalties</h3>
@@ -198,7 +209,7 @@ summary{cursor:pointer;font:700 20px var(--display)}
 
   let state = load() || {count:4, example:true, players:EXAMPLE.map(p=>({...p})), tally:[]};
   let sample = null, canImages = false;
-  let lastRound = null;
+  let lastRound = null, lastHands = [];
 
   function load(){ try{ const s = JSON.parse(localStorage.getItem(STORE)); if(s && Array.isArray(s.players) && s.players.length===4) return s; }catch(e){} return null; }
   function save(){ try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){} }
@@ -290,6 +301,7 @@ summary{cursor:pointer;font:700 20px var(--display)}
             <input type="file" id="file${i}" accept="image/*">
           </div>
         </div>
+        <label class="flrow" for="fl${i}"><input type="checkbox" id="fl${i}"> Playing Fantasyland this round</label>
         <div class="photo-row"><img class="thumb" id="thumb${i}" alt="Photo of this player's cards" hidden><span class="status" id="status${i}"></span></div>
         ${ROWS.map(([row,n])=>`
           <div class="row">
@@ -307,6 +319,9 @@ summary{cursor:pointer;font:700 20px var(--display)}
         inp.value = p[row];
         inp.addEventListener("input",()=>{ state.players[i][row] = inp.value; markEdited(); save(); recompute(); });
       }
+      const flIn = el.querySelector("#fl"+i);
+      flIn.checked = !!p.inFL;
+      flIn.addEventListener("change",()=>{ state.players[i].inFL = flIn.checked; save(); recompute(); });
       el.querySelector("#file"+i).addEventListener("change", e=>readPhoto(i, e.target));
     }
     showPhotoButtons();
@@ -329,6 +344,7 @@ summary{cursor:pointer;font:700 20px var(--display)}
     const n = state.count;
     document.querySelectorAll("#countSeg button").forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.n===n)));
     document.getElementById("exampleBanner").hidden = !state.example;
+    document.getElementById("progFL").checked = !!state.progressive;
 
     // duplicates across all active players
     const seen = {};
@@ -377,8 +393,10 @@ summary{cursor:pointer;font:700 20px var(--display)}
             det.insertAdjacentHTML("beforeend", `<span class="chip roy">+${r}</span>`);
           }
         }
-        info.fl = !info.foul && ((top.cat===1 && top.tb[0]>=12) || top.cat===3);
+        info.fl = fantasyNext(state.players[i].inFL, info);
       }
+      info.inFL = !!state.players[i].inFL;
+      el.classList.toggle("infl", info.inFL);
       el.classList.toggle("foul", info.foul);
       const foot = document.getElementById("foot"+i);
       let f = "";
@@ -388,14 +406,30 @@ summary{cursor:pointer;font:700 20px var(--display)}
         f = `<span class="chip bad">Fouled: ${why}</span><span class="muted">No royalties, scooped by every clean hand</span>`;
       } else {
         f = `<span>Royalties <b>${info.roy}</b></span>`;
-        if(info.fl) f += `<span class="chip fl">Fantasyland</span>`;
+        if(info.fl) f += `<span class="chip fl">${info.inFL ? "Stays in Fantasyland" : "Fantasyland next round"}${state.progressive ? " · "+info.fl+" cards" : ""}</span>`;
+        else if(info.inFL) f += `<span class="chip">Leaves Fantasyland</span>`;
       }
+      if(info.complete && info.foul && info.inFL) f += `<span class="chip">Leaves Fantasyland</span>`;
       if(errs.length) f += `<p class="errs">${errs.join(" · ")}</p>`;
       foot.innerHTML = f;
       hands.push(info);
     }
 
-    renderResults(hands.slice(0,n), dupKeys);
+    lastHands = hands.slice(0,n);
+    renderResults(lastHands, dupKeys);
+  }
+
+  // Returns 0 if no Fantasyland next round, else the number of cards dealt (13 when not progressive).
+  function fantasyNext(inFL, info){
+    if(!info.complete || info.foul) return 0;
+    const {top,middle,bottom} = info.rows;
+    if(inFL){
+      const stays = top.cat===3 || middle.cat>=6 || bottom.cat>=7;
+      return stays ? (state.progressive ? 14 : 13) : 0;
+    }
+    if(top.cat===3) return state.progressive ? 17 : 13;
+    if(top.cat===1 && top.tb[0]>=12) return state.progressive ? top.tb[0]+2 : 13;
+    return 0;
   }
 
   function versus(a,b){
@@ -517,22 +551,31 @@ List in "unsure" any card you could not read confidently (use your best guess in
     const b = e.target.closest("button"); if(!b) return;
     state.count = +b.dataset.n; save(); recompute();
   });
+  document.getElementById("progFL").addEventListener("change", e=>{ state.progressive = e.target.checked; save(); recompute(); });
   document.getElementById("btnExample").addEventListener("click", ()=>{
     state.players = EXAMPLE.map(p=>({...p})); state.count = 4; state.example = true;
     save(); buildPlayers(); recompute();
   });
-  document.getElementById("btnClear").addEventListener("click", ()=>{
+  function clearRound(nextFL){
     const wasExample = state.example;
-    state.players.forEach((p,i)=>{ p.top=p.middle=p.bottom=""; if(wasExample) p.name="Player "+(i+1); });
+    state.players.forEach((p,i)=>{
+      p.top=p.middle=p.bottom="";
+      if(wasExample){ p.name="Player "+(i+1); p.inFL=false; }
+      if(nextFL) p.inFL = !!nextFL[i];
+    });
     state.example = false;
     for(let i=0;i<4;i++){ const th=document.getElementById("thumb"+i); th.hidden=true; th.removeAttribute("src"); document.getElementById("status"+i).textContent=""; }
     save(); buildPlayers(); recompute();
-  });
+  }
+  document.getElementById("btnClear").addEventListener("click", ()=>{ clearRound(null); document.getElementById("roundNote").textContent = ""; });
   document.getElementById("btnTally").addEventListener("click", ()=>{
     if(!lastRound) return;
-    state.tally.push(lastRound.slice()); save(); renderTally();
-    const b = document.getElementById("btnTally"); b.textContent = "Added ✓"; b.disabled = true;
-    setTimeout(()=>{ b.textContent = "Add round to running total"; }, 1600);
+    state.tally.push(lastRound.slice());
+    const nextFL = lastHands.map(h=>h ? !!h.fl : false);
+    clearRound(nextFL); renderTally();
+    const names = nextFL.map((f,i)=>f?pname(i):null).filter(Boolean);
+    const st = document.getElementById("roundNote");
+    st.textContent = "Round saved." + (names.length ? " In Fantasyland this round: " + names.join(", ") + "." : "");
   });
   document.getElementById("btnUndo").addEventListener("click", ()=>{ state.tally.pop(); save(); renderTally(); });
   const resetBtn = document.getElementById("btnResetTally");
