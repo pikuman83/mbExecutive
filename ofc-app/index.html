@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Open Face Scorer</title>
+<meta name="description" content="Score Open Face Chinese Poker hands: fouls, royalties, scoops, Fantasyland and a running total.">
+<meta name="theme-color" content="#1E5B40">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Open Face Scorer</h1>
+      <p class="muted">Enter each player's 13 cards (top 3 · middle 5 · bottom 5). Fouls, royalties, scoops and Fantasyland are worked out for you.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Number of players" id="countSeg">
+        <button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4">4</button>
+      </div>
+      <label class="btn" for="progFL"><input type="checkbox" id="progFL"> Progressive Fantasyland</label>
+      <button type="button" id="btnExample">Load example</button>
+      <button type="button" id="btnClear">New round</button>
+    </div>
+  </header>
+
+  <div class="banner" id="exampleBanner" hidden>These are example hands so you can see how scoring works. Press <b>New round</b> to clear them and enter your own.</div>
+
+  <section class="players" id="players"></section>
+
+  <section class="panel" aria-live="polite">
+    <div class="panel-head">
+      <h2>This round</h2>
+      <button type="button" class="primary" id="btnTally" disabled>Save round &amp; start next</button>
+    </div>
+    <p class="status" id="roundNote"></p>
+    <div id="resultBody"></div>
+  </section>
+
+  <section class="panel" id="tallySec" hidden>
+    <div class="panel-head">
+      <h2>Running total</h2>
+      <div class="actions"><button type="button" id="btnUndo">Remove last round</button><button type="button" id="btnResetTally">Reset totals</button></div>
+    </div>
+    <div class="tablewrap" id="tallyBody"></div>
+  </section>
+
+  <details class="panel">
+    <summary>Paste hands from a Claude chat</summary>
+    <ol>
+      <li>Tap <b>Copy instructions</b>, open a Claude chat and paste them.</li>
+      <li>Attach one photo per player and send.</li>
+      <li>Paste Claude's reply below and tap <b>Fill in hands</b>.</li>
+    </ol>
+    <div class="actions"><button type="button" id="btnCopyPrompt">Copy instructions</button><span class="status" id="copyNote"></span></div>
+    <textarea id="chatPrompt" readonly hidden rows="6"></textarea>
+    <textarea id="importBox" rows="4" aria-label="Claude's reply" placeholder="Player 1: Qs Qd 4c / 9h 9c 9d 4s 2h / Ah Kh 8h 6h 3h"></textarea>
+    <div class="actions"><button type="button" class="primary" id="btnImport">Fill in hands</button><span class="status" id="importNote"></span></div>
+  </details>
+
+  <details class="panel">
+    <summary>Scoring rules used</summary>
+    <div class="rules">
+      <div>
+        <h3>Each pair of players</h3>
+        <ul>
+          <li>Every player is compared with every other player, row by row. Win a row: +1. Lose: −1. Tie: 0.</li>
+          <li>Win all three rows (scoop): +3 bonus, so +6 total.</li>
+          <li>Royalties are settled as the difference: if you have 8 and your opponent has 2, you get +6 from them.</li>
+          <li>Totals are zero-sum.</li>
+        </ul>
+        <h3>Fouls</h3>
+        <ul>
+          <li>Rows must get stronger going down: bottom ≥ middle ≥ top. Otherwise the hand is fouled.</li>
+          <li>A fouled hand scores no royalties and is scooped by every clean hand (−6, plus that opponent's royalties).</li>
+          <li>Two fouled hands score 0 against each other.</li>
+        </ul>
+        <h3>Fantasyland</h3>
+        <ul>
+          <li>It doesn't change the points. A Fantasyland hand is scored like any other.</li>
+          <li><b>Getting in:</b> QQ or better on top without fouling.</li>
+          <li><b>Staying in:</b> trips on top, a full house or better in the middle, or quads or better on the bottom, without fouling.</li>
+          <li><b>Progressive:</b> QQ = 14 cards, KK = 15, AA = 16, trips = 17. Staying in = 14.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Royalties</h3>
+        <div class="tablewrap"><table class="small">
+          <thead><tr><th>Hand</th><th>Bottom</th><th>Middle</th></tr></thead>
+          <tbody>
+            <tr><td>Three of a kind</td><td>0</td><td>2</td></tr>
+            <tr><td>Straight</td><td>2</td><td>4</td></tr>
+            <tr><td>Flush</td><td>4</td><td>8</td></tr>
+            <tr><td>Full house</td><td>6</td><td>12</td></tr>
+            <tr><td>Four of a kind</td><td>10</td><td>20</td></tr>
+            <tr><td>Straight flush</td><td>15</td><td>30</td></tr>
+            <tr><td>Royal flush</td><td>25</td><td>50</td></tr>
+          </tbody>
+        </table></div>
+        <p><b>Top:</b> 66 = 1, 77 = 2, 88 = 3, 99 = 4, TT = 5, JJ = 6, QQ = 7, KK = 8, AA = 9. Trips: 222 = 10, 333 = 11 … AAA = 22.</p>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- Card picker sheet -->
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <h2 id="sheetTitle">Cards</h2>
+      <div class="actions">
+        <span class="btn filebtn" id="scanBtn">Scan photo (beta)<input type="file" id="scanInput" accept="image/*" aria-label="Scan photo"></span>
+        <button type="button" id="sheetClear">Clear</button>
+        <button type="button" class="primary" id="sheetDone">Done</button>
+      </div>
+    </div>
+    <div id="scanArea" hidden>
+      <p class="status" id="scanStatus"></p>
+      <canvas id="scanCanvas"></canvas>
+    </div>
+    <div id="sheetRows"></div>
+    <p class="hint muted">Tap a card to put it in the highlighted slot. Tap a placed card to remove it. Greyed cards belong to other players.</p>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<script src="vendor/ort.wasm.min.js" defer></script>
+<script src="scan.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
